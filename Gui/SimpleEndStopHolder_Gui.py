@@ -103,7 +103,7 @@ class SimpleEndStopHolder_TaskPanel:
         # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
         self.pos_d = QtWidgets.QComboBox()
-        self.pos_d.addItems(['0','1','2','3','4'])
+        self.pos_d.addItems(['1','2','3','4','5'])
         self.pos_d.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_d)
@@ -112,7 +112,7 @@ class SimpleEndStopHolder_TaskPanel:
         # w :
         self.Label_pos_w = QtWidgets.QLabel("in w:")
         self.pos_w = QtWidgets.QComboBox()
-        self.pos_w.addItems(['0','1','2','3'])
+        self.pos_w.addItems(['1','2','3','4'])
         self.pos_w.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_w)
@@ -121,7 +121,7 @@ class SimpleEndStopHolder_TaskPanel:
         # h :
         self.Label_pos_h = QtWidgets.QLabel("in h:")
         self.pos_h = QtWidgets.QComboBox()
-        self.pos_h.addItems(['0','1'])
+        self.pos_h.addItems(['1','2'])
         self.pos_h.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_h)
@@ -202,7 +202,7 @@ class SimpleEndStopHolder_TaskPanel:
         axes_layout.addLayout(axes_layout_5)
 
         # ---- Image ----
-        image = QtWidgets.QLabel('Image of points and axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic/master/img_gui/SimpleEndstopHolder.png">hear</a>.')
+        image = QtWidgets.QLabel('Image of points and axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/SimpleEndstopHolder.png">hear</a>.')
         image.setOpenExternalLinks(True)
 
         image_layout = QtWidgets.QHBoxLayout()
@@ -237,9 +237,9 @@ class SimpleEndStopHolder_Dialog:
         Type = Type_values[self.SimpleEndStopHolder.Type_ComboBox.currentIndex()]
         Rail_L = self.SimpleEndStopHolder.Rail_Value.value()
         pos = FreeCAD.Vector(self.SimpleEndStopHolder.pos_x.value(), self.SimpleEndStopHolder.pos_y.value(), self.SimpleEndStopHolder.pos_z.value())
-        positions_d = [0,1,2,3,4]
-        positions_w = [0,1,2,3]
-        positions_h = [0,1]
+        positions_d = [1,2,3,4,5]
+        positions_w = [1,2,3,4]
+        positions_h = [1,2]
         pos_d = positions_d[self.SimpleEndStopHolder.pos_d.currentIndex()]
         pos_w = positions_w[self.SimpleEndStopHolder.pos_w.currentIndex()]
         pos_h = positions_h[self.SimpleEndStopHolder.pos_h.currentIndex()]

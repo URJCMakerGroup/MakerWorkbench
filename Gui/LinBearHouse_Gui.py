@@ -172,7 +172,7 @@ class LinBearHouse_TaskPanel:
         axes_layout_5.addWidget(self.axis_h_z)
 
         # ---- Image ----
-        image = QtWidgets.QLabel('Image of axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic/master/img_gui/LinearBearHouse.png">hear</a>.')
+        image = QtWidgets.QLabel('Image of axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/LinearBearHouse.png">hear</a>.')
         image.setOpenExternalLinks(True)
 
         image_layout = QtWidgets.QHBoxLayout()

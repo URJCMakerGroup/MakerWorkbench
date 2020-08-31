@@ -130,7 +130,7 @@ class TubeLense_TaskPanel:
         axes_layout.addLayout(axes_layout_5)
 
         # ---- row 5: image ----
-        image = QtWidgets.QLabel('Image of axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic/master/img_gui/TubeLense.png">hear</a>.')
+        image = QtWidgets.QLabel('Image of axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/TubeLense.png">hear</a>.')
         image.setOpenExternalLinks(True)
 
         image_layout = QtWidgets.QHBoxLayout()

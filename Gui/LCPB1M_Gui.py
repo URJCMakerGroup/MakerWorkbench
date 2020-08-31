@@ -157,7 +157,7 @@ class Lcpb1mBase_TaskPanel:
         axes_layout.addLayout(axes_layout_5)
 
         # ---- row 6: image ----
-        image = QtWidgets.QLabel('Image of axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic/master/img_gui/LCPB1MBase.png">hear</a>.')
+        image = QtWidgets.QLabel('Image of axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/LCPB1MBase.png">hear</a>.')
         image.setOpenExternalLinks(True)
 
         image_layout = QtWidgets.QHBoxLayout()

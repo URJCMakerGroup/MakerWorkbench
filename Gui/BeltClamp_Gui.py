@@ -198,7 +198,7 @@ class BeltClamp_TaskPanel:
         axes_layout.addLayout(axes_layout_5)
 
         # ---- Image ----
-        image = QtWidgets.QLabel('Image of axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic/master/img_gui/BeltClamp.png">hear</a>.')
+        image = QtWidgets.QLabel('Image of axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/BeltClamp.png">hear</a>.')
         image.setOpenExternalLinks(True)
 
         image_layout = QtWidgets.QHBoxLayout()
