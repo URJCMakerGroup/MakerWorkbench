@@ -208,7 +208,7 @@ class Sk_Dir_TaskPanel:
         axes_layout.addLayout(axes_layout_5)
 
         # ---- Image ----
-        image = QtWidgets.QLabel('Image of points and axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/SK_dir.png">hear</a>.')
+        image = QtWidgets.QLabel('Image of points and axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/SK_dir.png">here</a>.')
         image.setOpenExternalLinks(True)
         # svgimage = QtSvg.QSvgWidget(":/img_gui/SK_dir.svg") # TODO No carga la imagen
         # svgimage.renderer()

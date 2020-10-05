@@ -160,7 +160,7 @@ class BreadBoard_TaskPanel:
         axes_layout.addLayout(axes_layout_5)
 
         # ---- row 7: image ----
-        image = QtWidgets.QLabel('Image of axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/BreadBoard.png">hear</a>.')
+        image = QtWidgets.QLabel('Image of axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/BreadBoard.png">here</a>.')
         image.setOpenExternalLinks(True)
 
         image_layout = QtWidgets.QHBoxLayout()

@@ -201,7 +201,7 @@ class FilterHolder_TaskPanel:
         axes_layout.addLayout(axes_layout_5)
 
         # ---- row 11: image ----
-        image = QtWidgets.QLabel('Image of points and axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/FilterHolder.png">hear</a>.')
+        image = QtWidgets.QLabel('Image of points and axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/FilterHolder.png">here</a>.')
         image.setOpenExternalLinks(True)
 
         image_layout = QtWidgets.QHBoxLayout()

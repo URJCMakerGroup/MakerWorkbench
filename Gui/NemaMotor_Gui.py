@@ -309,7 +309,7 @@ class NemaMotor_TaskPanel:
         axes_layout.addLayout(axes_layout_5)
 
         # ---- Image ----
-        image = QtWidgets.QLabel('Image of points and axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/NemaMotor.png">hear</a>.')
+        image = QtWidgets.QLabel('Image of points and axis <a href="https://raw.githubusercontent.com/davidmubernal/Mechatronic_Documentation/master/img_gui/NemaMotor.png">here</a>.')
         image.setOpenExternalLinks(True)
 
         main_layout.addLayout(size_layout)
