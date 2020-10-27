@@ -34,3 +34,7 @@ You can see all the models in [this page](https://mechatronic.readthedocs.io/en/
 
 Please contact [davidmubernal](https://forum.freecadweb.org/memberlist.php?mode=viewprofile&u=30188) in the [FreeCAD forum](https://forum.freecadweb.org/) if you have any problem.
 Also, you can post in this [FreeCAD Forum thread](https://forum.freecadweb.org/viewtopic.php?f=9&t=44498).
+
+# License
+
+LGPLv3
