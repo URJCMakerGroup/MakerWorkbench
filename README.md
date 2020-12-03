@@ -1,4 +1,4 @@
-# Mechatronic Workbench
+# Maker Workbench
 
 This workbench has some parts of a mechatronic system and other parts of optic system. You can modify this parts and build your own system.
 
@@ -29,26 +29,26 @@ You can see all the models in [this page](https://mechatronic.readthedocs.io/en/
 # Install
 
   1. **Use the addon manager**. In FreeCAD, go to the menu *Tools/Addon manager* and you have two options:
-     1. Search for **Mechatronic Workbench**  
-     2. In the Addon Manager choose *Configuration* from de upper rigth side. In the new window add `https://github.com/davidmubernal/Mechatronic` to the Custom Repositories
+     1. Search for **Maker Workbench**  
+     2. In the Addon Manager choose *Configuration* from de upper rigth side. In the new window add `https://github.com/URJCMakerGroup/MakerWorkbench` to the Custom Repositories
   
-  2. Download Mechatronic Workbench from the following [file](https://codeload.github.com/davidmubernal/Mechatronic/zip/master).
-     Take the *Mechatronic-master* folder from the *Mechatronic.zip* and change the name to "Mechatronic". Put this folder in the *Mod* folder inside the *FreeCAD* installation folder.
+  2. Download Maker Workbench from the following [file](https://codeload.github.com/davidmubernal/Mechatronic/zip/master).
+     Take the *MakerWorkbench-master* folder from the *MakerWorkbench.zip* and change the name to "Maker". Put this folder in the *Mod* folder inside the *FreeCAD* installation folder.
      The default path of *FreeCAD* is:
 
-  
-  | **S.O.** |  **Folder**                         |
-  |----------|-------------------------------------|
-  | WINDOWS  | *C:/Program Files/FreeCAD 0.19/Mod* |
-  | MAC      | */Applications/FreeCAD 0.19/Mod*    |
+
+| **S.O.** |  **Folder**                         |
+|----------|-------------------------------------|
+| WINDOWS  | *C:/Program Files/FreeCAD 0.19/Mod* |
+| MAC      | */Applications/FreeCAD 0.19/Mod*    |
 
 # Web
 
-All the information from the proyect is in the [page](https://mechatronic.readthedocs.io/en/master/)
+All the information from the proyect is in the [page](https://makerworkbench.readthedocs.io/en/stable/)
 
 # Source code
 
-**The main code of the workbench is available in the repository [Mechatronic](https://github.com/davidmubernal/Mechatronic)**
+**The main code of the workbench is available in the repository [MakerWorkbench](https://github.com/URJCMakerGroup/MakerWorkbench)**
 
 # Problems?
 
