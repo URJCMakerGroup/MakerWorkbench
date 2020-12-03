@@ -32,7 +32,7 @@ You can see all the models in [this page](https://mechatronic.readthedocs.io/en/
      1. Search for **Maker Workbench**  
      2. In the Addon Manager choose *Configuration* from de upper rigth side. In the new window add `https://github.com/URJCMakerGroup/MakerWorkbench` to the Custom Repositories
   
-  2. Download Maker Workbench from the following [file](https://codeload.github.com/davidmubernal/Mechatronic/zip/master).
+  2. Download Maker Workbench from the following [file](https://codeload.github.com/URJCMakerGroup/MakerWorkbench/zip/master).
      Take the *MakerWorkbench-master* folder from the *MakerWorkbench.zip* and change the name to "Maker". Put this folder in the *Mod* folder inside the *FreeCAD* installation folder.
      The default path of *FreeCAD* is:
 
