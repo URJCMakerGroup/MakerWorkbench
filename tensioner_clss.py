@@ -40,7 +40,7 @@
 #                            :
 #                           axis_d
 #
-# min_width = 1 Mininum width
+# min_width = 1 Minimum width
 #
 #                 .... hold_bas_w ........
 #                :        .hold_w.        :
@@ -208,7 +208,7 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
 
     Attributes:
     -----------
-    All the parameters and attributes of father class SinglePart
+    All the parameters and attributes of parent class SinglePart
 
     Dimensional attributes:
     tens_d : float
@@ -699,7 +699,7 @@ class IdlerTensionerSet (fc_clss.PartsSet):
         1: at the beginning of the hole for the nut (position for the nut)
         2: at the beginning of the tensioner stroke hole
         3: at the end of the tensioner stroke hole
-        4: at the inner end of the bearing. It didnt exist in ShpIdlerTensioner
+        4: at the inner end of the bearing. It didn't exist in ShpIdlerTensioner
            Therefore, from this, numbers change compared with ShpIdlerTensioner
         5: at the center of the idler pulley hole
            (it is 4 in ShpIdlerTensioner)
@@ -815,7 +815,7 @@ class IdlerTensionerSet (fc_clss.PartsSet):
         self.w0_cen = 1
         self.h0_cen = 1
 
-        # before creating the idler_pulley and the tensioner, we dont
+        # before creating the idler_pulley and the tensioner, we don't
         # know their dimensions and positions. We could calculate them
         # here, but it would be to calculate twice. Instead, we create
         # them, and then move them and calculate the vectors h_o, d_o, w_o
@@ -831,7 +831,7 @@ class IdlerTensionerSet (fc_clss.PartsSet):
         #self.pulley_h =  pulley.tot_h
         #self.pulley_r_in =  pulley.r_in
         #self.pulley_r_ext =  pulley.r_ext
-        # Creation of the tensioner, with pos_h,d,w = 0 because we dont know
+        # Creation of the tensioner, with pos_h,d,w = 0 because we don't know
         # the dimensions yet
         idler_tens_part =  PartIdlerTensioner(
                                      idler_h     = pulley.tot_h ,
@@ -910,13 +910,13 @@ class IdlerTensionerSet (fc_clss.PartsSet):
         self.h_o[3] = idler_tens_part.h_o[2]
 
         # Now we place the idler tensioner according to pos_d,w,h
-        # argument 1 means that pos_o wasnt in place and has to be
+        # argument 1 means that pos_o wasn't in place and has to be
         # adjusted
         self.set_pos_o(adjust = 1)
 
         # Now we have the position where the origin is, but:
-        # - we havent located the idler_tensioner at pos_o
-        # - we havent located the pulley at pos_o + dist to axis
+        # - we haven't located the idler_tensioner at pos_o
+        # - we haven't located the pulley at pos_o + dist to axis
 
         # we should have call PartIdlerTensioner (pos = self.pos_o)
         # instead, we have it at (pos = self.pos)
@@ -1113,7 +1113,7 @@ class ShpTensionerHolder (shp_clss.Obj3D):
     in_fillet: float
         radius of the inner fillets
     boltaluprof_mtr : integer (could be float 2.5)
-        diameter (metric) of the bolt that attachs the tensioner holder to the
+        diameter (metric) of the bolt that attaches the tensioner holder to the
         aluminum profile (or whatever is attached to)
     bolttens_mtr : integer (could be float 2.5)
         diameter (metric) of the bolt for the tensioner
@@ -1181,7 +1181,7 @@ class ShpTensionerHolder (shp_clss.Obj3D):
 
     Attributes:
     -----------
-    All the parameters and attributes of father class SinglePart
+    All the parameters and attributes of parent class SinglePart
 
     prnt_ax : FreeCAD.Vector
         Best axis to print (normal direction, pointing upwards)
@@ -1849,7 +1849,7 @@ class TensionerSet (fc_clss.PartsSet):
     in_fillet: float
         radius of the inner fillets
     boltaluprof_mtr : float
-        diameter (metric) of the bolt that attachs the tensioner holder to the
+        diameter (metric) of the bolt that attaches the tensioner holder to the
         aluminum profile (or whatever is attached to)
     bolttens_mtr : float
         diameter (metric) of the bolt for the tensioner
@@ -1908,7 +1908,7 @@ class TensionerSet (fc_clss.PartsSet):
     pos : FreeCAD.Vector
         position of the piece
 
-    Paramenters for the set
+    Parameters for the set
 
     tens_in_ratio : float
         from 0 to 1, the ratio of the stroke that the tensioner is inside.
@@ -1921,7 +1921,7 @@ class TensionerSet (fc_clss.PartsSet):
 
     Attributes:
     -----------
-    All the parameters and attributes of father class SinglePart
+    All the parameters and attributes of parent class SinglePart
 
     prnt_ax : FreeCAD.Vector
         Best axis to print (normal direction, pointing upwards)
@@ -2058,13 +2058,13 @@ class TensionerSet (fc_clss.PartsSet):
                                    
 
         # Now we place the idler tensioner according to pos_d,w,h
-        # argument 1 means that pos_o wasnt in place and has to be
+        # argument 1 means that pos_o wasn't in place and has to be
         # adjusted
         self.set_pos_o(adjust = 1)
 
         # Now we have the position where the origin is, but:
-        # - we havent located the idler_tensioner at pos_o
-        # - we havent located the pulley at pos_o + dist to axis
+        # - we haven't located the idler_tensioner at pos_o
+        # - we haven't located the pulley at pos_o + dist to axis
 
         # we should have call PartIdlerTensioner (pos = self.pos_o)
         # instead, we have it at (pos = self.pos)

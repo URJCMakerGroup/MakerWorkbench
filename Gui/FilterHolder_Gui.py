@@ -42,7 +42,7 @@ class FilterHolder_TaskPanel:
         self.widget.setWindowTitle("Filter Holder options")
         main_layout = QtWidgets.QVBoxLayout(self.widget)
 
-        # ---- row 0: Filter Lenth ----
+        # ---- row 0: Filter Length ----
         self.Filter_Length_Label = QtWidgets.QLabel("Filter Length")
         self.Filter_Length_Value = QtWidgets.QDoubleSpinBox()
         self.Filter_Length_Value.setValue(60)

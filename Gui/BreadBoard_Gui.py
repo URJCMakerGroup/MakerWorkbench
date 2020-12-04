@@ -44,8 +44,8 @@ class BreadBoard_TaskPanel:
         self.widget.setWindowTitle("Bread Board options")
         main_layout = QtWidgets.QVBoxLayout(self.widget)
 
-        # ---- row 0: lenght ----
-        self.Label_len = QtWidgets.QLabel("Lenght:")
+        # ---- row 0: length ----
+        self.Label_len = QtWidgets.QLabel("Length:")
         self.len = QtWidgets.QDoubleSpinBox()
         self.len.setMinimum(1)
         self.len.setValue(200)

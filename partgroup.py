@@ -78,7 +78,7 @@ class BearWashGroup (object):
         self.holcyl_list = holcyl_list
         self.name = name
 
-        group_h = 0 # the accumlated height
+        group_h = 0 # the accumulated height
         # in case the length is not 1
         norm_normal = DraftVecUtils.scaleTo(normal,1)  
 

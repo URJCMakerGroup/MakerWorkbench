@@ -425,7 +425,7 @@ class Advance_Placement_TaskPanel:
         btn_point = QtWidgets.QPushButton("Show point")
         button_layout.addWidget(btn_setpos)
         button_layout.addWidget(btn_point)
-        # Conect the button 
+        # Connect the button 
         btn_setpos.clicked.connect(self.button_clicked) 
         btn_point.clicked.connect(self.show_point) 
 
@@ -446,10 +446,10 @@ class Advance_Placement_TaskPanel:
                 for p in range(0,len(obj.d_o)):
                     self.obj_d.addItem(str(p))
             elif obj.d0_cen == 1:
-                for p in range(-len(obj.d_o)+1,len(obj.d_o)): # +1 is necesary to eliminate the 0 value duplicate
+                for p in range(-len(obj.d_o)+1,len(obj.d_o)): # +1 is necessary to eliminate the 0 value duplicate
                     self.obj_d.addItem(str(p)) 
         else:
-            print("The object didn't have the atrribute d_o")
+            print("The object didn't have the attribute d_o")
         if hasattr(obj, "w_o"):
             if obj.w0_cen == 0:
                 for p in range(0,len(obj.w_o)):
@@ -458,7 +458,7 @@ class Advance_Placement_TaskPanel:
                 for p in range(-len(obj.w_o)+1,len(obj.w_o)):
                     self.obj_w.addItem(str(p))
         else:
-            print("The object didn't have the atrribute w_o")
+            print("The object didn't have the attribute w_o")
         if hasattr(obj, "h_o"):
             if obj.h0_cen == 0:
                 for p in range(0,len(obj.h_o)):
@@ -467,7 +467,7 @@ class Advance_Placement_TaskPanel:
                 for p in range(-len(obj.h_o)+1,len(obj.h_o)):
                     self.obj_h.addItem(str(p))
         else:
-            print("The object didn't have the atrribute h_o")
+            print("The object didn't have the attribute h_o")
 
     def button_clicked(self):
         obj_selected = FreeCAD.ActiveDocument.Objects[self.obj_combo.currentIndex()-1]
@@ -3946,7 +3946,7 @@ class BeltClampedTaskPanel:
         self.Clamp_w.setSuffix('')
         self.Clamp_w.setMinimum(1)
 
-        # Separation bewteen clamps:
+        # Separation between clamps:
         self.Label_Sep_Clamp = QtWidgets.QLabel("Sepatarion:")
         self.Sep_Clamp = QtWidgets.QDoubleSpinBox()
         self.Sep_Clamp.setValue(8)

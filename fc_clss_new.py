@@ -130,7 +130,7 @@ class Din125Washer (Washer):
 
     Note
     ----
-    All the parameters and attributes of father class CylHole
+    All the parameters and attributes of parent class CylHole
 
     Attributes
     -----------
@@ -194,7 +194,7 @@ class Din9021Washer (Washer):
 
     Note
     ----
-    All the parameters and attributes of father class CylHole
+    All the parameters and attributes of parent class CylHole
 
     Attributes
     -----------
@@ -572,14 +572,14 @@ class Bolt (ShpBolt):
         if 0: no hex socket
     shank_out : float
         0: default
-        distance to the end of the shank, just for positioning, it doesnt
+        distance to the end of the shank, just for positioning, it doesn't
         change shank_l
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
     head_out : float
         0: default
-        distance to the end of the head, just for positioning, it doesnt
+        distance to the end of the head, just for positioning, it doesn't
         change head_l
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
     axis_h : FreeCAD.Vector
         vector along the axis of the bolt, pointing from the head to the shank
     axis_d : FreeCAD.Vector
@@ -740,24 +740,24 @@ class Din912Bolt (Bolt):
           to shank_l available lengths for this type of bolts
 
     shank_out : float
-        Distance to the end of the shank, just for positioning, it doesnt
+        Distance to the end of the shank, just for positioning, it doesn't
         change shank_l
         
             * 0: default
         
         Note
         ---
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
 
     head_out : float
-        Distance to the end of the head, just for positioning, it doesnt
+        Distance to the end of the head, just for positioning, it doesn't
         change head_l
         
             * 0: default
         
         Note
         ----
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
 
     axis_h : FreeCAD.Vector
         Vector along the axis of the bolt, pointing from the head to the shank

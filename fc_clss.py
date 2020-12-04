@@ -52,14 +52,14 @@ logger = logging.getLogger(__name__)
 # Kind of possible parts are:
 # 0: Not to print: It is just an outline, a rough/vague 3D model,
 #                  for example bolts or bearings
-#                  Some times the models dont have details, for example,
+#                  Some times the models don't have details, for example,
 #                  bearings are just cylinders with a inner hole. Or bolts
-#                  that dont have threads
+#                  that don't have threads
 # 0?: Not to print: It can be an exact model, like a washer, but it is not to
 #                  print, tolerances are not inluced
 # 1: Dimensional model: it can be printed to assemble a model, but the part
 #                       will not work as defined. For example, optical cubes
-#                       that they just have the dimmensions, but they dont
+#                       that they just have the dimensions, but they don't
 #                       have the inner holes or the threads for the bolts
 # 2: Printable model: it can be printed, but better to buy it,
 #                     the printed part may work well.
@@ -102,14 +102,14 @@ class SinglePart (object):
     color : Tuple of 3 floats, each of them from 0. to 1.
         They define the RGB colors.
         0.: no color on that channel
-        1.: full intesity on that channel
+        1.: full intensity on that channel
 
     """
     def __init__(self):
         # bring the active document
         self.doc = FreeCAD.ActiveDocument
 
-        # placement of the piece at V0, altough pos can set it anywhere
+        # placement of the piece at V0, although pos can set it anywhere
         self.place = V0   #check this and rel_place
         #self.displacement = V0
         self.rel_place = V0
@@ -199,7 +199,7 @@ class SinglePart (object):
         # attribute name has not been created
         if (not hasattr(self, 'name') or  # attribute name has not been created
             not self.name or              # attribute name is empty
-            change == 1):                 # attribute has te be changed
+            change == 1):                 # attribute has to be changed
             if not name:
                 self.name = default_name
             else:
@@ -276,7 +276,7 @@ class SinglePart (object):
         pos_o = self.pos_o
         rotation = FreeCAD.Rotation(self.prnt_ax, VZ)
         shp = self.shp
-        # ----------- moving the shape doesnt work:
+        # ----------- moving the shape doesn't work:
         # I think that is because it is bound to a FreeCAD object
         #shp.Placement.Base = self.pos.negative() + self.place.negative()
         #shp.translate (self.pos.negative() + self.place.negative())
@@ -351,7 +351,7 @@ class PartsSet (shp_clss.Obj3D):
     color : Tuple of 3 elements, each of them from 0 to 1
         They define the RGB colors.
         0: no color on that channel
-        1: full intesity on that channel
+        1: full intensity on that channel
 
     """
 
@@ -485,7 +485,7 @@ class PartsSet (shp_clss.Obj3D):
         tot_displ = (  displacement 
                      + self.rel_place + self.extra_mov)
         self.tot_displ = tot_displ
-        #if this set has been grouped, we dont have to go to its children
+        #if this set has been grouped, we don't have to go to its children
         try:
             self.fco.Placement.Base = tot_displ
         except AttributeError:
@@ -558,7 +558,7 @@ class PartsSet (shp_clss.Obj3D):
         # attribute name has not been created
         if (not hasattr(self, 'name') or  # attribute name has not been created
             not self.name or              # attribute name is empty
-            change == 1):                 # attribute has te be changed
+            change == 1):                 # attribute has to be changed
             if not name:
                 self.name = default_name
             else:
@@ -672,7 +672,7 @@ class Din125Washer (Washer):
 
     Note
     ----
-    All the parameters and attributes of father class CylHole
+    All the parameters and attributes of parent class CylHole
 
     Attributes
     -----------
@@ -735,7 +735,7 @@ class Din9021Washer (Washer):
 
     Note
     ----
-    All the parameters and attributes of father class CylHole
+    All the parameters and attributes of parent class CylHole
 
     Attributes
     -----------
@@ -1142,14 +1142,14 @@ class Bolt (SinglePart, shp_clss.ShpBolt):
         if 0: no hex socket
     shank_out : float
         0: default
-        distance to the end of the shank, just for positioning, it doesnt
+        distance to the end of the shank, just for positioning, it doesn't
         change shank_l
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
     head_out : float
         0: default
-        distance to the end of the head, just for positioning, it doesnt
+        distance to the end of the head, just for positioning, it doesn't
         change head_l
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
     axis_h : FreeCAD.Vector
         vector along the axis of the bolt, pointing from the head to the shank
     axis_d : FreeCAD.Vector
@@ -1328,24 +1328,24 @@ class Din912Bolt (Bolt):
           to shank_l available lengths for this type of bolts
 
     shank_out : float
-        Distance to the end of the shank, just for positioning, it doesnt
+        Distance to the end of the shank, just for positioning, it doesn't
         change shank_l
         
             * 0: default
         
         Note
         ---
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
 
     head_out : float
-        Distance to the end of the head, just for positioning, it doesnt
+        Distance to the end of the head, just for positioning, it doesn't
         change head_l
         
             * 0: default
         
         Note
         ----
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
 
     axis_h : FreeCAD.Vector
         Vector along the axis of the bolt, pointing from the head to the shank

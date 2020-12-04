@@ -162,7 +162,7 @@ def fc_isperp (fc1, fc2):
 
 def fc_isparal (fc1, fc2):
 
-    """ Return 1 if fc1 and fc2 are paralell (colinear), 0 if they are not
+    """ Return 1 if fc1 and fc2 are parallel (colinear), 0 if they are not
 
     Parameters
     ----------
@@ -196,7 +196,7 @@ def fc_isparal_nrm (fc1, fc2):
     """
     Very similar to fc_isparal, but in this case the arguments are normalized
     so, less operations to do.
-    return 1 if fc1 and fc2 are paralell (colinear), 0 if they are not
+    return 1 if fc1 and fc2 are parallel (colinear), 0 if they are not
 
     Parameters
     ----------
@@ -360,8 +360,8 @@ def get_tangent_circle_pt (ext_pt,
     axis_p (FreeCAD.Vector)
 
         Vector of the circle plane, perpendicular to axis_d. It can have
-        to possible directions. If paremeter axis_side is defined, it will
-        have the direction that has less than 90 degress related to axis_side
+        to possible directions. If parameter axis_side is defined, it will
+        have the direction that has less than 90 degrees related to axis_side
     """
     # normalize axis_n vector (just in case)
     axis_n = DraftVecUtils.scaleTo(axis_n,1)
@@ -529,8 +529,8 @@ def get_tangent_2circles (center1_pt,
     axis_p (FreeCAD.Vecrtor)
 
         Vector of the circle plane, perpendicular to axis_d. It can have
-        to possible directions. If paremeter axis_side is defined, it will
-        have the direction that has less than 90 degress related to axis_side
+        to possible directions. If parameter axis_side is defined, it will
+        have the direction that has less than 90 degrees related to axis_side
 
     """
     # normalize axis_n vector (just in case)
@@ -640,7 +640,7 @@ def fuseshplist (shp_list):
     """ 
     Since multifuse methods needs to be done by a shape and a list,
     and usually I have a list that I want to fuse, I make this function
-    to save the inconvenience of doing everytime what I will do here
+    to save the inconvenience of doing every time what I will do here
     Fuse multiFuse
     """
 
@@ -1078,7 +1078,7 @@ def shp_boxcenchmf (x, y, z, chmfrad,
     shp_boxchmf = shp_box.makeChamfer(chmfrad, edg_list)
     return (shp_boxchmf)
 
-# Makes a box with width, depth, heigth.
+# Makes a box with width, depth, height.
 # Originally:
 # box_w: The width is X
 # box_d: The depth is Y
@@ -1092,7 +1092,7 @@ def shp_boxcenchmf (x, y, z, chmfrad,
 def shp_box_rot (box_w, box_d, box_h,
                   axis_w = 'x', axis_nh = '-z', cw=1, cd=1, ch=1 ):
     """
-    Makes a box with width, depth, heigth and then rotation will be referred to 
+    Makes a box with width, depth, height and then rotation will be referred to 
     *axis_w  = (1,0,0)* and *axis_nh = (0,0,-1)*. Can be centered on any of the dimensions.
     
     Parameters
@@ -1600,7 +1600,7 @@ def shp_boxdir_fillchmfplane (
     edge_dir : FreeCAD.Vector
         * V0: fillet/chamfer all the edges of that/those faces
         * Axis: fillet/chamfer only the edges of that/those faces that are
-          paralell to this axis
+          parallel to this axis
 
     pos : FreeCAD.Vector
         Position of the box
@@ -1721,7 +1721,7 @@ def shp_boxdir_fillchmfplane (
 # Arguments:
 # rail_w : width of the rail
 # rail_h : height of the rail
-# axis_l : the axis where the lenght of the rail is: 'x', 'y', 'z'
+# axis_l : the axis where the length of the rail is: 'x', 'y', 'z'
 # axis_b : the axis where the base of the rail is poingint:
 #           'x', 'y', 'z', '-x', '-y', '-z',
 # It will be centered on the width axis, and zero on the length and height
@@ -1761,7 +1761,7 @@ def shp_face_lgrail (rail_w, rail_h, axis_l = 'x', axis_b = '-z'):
     rail_h : float
         Height of the rail
     axis_l : str
-        Axis where the lenght of the rail is: 'x', 'y', 'z'
+        Axis where the length of the rail is: 'x', 'y', 'z'
     axis_b : str
         Axis where the base of the rail is poingint:
         'x', 'y', 'z', '-x', '-y', '-z',
@@ -1917,10 +1917,10 @@ def wire_lgrail (rail_w,  rail_h,
 # rail_ws : small width of the rail
 # rail_h : height of the rail
 # rail_h_plus : above the rail can be some height to attach, o whatever
-#               it is not inluded on rail_h
+#               it is not included on rail_h
 # offs_w : offset on the width, to make the hole
-# offs_h : offset on the heigth, to make the hole
-# axis_l : the axis where the lenght of the rail is: 'x', 'y', 'z'
+# offs_h : offset on the height, to make the hole
+# axis_l : the axis where the length of the rail is: 'x', 'y', 'z'
 # axis_b : the axis where the base of the rail is poingint:
 #           'x', 'y', 'z', '-x', '-y', '-z',
 # It will be centered on the width axis, and zero on the length and height
@@ -1975,13 +1975,13 @@ def shp_face_rail (rail_w, rail_ws, rail_h,
         Height of the rail
     rail_h_plus : float
         Above the rail can be some height to attach, o whatever
-        it is not inluded on rail_h
+        it is not included on rail_h
     offs_w : float
         Offset on the width, to make the hole
     offs_h : float
-        Offset on the heigth, to make the hole
+        Offset on the height, to make the hole
     axis_l : str
-        The axis where the lenght of the rail is: 'x', 'y', 'z'
+        The axis where the length of the rail is: 'x', 'y', 'z'
     axis_b : str
         The axis where the base of the rail is poingint:
         'x', 'y', 'z', '-x', '-y', '-z',
@@ -2170,7 +2170,7 @@ def addCylPos (r, h, name, normal = VZ, pos = V0):
     h : float
         Height 
     name : str
-        Objet name
+        Object name
     normal : FreeCAD.Vector
         FreeCAD.Vector pointing to the normal (if its module is not one,
         the height will be larger than h
@@ -3874,7 +3874,7 @@ def shp_2stadium_dir (
         |_______:____*____:_______|........:.......: ......> fc_axis_l
         :   :   :         :
         :...:.+.:.........:
-        :    r_s:   lenght
+        :    r_s:   length
         :       :
         :       :
         :.r_l...:
@@ -4027,7 +4027,7 @@ def shp_belt_wire_dir (center_sep, rad1, rad2, fc_axis_l = VX,
     Makes a shape of a wire with 2 circles and exterior tangent lines
     check `here <https://en.wikipedia.org/wiki/Tangent_lines_to_circles>`_
     It is not easy to draw it well
-    rad1 and rad2 can be exchanged, rad1 doesnt have to be larger::
+    rad1 and rad2 can be exchanged, rad1 doesn't have to be larger::
 
             ....                    fc_axis_s
            :    ( \ tangent          |
@@ -4145,7 +4145,7 @@ def shp_belt_wire_dir (center_sep, rad1, rad2, fc_axis_l = VX,
     # on axis X, and axis Y would be zero.
     # therefore, angle gamma is zero (se wikipedia)
     # check: https://en.wikipedia.org/wiki/Tangent_lines_to_circles
-    # the angle beta of the tanget is calculate from pythagoras:
+    # the angle beta of the tangent is calculate from pythagoras:
     # the length (separation between centers) and dif_rad
     beta = math.atan (dif_rad/center_sep)
     print('beta %f', 180*beta/math.pi)
@@ -4222,7 +4222,7 @@ def shp_belt_dir (center_sep, rad1, rad2, height,
     fc_axis_l : FreeCAD.Vector
         Vector on the direction circle centers, pointing to rad2
     fc_axis_h : FreeCAD.Vector
-        Vector on the hieght direction
+        Vector on the height direction
     ref_l : int
         Reference (zero) of the fc_axis_l
 
@@ -4318,7 +4318,7 @@ def shp_hollowbelt_dir (center_sep, rad1, rad2,
     fc_axis_l : FreeCAD.Vector
         Vector on the direction circle centers, pointing to rad2
     fc_axis_h : FreeCAD.Vector
-        Vector on the hieght direction
+        Vector on the height direction
     ref_l : int
         Reference (zero) of the fc_axis_l
 
@@ -4544,7 +4544,7 @@ def shpRndRectWire (x=1, y=1, r= 0.5, zpos = 0):
 
         # Make a wire
         # it seems that it matters the order
-        # for this example, it doesnt work if I do Part.Shape as in the 
+        # for this example, it doesn't work if I do Part.Shape as in the 
         # example:
         # http://freecadweb.org/wiki/index.php?title=Topological_data_scripting
         wire_rndrect = Part.Wire ([
@@ -4627,7 +4627,7 @@ def shp_rndrect_face (x, y, r=0.5, pos_z=0):
 
 # ------------------- def wire_sim_xy
 # Creates a wire (shape), from a list of points on the positive quadrant of XY
-# the wire is simmetrical to both X and Y
+# the wire is symmetrical to both X and Y
 # vecList: list of FreeCAD Vectors, the have to be in order clockwise
 # if the first or the last points are not on the axis, a new point will be
 # created
@@ -4646,7 +4646,7 @@ def shp_rndrect_face (x, y, r=0.5, pos_z=0):
 def wire_sim_xy (vecList):
     """
     Creates a wire (shape), from a list of points on the positive quadrant of XY
-    the wire is simmetrical to both X and Y
+    the wire is symmetrical to both X and Y
     ::
 
                     Y
@@ -4700,7 +4700,7 @@ def wire_sim_xy (vecList):
 
     #halfwire = Part.Wire([quwire, mir_quwire]) # get the half wire
     halfwire = Part.Wire([mir_quwire, quwire]) # get the half wire
-    # otherwise it doesnt work because the edges are not aligned
+    # otherwise it doesn't work because the edges are not aligned
     halfwire.fixWire() 
     # mirror on X axis
     MirX = FreeCAD.Matrix()
@@ -4795,7 +4795,7 @@ def wire_cableturn (d, w, corner_r,
     pos_w : int
         Location of pos along the axis_w (0,1), see drawing
         
-            * 0: reference at the center of simmetry
+            * 0: reference at the center of symmetry
             * 1: reference at the end of the turn
 
     pos : FreeCAD.Vector
@@ -4924,7 +4924,7 @@ def wire_cableturn (d, w, corner_r,
                 conn_d = corner_r * 1.1
                 logger.warning('radius larger than connector length')
                 logger.warning('making it: ' + str(conn_d))
-                logger.warning('Distances mabe be WRONG')
+                logger.warning('Distances may be WRONG')
             # Points E1, E2, E3, F1, F2, F3:
             pt_E = pos_o + w_hsep_n + d_rad_n + w_rad_n # radius center
             pt_F = pos_o + w_hsep + d_rad_n + w_rad # radius center
@@ -5101,7 +5101,7 @@ def shp_cableturn (d, w, thick_d, corner_r,
     pos_w : int
         Location of pos along the axis_w (0,1), see drawing
 
-            * 0: reference at the center of simmetry
+            * 0: reference at the center of symmetry
             * 1: reference at the end of the turn
 
     pos : FreeCAD.Vector
@@ -5155,7 +5155,7 @@ def shp_cableturn (d, w, thick_d, corner_r,
     #shp_cable = cablewire.makePipe(wire_circle) # hollow tube
     #shp_cable = cablewire.makePipe(face_circle) # filled tube
     # filled tube
-    # Is solid, Frenet, 0: defaul, 1: right corners, 2: rounded corners
+    # Is solid, Frenet, 0: default, 1: right corners, 2: rounded corners
     shp_cable = cablewire.makePipeShell([wire_circle], True, False, 2)
     
     #Part.show(shp_cable)
@@ -5452,7 +5452,7 @@ def wire_beltclamp (d, w, corner_r,
                 conn_d = corner_r * 1.1
                 logger.warning('radius larger than connector length')
                 logger.warning('making it: ' + str(conn_d))
-                logger.warning('Distances mabe be WRONG')
+                logger.warning('Distances may be WRONG')
             # Points E1, E2, E3, F1, F2, F3:
             pt_E = pos_o + w_hsep_n + d_rad_n + w_rad_n # radius center
             pt_F = pos_o + w_hsep + d_rad_n + w_rad # radius center
@@ -5539,8 +5539,8 @@ def wire_beltclamp (d, w, corner_r,
 def regpolygon_vecl (n_sides, radius, x_angle=0):
 
     """
-    Calculates the vertexes of a regular polygon. Returns a list of 
-    FreeCAD vectors with the vertexes. The first vertex will be repeated
+    Calculates the vertices of a regular polygon. Returns a list of 
+    FreeCAD vectors with the vertices. The first vertex will be repeated
     at the end, this is needed to close the wire to make the shape
     The polygon will be on axis XY (z=0). 
 
@@ -5557,7 +5557,7 @@ def regpolygon_vecl (n_sides, radius, x_angle=0):
     Returns
     --------
     List
-        List of FreeCAD.Vector of the vertexes
+        List of FreeCAD.Vector of the vertices
 
     """
 
@@ -5582,8 +5582,8 @@ def regpolygon_dir_vecl (n_sides, radius, fc_normal, fc_verx1, pos):
 
     """
     Similar to regpolygon_vecl but in any place and direction of the space
-    calculates the vertexes of a regular polygon. Returns a list of 
-    FreeCAD vectors with the vertexes. The first vertex will be repeated
+    calculates the vertices of a regular polygon. Returns a list of 
+    FreeCAD vectors with the vertices. The first vertex will be repeated
     at the end, this is needed to close the wire to make the shape
     The polygon will have the center in pos. The normal on fc_normal
     The direction of the first vertex on fc_verx_1
@@ -5604,7 +5604,7 @@ def regpolygon_dir_vecl (n_sides, radius, fc_normal, fc_verx1, pos):
     Returns
     --------
     List
-        List of FreeCAD.Vector of the vertexes
+        List of FreeCAD.Vector of the vertices
     """
 
     # normalize the normal direction
@@ -5762,9 +5762,9 @@ def shp_regprism_xtr (n_sides, radius, length,
                     edge_rot=0, pos=V0):
     """
     makes a shape of a face of a regular polygon.
-    Includes the posibility to add extra length on top and bottom.
+    Includes the possibility to add extra length on top and bottom.
     On top is easy, but at the bottom, the reference will be no counting that
-    extra lenght added. This is useful to make boolean difference
+    extra length added. This is useful to make boolean difference
 
     Parameters
     ----------
@@ -5783,9 +5783,9 @@ def shp_regprism_xtr (n_sides, radius, length,
     centered : int
         1 if the extrusion is centered on pos (symmetrical)
     xtr_top : float
-        Add an extra lenght on top. If 0, nothing added
+        Add an extra length on top. If 0, nothing added
     xtr_bot : float
-        Add an extra lenght at the bottom. If 0, nothing added
+        Add an extra length at the bottom. If 0, nothing added
     x_angle : float
         If zero, the first vertex will be on axis v_axis 
         if x_angle != 0, it will rotated some angle
@@ -5829,9 +5829,9 @@ def shp_regprism_dirxtr (n_sides, radius, length,
     """
     Similar to shp_regprism_xtr, but in any direction
     makes a shape of a face of a regular polygon.
-    Includes the posibility to add extra length on top and bottom.
+    Includes the possibility to add extra length on top and bottom.
     On top is easy, but at the bottom, the reference will be no counting that
-    extra lenght added. This is useful to make boolean difference
+    extra length added. This is useful to make boolean difference
 
     Parameters
     ----------
@@ -5848,9 +5848,9 @@ def shp_regprism_dirxtr (n_sides, radius, length,
     centered : int
         1 if the extrusion is centered on pos (symmetrical)
     xtr_top : float
-        Add an extra lenght on top. If 0, nothing added
+        Add an extra length on top. If 0, nothing added
     xtr_bot : float
-        Add an extra lenght at the bottom. If 0, nothing added
+        Add an extra length at the bottom. If 0, nothing added
     pos : FreeCAD.Vector
         Position of the center. Default (0,0,0)
 
@@ -6167,7 +6167,7 @@ def shp_extrud_face (face, length, vec_extr_axis, centered=0):
     vec_extr = DraftVecUtils.scaleTo(vec_extr_axis,length)
 
     if centered == 1:
-        #we have to move it back half the lenght of the extrusion
+        #we have to move it back half the length of the extrusion
         # either this or DraftVecUtils.neg( )
         pos = V0 - DraftVecUtils.scaleTo(vec_extr_axis,length/2.)
         face.Placement.Base = pos
@@ -6260,7 +6260,7 @@ def shp_extrud_face_rot (face, vec_facenormal, vec_edgx, length, centered=0,
     vec_extr = DraftVecUtils.scaleTo(vec_extr_axis,length)
 
     if centered == 1:
-        #we have to move it back half the lenght of the extrusion
+        #we have to move it back half the length of the extrusion
         # either this or DraftVecUtils.neg( )
         pos = V0 - DraftVecUtils.scaleTo(vec_extr_axis,length/2.)
         face.Placement.Base = pos
@@ -6295,7 +6295,7 @@ def addBolt (r_shank, l_bolt, r_head, l_head,
     l_head : float
         Length of the head
     hex_head : int
-        Inidicates if the head is hexagonal or rounded      
+        Indicates if the head is hexagonal or rounded      
             * 1: hexagonal
             * 0: rounded
 
@@ -6303,7 +6303,7 @@ def addBolt (r_shank, l_bolt, r_head, l_head,
         Height of the layer for printing, if 0, means that the
         support is not needed
     extra : int
-        1 if you want 1 mm on top and botton to avoid cutting on the same
+        1 if you want 1 mm on top and bottom to avoid cutting on the same
         plane pieces after making cuts (boolean difference) 
     support : int
         1 if you want to include a triangle between the shank and the
@@ -6433,7 +6433,7 @@ def shp_bolt (r_shank, l_bolt, r_head, l_head,
     l_head : float
         Length of the head
     hex_head : int
-        Inidicates if the head is hexagonal or rounded
+        Indicates if the head is hexagonal or rounded
 
             * 1: hexagonal
             * 0: rounded
@@ -6535,7 +6535,7 @@ def shp_bolt (r_shank, l_bolt, r_head, l_head,
                                      edge_rot = hex_rot_angle,
                                      pos=pos)
 
-    # Dont append the head, because multifuse requieres one outside
+    # Don't append the head, because multifuse requires one outside
     #elements.append (shp_head)
     # support for the shank:
     if support==1 and kcomp.LAYER3D_H > 0:
@@ -6549,7 +6549,7 @@ def shp_bolt (r_shank, l_bolt, r_head, l_head,
                                  centered = 0,
                                  edge_rot = hex_rot_angle + 30,
                                  pos=pos)
-        # take vertexes away:
+        # take vertices away:
         sup1away_l = l_head + kcomp.LAYER3D_H
         if hex_head == 0:
             shp_sup1away = shp_cyl(r_head, sup1away_l, v_axis, pos)
@@ -6591,7 +6591,7 @@ def shp_bolt_dir (r_shank, l_bolt, r_head, l_head,
               fc_normal = VZ,
               fc_verx1 = VX,
               #default value has to be 0 for backward compatibility
-              #because it didnt exist before
+              #because it didn't exist before
               pos_n = 0,
               pos = V0):
     """ 
@@ -6613,7 +6613,7 @@ def shp_bolt_dir (r_shank, l_bolt, r_head, l_head,
     l_head : float 
         Length of the head
     hex_head : int 
-        Inidicates if the head is hexagonal or rounded
+        Indicates if the head is hexagonal or rounded
 
             * 1: hexagonal
             * 0: rounded
@@ -6731,7 +6731,7 @@ def shp_bolt_dir (r_shank, l_bolt, r_head, l_head,
                                      xtr_bot = xtr_head,
                                      pos=pos0)
 
-    # Dont append the head, because multifuse requires one outside of the list
+    # Don't append the head, because multifuse requires one outside of the list
     # elements.append (shp_head)
     # support for the shank:
     if support==1 and kcomp.LAYER3D_H > 0:
@@ -6746,7 +6746,7 @@ def shp_bolt_dir (r_shank, l_bolt, r_head, l_head,
                                  fc_verx1=fc_verx1_triangle,
                                  centered = 0,
                                  pos=pos0)
-        # take vertexes away:
+        # take vertices away:
         sup1away_l = l_head + kcomp.LAYER3D_H
         if hex_head == 0:
             shp_sup1away = shp_cyl(r_head, sup1away_l, nnormal, pos0)
@@ -6801,8 +6801,8 @@ def addBoltNut_hole (r_shank,        l_bolt,
 
     """
     Creates the hole for the bolt shank, the head and the nut.
-    The bolt head will be at the botton, and the nut will be on top
-    Tolerances have to be already included in the argments values
+    The bolt head will be at the bottom, and the nut will be on top
+    Tolerances have to be already included in the arguments values
 
     Parameters
     ----------
@@ -6820,18 +6820,18 @@ def addBoltNut_hole (r_shank,        l_bolt,
         Length of the nut. It doesn't have to be the length of the nut
         but how long you want the nut to be inserted
     hex_head : int
-        Inidicates if the head is hexagonal or rounded         
+        Indicates if the head is hexagonal or rounded         
             * 1: hexagonal
             * 0: rounded
 
     zpos_nut : float
-        Inidicates the height position of the nut, the lower part     
+        Indicates the height position of the nut, the lower part     
     h_layer3d : float
         Height of the layer for printing,
         if 0, means that the support is not needed
     extra : int
-        1 if you want 1 mm on top and botton to avoid cutting on the same
-        plane pieces after makeing differences 
+        1 if you want 1 mm on top and bottom to avoid cutting on the same
+        plane pieces after making differences 
     support : int
         1 if you want to include a triangle between the shank and the
         head to support the shank and not building the head on the air
@@ -6925,8 +6925,8 @@ def shp_boltnut_dir_hole (r_shank,        l_bolt,
     Similar to addBoltNut_hole, but in any direction and creates shapes,
     not FreeCAD Objects
     Creates the hole for the bolt shank, the head and the nut.
-    The bolt head will be at the botton, and the nut will be on top
-    Tolerances have to be already included in the argments values
+    The bolt head will be at the bottom, and the nut will be on top
+    Tolerances have to be already included in the arguments values
 
     Parameters
     ----------
@@ -6944,7 +6944,7 @@ def shp_boltnut_dir_hole (r_shank,        l_bolt,
         Length of the nut. It doesn't have to be the length of the nut
         but how long you want the nut to be inserted
     hex_head : int
-        Inidicates if the head is hexagonal or rounded
+        Indicates if the head is hexagonal or rounded
 
             * 1: hexagonal
             * 0: rounded
@@ -7053,7 +7053,7 @@ def shp_boltnut_dir_hole (r_shank,        l_bolt,
                                  fc_verx1=nverx1_triangle,
                                  centered = 0,
                                  pos=pos_nut)
-        # take vertexes away:
+        # take vertices away:
         sup1away_l = l_nut + kcomp.LAYER3D_H
         shp_sup1away = shp_regprism_dirxtr (
                                         n_sides=6,
@@ -7763,7 +7763,7 @@ def fillet_len (box, e_len, radius, name):
     for edge_i in box.Shape.Edges:
         #logging.debug('fillet_len: edge Length: %s' % str(edge_i.Length))
         if edge_i.Length == e_len: # same length
-        # the index is appeneded (edge_ind),not the edge itself (edge_i)
+        # the index is appended (edge_ind),not the edge itself (edge_i)
         # radius is twice, because it can be variable
             #logging.debug('fillet_len: append edge. Length: %s ' ,
             #               str(edge_i.Length))
@@ -7969,7 +7969,7 @@ def get_bolt_bearing_sep (bolt_d, hasnut, lbearing_r, bsep=0):
 #  ---------------- edgeonaxis
 # It tells if an edge is on an axis
 # Arguments:
-# edge: an FreeCAD edge, with its vertexes
+# edge: an FreeCAD edge, with its vertices
 # axis: a text, being 'x', '-x', 'y', '-y', 'z', '-z'
 
 def edgeonaxis (edge, axis):
@@ -7979,7 +7979,7 @@ def edgeonaxis (edge, axis):
     Parameters
     ----------
     edge : Edge
-        A FreeCAD edge, with its vertexes
+        A FreeCAD edge, with its vertices
     axis : str
         'x', '-x', 'y', '-y', 'z', '-z'
     
@@ -8055,7 +8055,7 @@ def shp_filletchamfer_dir (shp, fc_axis = VZ,  fillet = 1, radius=1):
 
     # we have to bring the active document
     doc = FreeCAD.ActiveDocument
-    doc.recompute()  # you may hav problems if you dont do it
+    doc.recompute()  # you may have problems if you don't do it
     edgelist = []
     # normalize the axis:
     nnorm = DraftVecUtils.scaleTo(fc_axis,1)
@@ -8118,7 +8118,7 @@ def shp_filletchamfer_dirs (shp, fc_axis_l, fillet = 1, radius=1):
 
     # we have to bring the active document
     doc = FreeCAD.ActiveDocument
-    doc.recompute()  # you may hav problems if you dont do it
+    doc.recompute()  # you may have problems if you don't do it
     edgelist = []
     n_axis_list = []
     for axis in fc_axis_l:
@@ -8190,7 +8190,7 @@ def shp_filletchamfer_dirpt (shp, fc_axis = VZ, fc_pt = V0,  fillet = 1,
 
     # we have to bring the active document
     doc = FreeCAD.ActiveDocument
-    doc.recompute()  # you may hav problems if you dont do it
+    doc.recompute()  # you may have problems if you don't do it
     edgelist = []
     # normalize the axis:
     nnorm = DraftVecUtils.scaleTo(fc_axis,1)
@@ -8266,7 +8266,7 @@ def shp_filletchamfer_dirpts (shp, fc_axis, fc_pts,  fillet = 1,
 
     # we have to bring the active document
     doc = FreeCAD.ActiveDocument
-    doc.recompute()  # you may hav problems if you dont do it
+    doc.recompute()  # you may have problems if you don't do it
     edgelist = []
     # normalize the axis:
     nnorm = DraftVecUtils.scaleTo(fc_axis,1)
@@ -8342,7 +8342,7 @@ def shp_cir_fillchmf (shp, circen_pos = V0,  fillet = 1, radius=1):
 
     # we have to bring the active document
     doc = FreeCAD.ActiveDocument
-    doc.recompute()  # you may hav problems if you dont do it
+    doc.recompute()  # you may have problems if you don't do it
     edgelist = []
     for edge in shp.Edges:
         # get the edges, if it is a cylinder, 2 edges will have just one
@@ -8392,7 +8392,7 @@ def shp_cylfilletchamfer (shp, fillet = 1, radius=1):
 
     # we have to bring the active document
     doc = FreeCAD.ActiveDocument
-    doc.recompute()  # you may hav problems if you dont do it
+    doc.recompute()  # you may have problems if you don't do it
     edgelist = []
     for edge in shp.Edges:
         # get the edges, if it is a cylinder, 2 edges will have just one
@@ -8476,7 +8476,7 @@ def shp_filletchamfer (shp, e_len, fillet = 1, radius=1, axis='x',
     """
     # we have to bring the active document
     doc = FreeCAD.ActiveDocument
-    doc.recompute()  # you may hav problems if you dont do it
+    doc.recompute()  # you may have problems if you don't do it
     edgelist = []
     #logger.debug('filletchamfer: elen: %s',  e_len)
     for edge_ind, edge in enumerate(shp.Edges):
@@ -8604,7 +8604,7 @@ def filletchamfer (fco, e_len, name, fillet = 1, radius=1, axis='x',
 
     # we have to bring the active document
     doc = FreeCAD.ActiveDocument
-    doc.recompute()  # you may hav problems if you dont do it
+    doc.recompute()  # you may have problems if you don't do it
     edgelist = []
     #logger.debug('filletchamfer: elen: %s',  e_len)
     for edge_ind, edge in enumerate(fco.Shape.Edges):
@@ -8936,9 +8936,9 @@ def calc_rot_z (v_refz, v_refx):
 def get_rot (v1, v2):
     """ 
     Calculate the rotation from v1 to v2
-    the difference with previous verions, such fc_calc_rot, calc_rot, calc_rot
+    the difference with previous versions, such fc_calc_rot, calc_rot, calc_rot
     is that it is for any vector direction.
-    The difference with DraftVecUtils.getRotation is that getRotation doesnt
+    The difference with DraftVecUtils.getRotation is that getRotation doesn't
     work for vectors with 180 degrees.
 
     Notes
@@ -8964,7 +8964,7 @@ def get_rot (v1, v2):
     nv2 = DraftVecUtils.scaleTo(v2,1.)
 
     if DraftVecUtils.equals(nv1,nv2.negative()):
-        # we have to flip, but DraftVecUtils.getRotation doesnt get it done
+        # we have to flip, but DraftVecUtils.getRotation doesn't get it done
         # for this case
         return FreeCAD.Rotation(VX,180)
     else:
@@ -8990,7 +8990,7 @@ def get_rot (v1, v2):
 #  
 #      Z          . Y       length (x) = 1
 #      :   _    .           width  (y) = 2
-#      : /  /|              heigth (z) = 3
+#      : /  /|              height (z) = 3
 #      :/_ / |
 #      |  |  |              vec1 original (before rotation) = VX
 #      |  | /               vec2 original (before rotation) = -VZ
@@ -9001,7 +9001,7 @@ def get_rot (v1, v2):
 #
 #      Z         . Y       length (x) = 3
 #      :   ____.           width  (y) = 2
-#      : /    /|           heigth (z) = 1
+#      : /    /|           height (z) = 1
 #      :/___ //                  vec1 = VZ
 #      |____|/..............X    vec2 = VX
 #
@@ -9011,7 +9011,7 @@ def get_rot (v1, v2):
 #           Z 
 #           :    . Y       length (x) = 3
 #          _:__.           width  (y) = 2
-#        /  : /|           heigth (z) = 1
+#        /  : /|           height (z) = 1
 #       /___://                  vec1 = VZ
 #      |____|/..............X    vec2 = VX
 
@@ -9028,7 +9028,7 @@ def calc_desp_ncen (Length, Width, Height,
 
          Z          . Y       length (x) = 1
      :   _    .           width  (y) = 2
-     : /  /|              heigth (z) = 3
+     : /  /|              height (z) = 3
      :/_ / |
      |  |  |              vec1 original (before rotation) = VX
      |  | /               vec2 original (before rotation) = -VZ
@@ -9039,7 +9039,7 @@ def calc_desp_ncen (Length, Width, Height,
 
      Z         . Y       length (x) = 3
      :   ____.           width  (y) = 2
-     : /    /|           heigth (z) = 1
+     : /    /|           height (z) = 1
      :/___ //                  vec1 = VZ
      |____|/..............X    vec2 = VX
 
@@ -9049,7 +9049,7 @@ def calc_desp_ncen (Length, Width, Height,
           Z 
           :    . Y       length (x) = 3
          _:__.           width  (y) = 2
-       /  : /|           heigth (z) = 1
+       /  : /|           height (z) = 1
       /___://                  vec1 = VZ
      |____|/..............X    vec2 = VX
 
@@ -9063,7 +9063,7 @@ def calc_desp_ncen (Length, Width, Height,
         Have to be on the axis: x, -x, y, -y, z, -z
         ::
         
-         vec1 can be (0,0,0): it means that it doesnt matter how it is rotated
+         vec1 can be (0,0,0): it means that it doesn't matter how it is rotated
 
     vec2 : tuples
         Have to be on the axis: x, -x, y, -y, z, -z
@@ -9141,7 +9141,7 @@ def calc_desp_ncen (Length, Width, Height,
         else:
             print("error 3 in calc_desp_ncen")
     elif (vec1[0]==0 and vec1[1]==0 and vec1[2]==0): 
-        #It doesnt matter vec1. Probably it is symetrical on plane XY.
+        #It doesn't matter vec1. Probably it is symmetrical on plane XY.
         # So Length and Width are the same
         if Width != Length:
             logger.error('Check rotation vec1=(0,0,0), and Length!=Width')

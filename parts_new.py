@@ -603,7 +603,7 @@ class SimpleEndstopHolder (Obj3D):
             # nut axis: (nut axis of the hexagon vertex
             hex_verx = axis_d
         else:
-            # Taking the minimum lenght, very tight
+            # Taking the minimum length, very tight
             tot_d = (3*mbolt_head_r + rail_l + estp_d - holder_out
                      + estp_pin_d/2.)
             hex_verx = axis_w # less space
@@ -783,7 +783,7 @@ class SimpleEndstopHolder (Obj3D):
             shp_estpbolt = fcfun.shp_bolt_dir (
                              r_shank= (estp_bolt_d+TOL)/2.,
                              l_bolt = tot_h,
-                           # 1 TOL didnt fit
+                           # 1 TOL didn't fit
                            r_head = (kcomp.NUT_D934_D[estp_bolt_d]+2*TOL)/2.,
                              l_head = endstop_nut_l,
                              hex_head = 1,
@@ -799,7 +799,7 @@ class SimpleEndstopHolder (Obj3D):
                 shp_estpbolt = fcfun.shp_bolt_dir (
                              r_shank= (estp_bolt_d+TOL)/2.,
                              l_bolt = tot_h,
-                           # 1 TOL didnt fit
+                           # 1 TOL didn't fit
                            r_head = (kcomp.NUT_D934_D[estp_bolt_d]+2*TOL)/2.,
                              l_head = endstop_nut_l,
                              hex_head = 1,

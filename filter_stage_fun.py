@@ -142,7 +142,7 @@ def filter_stage_fun( move_l, Filter_Length, Filter_Width, nut_hole, tens_stroke
     # distance in mm that the filter is going to move
     mov_distance = move_l #60.
 
-    # width of the timming belt
+    # width of the timing belt
     belt_w = 6.
 
     # position of the filter

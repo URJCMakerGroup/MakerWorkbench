@@ -36,7 +36,7 @@ def grafic():
         p_1 = Sel.CenterOfMass
     except:
         p_1 = Sel.Placement.Base
-    #o_1 = Sel.Orientation ------------------------------- DIDNT KNOW HOW TO CHANGE
+    #o_1 = Sel.Orientation ------------------------------- DIDN'T KNOW HOW TO CHANGE
     #Relative position of the center respect the point select
     p_ret_1 = FreeCAD.Vector(0,0,0)
     #------------------------------
@@ -63,8 +63,8 @@ def grafic():
     try:
         p_2 = Sel2.CenterOfMass
     except:
-        p_2 = Sel2.Placement.Base # DONT WORK 
-    #o_2 = Sel2.Orientation ------------------------------- DIDNT KNOW HOW TO CHANGE
+        p_2 = Sel2.Placement.Base # don't WORK 
+    #o_2 = Sel2.Orientation ------------------------------- DIDN'T KNOW HOW TO CHANGE
     #Relative position of the center respect the edge select
     p_ret_2 = FreeCAD.Vector(0,0,0)
     #------------------------------

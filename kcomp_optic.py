@@ -31,7 +31,7 @@ CAGE_CUBE_60 = {
            # the rod thru-holes: 
            'rod_thread_d'  :  kcomp.UNC_D['4'] ,  #4-40
            'rod_thread_l'  :  1.5 ,  # depth of the thread for the rods
-           # aditional taps to connect accesories
+           # additional taps to connect accessories
            'tap_d'  :  kcomp.UNC_D['8'] ,  #8-32
            'tap_l'  :  3.0 ,  # depth of the #8-32 tap (I don't know)
            'tap_sep_l': 66.,   # separation of the #8_32 tap, large
@@ -215,7 +215,7 @@ SM1_TLENS_D = 30.5
 SM2_TLENS_D = 55.9
 
 
-# Length exterior (L), so when threaded, the interior length of 3mm doesnt count
+# Length exterior (L), so when threaded, the interior length of 3mm doesn't count
 
 
 SM2L_Lext = {      # L1
@@ -320,9 +320,9 @@ THLED30 = { 'ext_l'  : 50., # external length, the other part will be inside
             'tot_l'  : 60.4, # total length
             'ext_d'  : SM1_TLENS_D, # external diameter: 30.5
             'cable_dist': 35., #distance of the center of the cable to the end
-            'int_d'  : 24.,  #I dont know the value, but 26.289 is the thread
+            'int_d'  : 24.,  #I don't know the value, but 26.289 is the thread
                             # so it has to be smaller
-            'cable_d' : 5. # dont know the value
+            'cable_d' : 5. # don't know the value
           }
 
 # ---- Dimensions of a Prizmatix UHP-T-Led 
@@ -375,7 +375,7 @@ PRIZ_UHP_LED = {
                'chmf_r' : 8., #chamfer radius, not defined
                'side_thread_depth' : 22., 
                'side_thread1_h' : 10.5, # height of the 1st thread
-               'side_thread2_h' : 39.5, # height of the 2st thread
+               'side_thread2_h' : 39.5, # height of the 2nd thread
                'top_thread_depth' : 15., 
                'top_thread_sep' : 34.,  # unknown
                'mthread_d' : 6., # mounting thread diamenter

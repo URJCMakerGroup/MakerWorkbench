@@ -4,7 +4,7 @@
 # ----------------------------------------------------------------------------
 # -- (c) David Muñoz Bernal
 # ----------------------------------------------------------------------------
-# -- This function set the object to yhe print position and export the object.
+# -- This function set the object to the print position and export the object.
 import os
 import sys
 import FreeCAD

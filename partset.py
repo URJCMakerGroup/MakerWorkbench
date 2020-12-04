@@ -84,7 +84,7 @@ class BearWashSet (fc_clss.PartsSet):
         
     group : int
         1: make a group
-        0: leave as individual componentes
+        0: leave as individual components
         
     pos : FreeCAD.Vector
         Position of the cylinder, taking into account where the center is
@@ -147,7 +147,7 @@ class BearWashSet (fc_clss.PartsSet):
     # large washer (din9021) metric
     lwash_m_dict = { 3: 4, 4: 6}
     # regular washer (din125) has the same metric as the pulley
-    # bearing tipe
+    # bearing type
     bear_m_dict = { 3: 603, 4: 624}
 
     def __init__(self, metric,
@@ -316,14 +316,14 @@ class Din912BoltWashSet (fc_clss.PartsSet):
             to shank_l + washer thick available lengths for this type of bolts
     shank_out : float
         0: default
-        distance to the end of the shank, just for positioning, it doesnt
+        distance to the end of the shank, just for positioning, it doesn't
         change shank_l
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
     head_out : float
         0: default
-        distance to the end of the head, just for positioning, it doesnt
+        distance to the end of the head, just for positioning, it doesn't
         change head_l
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
 
     axis_h : FreeCAD.Vector
         vector along the bolt axis
@@ -373,7 +373,7 @@ class Din912BoltWashSet (fc_clss.PartsSet):
         
     group : int
         1: make a group
-        0: leave as individual componentes
+        0: leave as individual components
         
     pos : FreeCAD.Vector
         Position of the cylinder, taking into account where the center is
@@ -598,7 +598,7 @@ class Din934NutWashSet (fc_clss.PartsSet):
 
     group : int
         1: make a group
-        0: leave as individual componentes
+        0: leave as individual components
         
     pos : FreeCAD.Vector
         Position of the cylinder, taking into account where the center is
@@ -1397,7 +1397,7 @@ class NemaMotorPulleyHolderSet (fc_clss.PartsSet):
         self.append_part(nema_holder)
         nema_holder.parent = self
 
-        self.d_o[0] = nema_holder.d_o[0] # end that is attatched to the profile
+        self.d_o[0] = nema_holder.d_o[0] # end that is attached to the profile
         self.d_o[1] = nema_holder.d_o[1] # inside the wall that is attached
         self.d_o[2] = nema_holder.d_o[2] # bolt holes closed to the wall
         self.d_o[3] = nema_holder.d_o[3] # at the motor axis
