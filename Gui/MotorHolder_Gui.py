@@ -62,16 +62,16 @@ class MotorHolder_TaskPanel:
         motor_high_layout.addWidget(self.motor_high_Label)
         motor_high_layout.addWidget(self.motor_high_Value)
 
-        # ---- Thikness ----
-        self.Thikness_Label = QtWidgets.QLabel("Thikness:")
-        self.Thikness_Value = QtWidgets.QDoubleSpinBox()
-        self.Thikness_Value.setValue(3)
-        self.Thikness_Value.setMinimum(2)
-        self.Thikness_Value.setSuffix(' mm')
+        # ---- Thickness ----
+        self.Thickness_Label = QtWidgets.QLabel("Thickness:")
+        self.Thickness_Value = QtWidgets.QDoubleSpinBox()
+        self.Thickness_Value.setValue(3)
+        self.Thickness_Value.setMinimum(2)
+        self.Thickness_Value.setSuffix(' mm')
 
         thik_layout = QtWidgets.QHBoxLayout()
-        thik_layout.addWidget(self.Thikness_Label)
-        thik_layout.addWidget(self.Thikness_Value)
+        thik_layout.addWidget(self.Thickness_Label)
+        thik_layout.addWidget(self.Thickness_Value)
 
         # ---- Placement ----
         self.Label_position = QtWidgets.QLabel("Placement ")
@@ -246,7 +246,7 @@ class MotorHolder_Dialog:
         SizeHolder = {0:8, 1:11, 2:14, 3:17, 4:23, 5:34, 6:42}
         self.size_motor = SizeHolder[self.MotorHolder.ComboBox_Size_Holder.currentIndex()]
         h_motor=self.MotorHolder.motor_high_Value.value()
-        Thikness = self.MotorHolder.Thikness_Value.value()
+        Thickness = self.MotorHolder.Thickness_Value.value()
         pos = FreeCAD.Vector(self.MotorHolder.pos_x.value(), self.MotorHolder.pos_y.value(), self.MotorHolder.pos_z.value())
         pos_h = self.MotorHolder.pos_h.currentIndex()
         pos_d = self.MotorHolder.pos_d.currentIndex()
@@ -258,9 +258,9 @@ class MotorHolder_Dialog:
         if ortonormal_axis(axis_d,axis_w,axis_h) == True:
 
             NemaMotorHolder(nema_size = self.size_motor,
-                            wall_thick = Thikness,
-                            motorside_thick = Thikness,
-                            reinf_thick = Thikness,
+                            wall_thick = Thickness,
+                            motorside_thick = Thickness,
+                            reinf_thick = Thickness,
                             motor_min_h =10.,
                             motor_max_h = h_motor,
                             rail = 1, # if there is a rail or not at the profile side

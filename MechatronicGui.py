@@ -1056,16 +1056,16 @@ class AluprofBracket_TaskPanel:
         size_layout_2.addWidget(self.Size_2_Label)
         size_layout_2.addWidget(self.Size_2_ComboBox)
         
-        # ---- Thikness ----
-        self.Thikness_Label = QtWidgets.QLabel("Thikness:")
-        self.Thikness_Value = QtWidgets.QDoubleSpinBox()
-        self.Thikness_Value.setValue(3)
-        self.Thikness_Value.setMinimum(2)
-        self.Thikness_Value.setSuffix(' mm')
+        # ---- Thickness ----
+        self.Thickness_Label = QtWidgets.QLabel("Thickness:")
+        self.Thickness_Value = QtWidgets.QDoubleSpinBox()
+        self.Thickness_Value.setValue(3)
+        self.Thickness_Value.setMinimum(2)
+        self.Thickness_Value.setSuffix(' mm')
 
-        thikness_layout = QtWidgets.QHBoxLayout()
-        thikness_layout.addWidget(self.Thikness_Label)
-        thikness_layout.addWidget(self.Thikness_Value)
+        thickness_layout = QtWidgets.QHBoxLayout()
+        thickness_layout.addWidget(self.Thickness_Label)
+        thickness_layout.addWidget(self.Thickness_Value)
         
         # ---- Nut profile line 1 ----
         self.Nut_Profile_1_Label = QtWidgets.QLabel("Size of Nut first profile :")
@@ -1120,7 +1120,7 @@ class AluprofBracket_TaskPanel:
         # ---- Sunk ----
         self.Sunk_Label = QtWidgets.QLabel("Sunk:")
         self.Sunk_ComboBox = QtWidgets.QComboBox()
-        Sunk_Text = ["Hole fot Nut","Without center","Withput reinforce"]
+        Sunk_Text = ["Hole for Nut","Without center","Without reinforce"]
         self.Sunk_ComboBox.addItems(Sunk_Text)
         self.Sunk_ComboBox.setCurrentIndex(0)
         
@@ -1278,7 +1278,7 @@ class AluprofBracket_TaskPanel:
         main_layout.addLayout(type_layout)
         main_layout.addLayout(size_layout_1)
         main_layout.addLayout(size_layout_2)
-        main_layout.addLayout(thikness_layout)
+        main_layout.addLayout(thickness_layout)
         main_layout.addLayout(nut_layout_1)
         main_layout.addLayout(nut_layout_2)
         main_layout.addLayout(dist_nut_layout)
@@ -1318,7 +1318,7 @@ class AluprofBracket_TaskPanel:
         Sunk_values = {0:0, 1:1, 2:2}
         Size_1 = Size[self.Size_1_ComboBox.currentIndex()]
         Size_2 = Size[self.Size_2_ComboBox.currentIndex()]
-        Thikness = self.Thikness_Value.value()
+        Thickness = self.Thickness_Value.value()
         Nut_Prof_1 = NUT[self.Nut_Profile_1_ComboBox.currentIndex()]
         Nut_Prof_2 = NUT[self.Nut_Profile_2_ComboBox.currentIndex()]
         NumberNut = 1+self.N_Nut_ComboBox.currentIndex()
@@ -1334,8 +1334,8 @@ class AluprofBracket_TaskPanel:
             if self.Type == 0:
                 Reinforce = self.Reinforce_ComboBox.currentIndex()
                 parts.AluProfBracketPerp( alusize_lin = Size_1, alusize_perp = Size_2, #cambiar a combobox
-                                        br_perp_thick = Thikness,
-                                        br_lin_thick = Thikness,
+                                        br_perp_thick = Thickness,
+                                        br_lin_thick = Thickness,
                                         bolt_lin_d = Nut_Prof_1,
                                         bolt_perp_d = Nut_Prof_2,
                                         nbolts_lin = NumberNut,
@@ -1352,8 +1352,8 @@ class AluprofBracket_TaskPanel:
             elif self.Type == 1:
                 Flap = self.Flap_ComboBox.currentIndex()
                 parts.AluProfBracketPerpFlap(alusize_lin = Size_1, alusize_perp = Size_2,
-                                            br_perp_thick = Thikness,
-                                            br_lin_thick = Thikness,
+                                            br_perp_thick = Thickness,
+                                            br_lin_thick = Thickness,
                                             bolt_lin_d = Nut_Prof_1,
                                             bolt_perp_d = Nut_Prof_2,
                                             nbolts_lin = NumberNut,
@@ -1371,8 +1371,8 @@ class AluprofBracket_TaskPanel:
                 Dis_Prof = self.Dist_Prof_Value.value()
                 parts.AluProfBracketPerpTwin(alusize_lin = Size_1, alusize_perp = Size_2,
                                             alu_sep = Dis_Prof,
-                                            br_perp_thick = Thikness,
-                                            br_lin_thick = Thikness,
+                                            br_perp_thick = Thickness,
+                                            br_lin_thick = Thickness,
                                             bolt_lin_d = Nut_Prof_1,
                                             bolt_perp_d = Nut_Prof_2,
                                             nbolts_lin = NumberNut,
@@ -1485,16 +1485,16 @@ class MotorHolderTaskPanel:
         motor_high_layout.addWidget(self.motor_high_Label)
         motor_high_layout.addWidget(self.motor_high_Value)
 
-        # ---- Thikness ----
-        self.Thikness_Label = QtWidgets.QLabel("Thikness:")
-        self.Thikness_Value = QtWidgets.QDoubleSpinBox()
-        self.Thikness_Value.setValue(3)
-        self.Thikness_Value.setMinimum(2)
-        self.Thikness_Value.setSuffix(' mm')
+        # ---- Thickness ----
+        self.Thickness_Label = QtWidgets.QLabel("Thickness:")
+        self.Thickness_Value = QtWidgets.QDoubleSpinBox()
+        self.Thickness_Value.setValue(3)
+        self.Thickness_Value.setMinimum(2)
+        self.Thickness_Value.setSuffix(' mm')
 
         thik_layout = QtWidgets.QHBoxLayout()
-        thik_layout.addWidget(self.Thikness_Label)
-        thik_layout.addWidget(self.Thikness_Value)
+        thik_layout.addWidget(self.Thickness_Label)
+        thik_layout.addWidget(self.Thickness_Value)
 
         # ---- Placement ----
         self.Label_position = QtWidgets.QLabel("Placement ")
@@ -1655,7 +1655,7 @@ class MotorHolderTaskPanel:
         SizeHolder = {0:8, 1:11, 2:14, 3:17, 4:23, 5:34, 6:42}
         self.size_motor = SizeHolder[self.ComboBox_Size_Holder.currentIndex()]
         h_motor=self.motor_high_Value.value()
-        Thikness = self.Thikness_Value.value()
+        Thickness = self.Thickness_Value.value()
         pos = FreeCAD.Vector(self.pos_x.value(), self.pos_y.value(), self.pos_z.value())
         pos_h = self.pos_h.currentIndex()
         pos_d = self.pos_d.currentIndex()
@@ -1666,9 +1666,9 @@ class MotorHolderTaskPanel:
 
         if ortonormal_axis(axis_d,axis_w,axis_h) == True:
             parts.PartNemaMotorHolder(nema_size = self.size_motor,
-                                    wall_thick = Thikness,
-                                    motorside_thick = Thikness,
-                                    reinf_thick = Thikness,
+                                    wall_thick = Thickness,
+                                    motorside_thick = Thickness,
+                                    reinf_thick = Thickness,
                                     motor_min_h =10.,
                                     motor_max_h = h_motor,
                                     rail = 1, # if there is a rail or not at the profile side
@@ -2470,7 +2470,7 @@ class stop_holderTaskPanel:
         width_layout.addWidget(self.Width_Value)
 
         # ---- Height ----
-        self.Heigth_Label = QtWidgets.QLabel("Heigth:")
+        self.Heigth_Label = QtWidgets.QLabel("Height:")
         self.Heigth_Value = QtWidgets.QDoubleSpinBox()
         self.Heigth_Value.setValue(31)
         self.Heigth_Value.setSuffix("mm")
@@ -2479,7 +2479,7 @@ class stop_holderTaskPanel:
         height_layout.addWidget(self.Heigth_Label)
         height_layout.addWidget(self.Heigth_Value)
 
-        # ---- Thikness ----
+        # ---- Thickness ----
         self.Thickness_Label = QtWidgets.QLabel("Thickness:")
         self.Thickness_Value = QtWidgets.QDoubleSpinBox()
         self.Thickness_Value.setValue(4)
@@ -2648,7 +2648,7 @@ class stop_holderTaskPanel:
         v.removeEventCallback("SoEvent",self.track)
 
         Width = self.Width_Value.value()
-        Heigth = self.Heigth_Value.value()
+        Height = self.Heigth_Value.value()
         Thick = self.Thickness_Value.value()
         Bolt_values = {0: 3,
                        1: 4,
@@ -2669,7 +2669,7 @@ class stop_holderTaskPanel:
         
         if ortonormal_axis(axis_d,axis_w,axis_h) == True:
             parts.hallestop_holder(stp_w = Width,
-                                stp_h = Heigth,
+                                stp_h = Height,
                                 base_thick = Thick,
                                 sup_thick = Thick,
                                 bolt_base_d = Bolt, #metric of the bolt 
@@ -2855,16 +2855,16 @@ class FilterStageTaskPanel:
         rail_layout.addWidget(self.motor_high_Label)
         rail_layout.addWidget(self.motor_high_Value)
 
-        # ---- Thikness ----
-        self.Thikness_Label = QtWidgets.QLabel("Motor holder thikness:")
-        self.Thikness_Value = QtWidgets.QDoubleSpinBox()
-        self.Thikness_Value.setValue(3)
-        self.Thikness_Value.setMinimum(2)
-        self.Thikness_Value.setSuffix(' mm')
+        # ---- Thickness ----
+        self.Thickness_Label = QtWidgets.QLabel("Motor holder thickness:")
+        self.Thickness_Value = QtWidgets.QDoubleSpinBox()
+        self.Thickness_Value.setValue(3)
+        self.Thickness_Value.setMinimum(2)
+        self.Thickness_Value.setSuffix(' mm')
 
-        thikness_layout = QtWidgets.QHBoxLayout()
-        thikness_layout.addWidget(self.Thikness_Label)
-        thikness_layout.addWidget(self.Thikness_Value)
+        thickness_layout = QtWidgets.QHBoxLayout()
+        thickness_layout.addWidget(self.Thickness_Label)
+        thickness_layout.addWidget(self.Thickness_Value)
 
         # ---- Placement ----
         self.label_position = QtWidgets.QLabel("Placement ")
@@ -2911,7 +2911,7 @@ class FilterStageTaskPanel:
         main_layout.addLayout(nut_layout)
         main_layout.addLayout(nema_holder_layout)
         main_layout.addLayout(rail_layout)
-        main_layout.addLayout(thikness_layout)
+        main_layout.addLayout(thickness_layout)
         main_layout.addLayout(placement_layout)
 
         self.track = v.addEventCallback("SoEvent",self.position)
@@ -2933,7 +2933,7 @@ class FilterStageTaskPanel:
         SizeHolder = {0:8, 1:11, 2:14, 3:17, 4:23, 5:34, 6:42}
         size_motor = SizeHolder[self.ComboBox_Size_Holder.currentIndex()]
         h_motor=self.motor_high_Value.value()
-        thik_motor = self.Thikness_Value.value()
+        thik_motor = self.Thickness_Value.value()
 
         pos = FreeCAD.Vector(self.pos_x.value(), self.pos_y.value(), self.pos_z.value())
 
@@ -3016,7 +3016,7 @@ class FilterHolderTaskPanel: # TODO
 
         self.placement = True
 
-        # ---- row 0: Filter Lenth ----
+        # ---- row 0: Filter Length ----
         self.Filter_Length_Label = QtWidgets.QLabel("Filter Length")
         self.Filter_Length_Value = QtWidgets.QDoubleSpinBox()
         self.Filter_Length_Value.setValue(60)
@@ -3289,8 +3289,8 @@ class TensionerTaskPanel:
 
         self.placement = True
 
-        # ---- row 0: Belt High ----
-        self.belt_h_Label = QtWidgets.QLabel("Belt hight:")
+        # ---- row 0: Belt Height ----
+        self.belt_h_Label = QtWidgets.QLabel("Belt height:")
         self.belt_h_Value = QtWidgets.QDoubleSpinBox()
         self.belt_h_Value.setValue(20)
         self.belt_h_Value.setSuffix(' mm')
@@ -3933,14 +3933,14 @@ class BeltClampedTaskPanel:
         self.Label_Clamp = QtWidgets.QLabel("Clamp ")
 
         # Clamp d:
-        self.Label_Clamp_d = QtWidgets.QLabel("Lenght:")
+        self.Label_Clamp_d = QtWidgets.QLabel("Length:")
         self.Clamp_d = QtWidgets.QDoubleSpinBox()
         self.Clamp_d.setValue(5)
         self.Clamp_d.setSuffix('')
         self.Clamp_d.setMinimum(1)
 
         # Clamp w:
-        self.Label_Clamp_w = QtWidgets.QLabel("Widht:")
+        self.Label_Clamp_w = QtWidgets.QLabel("Width:")
         self.Clamp_w = QtWidgets.QDoubleSpinBox()
         self.Clamp_w.setValue(4)
         self.Clamp_w.setSuffix('')
@@ -6230,8 +6230,8 @@ class BreadBoard_TaskPanel:
 
         self.placement = True
 
-        # ---- row 0: lenght ----
-        self.Label_len = QtWidgets.QLabel("Lenght:")
+        # ---- row 0: length ----
+        self.Label_len = QtWidgets.QLabel("Length:")
         self.len = QtWidgets.QDoubleSpinBox()
         self.len.setMinimum(1)
         self.len.setValue(200)
