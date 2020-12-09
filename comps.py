@@ -120,7 +120,7 @@ class Sk (object):
             # Bolt's head radius
             tbolt_head_r = (self.holtol
                             * kcomp.D912_HEAD_D[skdict['tbolt']])/2.0
-            # Bolt's head lenght
+            # Bolt's head length
             tbolt_head_l = (self.holtol
                             * kcomp.D912_HEAD_L[skdict['tbolt']] )
             # Mounting bolt radius with added tolerance
@@ -248,7 +248,7 @@ class Sk (object):
             mbolt_sh_r.Placement.Base = mbolt_sh_r_pos
             mbolt_sh_l.Placement.Base = mbolt_sh_l_pos
 
-            # Equivalent expresions to the ones above
+            # Equivalent expressions to the ones above
             #mbolt_sh_l.Placement = FreeCAD.Placement(mbolt_sh_l_pos, v0rot, v0)
             #mbolt_sh_r.Placement = FreeCAD.Placement(mbolt_sh_r_pos, v0rot, v0)
 
@@ -256,7 +256,7 @@ class Sk (object):
             mbolts_sh.Base = mbolt_sh_r
             mbolts_sh.Tool = mbolt_sh_l
 
-            # Instead of moving all the objects from the begining. I do it here
+            # Instead of moving all the objects from the beginning. I do it here
             # so it is easier, and since a new object will be created, it is
             # referenced correctly
             # Now, it is centered on Y, having the width on X, hole facing X
@@ -446,7 +446,7 @@ class Sk_dir (object):
         # Bolt's head radius
         tbolt_head_r = (self.holtol
                         * kcomp.D912_HEAD_D[skdict['tbolt']])/2.0
-        # Bolt's head lenght
+        # Bolt's head length
         tbolt_head_l = (self.holtol
                         * kcomp.D912_HEAD_L[skdict['tbolt']] )
         # Mounting bolt radius with added tolerance
@@ -727,14 +727,14 @@ class MisumiAlu30s6w8 (object):
 
 
 # ----------- class RectRndBar ---------------------------------------------
-# Creates a rectangular bar with rounded edges, and with the posibility
+# Creates a rectangular bar with rounded edges, and with the possibility
 # to be hollow
 #
 # Base:     the length of the base of the rectangle
 # Height:   the length of the height of the rectangle
 # Length:   the length of the bar, the extrusion 
 # Radius:   the radius of the rounded edges (fillet)
-# Thick:    the thikness of the bar (hollow bar)
+# Thick:    the thickness of the bar (hollow bar)
 #           If it is zero or larger than base or 
 #               height, it will be full
 # inrad_same : True: inradius = radius. When the radius is very small
@@ -752,7 +752,7 @@ class MisumiAlu30s6w8 (object):
 # cz:     1 if you want the coordinates referenced to the z center of the piece
 # attributes:
 # inRad : radius of the inner radius
-# inBase : lenght of the inner rectangle
+# inBase : length of the inner rectangle
 # inHeight : height of the inner rectangle
 # hollow   : True, if it is hollow, False if it is not
 # face     : the face has been extruded
@@ -813,7 +813,7 @@ class RectRndBar (object):
 
         self.face = face
 
-        # Rotate and extrude in the appropiate direction
+        # Rotate and extrude in the appropriate direction
 
         # now is facing Z, I use vec2
         if axis == 'x': # rotate to Z, the 1 or -1 makes the extrusion different
@@ -1123,7 +1123,7 @@ class AluProf_dir (object):
            direction of fc_axis_p
     xtr_l : float
         if >0 it will be that extra length on the direction of fc_axis_l
-        I dont think it is useful for a profile, but since it is easy to
+        I don't think it is useful for a profile, but since it is easy to
         do, I just do it
     xtr_nl : float
         if >0 it will be that extra height on the opositve direction of
@@ -1227,7 +1227,7 @@ class AluProf_dir (object):
 
         # getting the base position
 
-        if ref_l == 1: # move the postion half of the height down 
+        if ref_l == 1: # move the position half of the height down 
             base_pos = pos + DraftVecUtils.scale(axis_l_n, length/2. + xtr_nl)
         else:
             base_pos = pos + DraftVecUtils.scale(axis_l_n, xtr_nl)
@@ -1490,7 +1490,7 @@ class ShpAluProf (shp_clss.Obj3D):
               ||                :  :        : middle point considering total
               | thickness       :  :        :  length (xtr_nd + depth + xtr_d)
               |                 :  :        :
-               inner square     :  :         middle poit considering depth only
+               inner square     :  :         middle point considering depth only
                                 :  :
                                 :   start point, not counting xtr_nd
                                 :
@@ -1719,7 +1719,7 @@ class PartAluProf (fc_clss.SinglePart, ShpAluProf):
             
 # ----------- NEMA MOTOR
 # Creates NEMA motor including its hole to cut the piece where is going
-# to be embebbed. 
+# to be embedded. 
 
 # ARGUMENTS:
 # size: size of the motor: 11, 14, 17, 23, 34 or 42
@@ -1803,7 +1803,7 @@ class NemaMotor (object):
         v2 = FreeCAD.Vector(self.width/2.,   self.width/2.-chmf,0)
         motorwire = fcfun.wire_sim_xy([v1,v2])
         # motor wire normal is VZ
-        # DraftVecUtils doesnt work as well
+        # DraftVecUtils doesn't work as well
         # rot = DraftVecUtils.getRotation(VZ, nnormal)
         # the order matter VZ, nnormal. It seems it doent matter VZ or VZN
         # this is valid:
@@ -1914,7 +1914,7 @@ class NemaMotor (object):
         b2hole10.Placement.Base = b2hole10_pos
         b2hole11.Placement.Base = b2hole11_pos
 
-        # it doesnt work if dont recompute here! probably the clones
+        # it doesn't work if don't recompute here! probably the clones
         doc.recompute()
 
         b2holes_list = [b2hole00, b2hole01, b2hole10, b2hole11]
@@ -3118,20 +3118,20 @@ class FlexCoupling (object):
 #             there is only one bolt
 # bolt_d : diameter of the hole for the bolt
 # bolth_d : diameter of the hole for the head of the bolt
-# bolth_h : heigth of the hole for the head of the bolt
+# bolth_h : height of the hole for the head of the bolt
 # boltend_sep : separation on one end, from the bolt to the end
-# axis_l : the axis where the lenght of the rail is: 'x', 'y', 'z'
+# axis_l : the axis where the length of the rail is: 'x', 'y', 'z'
 # axis_b : the axis where the base of the rail is pointing:
 #                                 'x',   'y',  'z', '-x', '-y', '-z',
 # It will be centered on the width axis, and zero on the length and height
 # Optional holes for the bolts, that go beyon the rail to cut 3D printed pieces.
-# to be designed. Zero if you dont want to have them
+# to be designed. Zero if you don't want to have them
 # bolthole_d: diameter of the hole
 # bolthole_l: length of the hole
 # NOT IMPLEMENTED YET, NOW ONLY ON THE DIRECTION OF AXIS_B (SAME):
 # bolthole_dir: direction of the hole, it would be:
 #               'same'  same direction of axis_b
-#               'opp'   oposite direction of axis_b
+#               'opp'   opposite direction of axis_b
 #               'both'  both directions
 # bolthole_nutd: diameter of the nut 
 # bolthole_nuth: length of the nut (including the head)
@@ -3181,7 +3181,7 @@ class LinGuideRail (object):
         else: # leave even distance
             # number of bolt lines, on the length axis
             nbolt_l = rail_l // bolt_lsep # integer division
-            #dont use % in case is not int
+            #don't use % in case is not int
             rail_rem = rail_l - nbolt_l * bolt_lsep 
             # separation between the bolt and the end
             self.boltend_sep = rail_rem / 2.
@@ -3436,12 +3436,12 @@ class ShpLinGuideRail (shp_clss.Obj3D):
     bolth_d : float
         Diameter of the hole for the head of the bolt
     bolth_h : float
-        Heigth of the hole for the head of the bolt
+        Height of the hole for the head of the bolt
     boltend_sep : float
         Separation on one end, from the bolt to the end
         0: evenly distributed
     axis_d : FreeCAD.Vector
-        The axis along the depth (lenght) of the rail 
+        The axis along the depth (length) of the rail 
     axis_w : FreeCAD.Vector
         The axis along the width of the rail
     axis_h : FreeCAD.Vector
@@ -3509,7 +3509,7 @@ class ShpLinGuideRail (shp_clss.Obj3D):
         else: # leave even distance
             # number of bolt lines, on the depth (length) axis
             nbolt_l = rail_d // bolt_lsep # integer division
-            #dont use % in case is not int
+            #don't use % in case is not int
             rail_rem = rail_d - nbolt_l * bolt_lsep 
             if rail_rem > 2* bolth_d :
                 # one bolt more
@@ -3620,7 +3620,7 @@ class PartLinGuideRail (fc_clss.SinglePart, ShpLinGuideRail):
         <0: value from the dictionary
 
     axis_d : FreeCAD.Vector
-        The axis along the depth (lenght) of the rail 
+        The axis along the depth (length) of the rail 
     axis_w : FreeCAD.Vector
         The axis along the width of the rail
     axis_h : FreeCAD.Vector
@@ -3873,7 +3873,7 @@ class LinGuideBlock (object):
 # Arguments:
 # rail_l: length of the linear guide
 # dlg: a dictionary is used for the constants. Defined in kcomp.py
-# axis_l : the axis where the lenght of the rail is: 'x', 'y', 'z'
+# axis_l : the axis where the length of the rail is: 'x', 'y', 'z'
 # axis_b : the axis where the base of the rail is pointing:
 # boltend_sep : separation on one end, from the bolt to the end
 # bl_pos : Position of the block, relative to the length: 0. to 1.
@@ -3905,7 +3905,7 @@ def f_linguide (rail_l, dlg, axis_l, axis_b, boltend_sep = 0,
 
     d_block = dlg['block']
 
-    # position of the block refered to the rail
+    # position of the block referred to the rail
     # rail_l - d_block['b'] : the length of the rail - length of the block
     block_pos_l = bl_pos * (rail_l - d_block['bl'])
 
@@ -3932,7 +3932,7 @@ def f_linguide (rail_l, dlg, axis_l, axis_b, boltend_sep = 0,
 # Arguments:
 # rail_l: length of the linear guide
 # dlg: a dictionary is used for the constants. Defined in kcomp.py
-# axis_l : the axis where the lenght of the rail is: 'x', 'y', 'z'
+# axis_l : the axis where the length of the rail is: 'x', 'y', 'z'
 # axis_b : the axis where the base of the rail is pointing:
 # boltend_sep : separation on one end, from the bolt to the end
 # bl_pos : Position of the block, relative to the length: 0. to 1.
@@ -3980,7 +3980,7 @@ class LinGuide(object):
         self.h_lgrail = h_lgrail
 
 
-        # position of the block refered to the rail
+        # position of the block referred to the rail
         # rail_l - d_block['b'] : the length of the rail - length of the block
         block_pos_l = bl_pos * (rail_l - d_block['bl'])
         self.block_pos_l = block_pos_l
@@ -4108,7 +4108,7 @@ class ShpLinGuideBlock (shp_clss.Obj3D):
         Width of the rail
         if 0: there will be internal hole for the rail
     axis_d : FreeCAD.Vector
-        The axis along the depth (lenght) of the block (and rail) 
+        The axis along the depth (length) of the block (and rail) 
     axis_w : FreeCAD.Vector
         The axis along the width of the block
     axis_h : FreeCAD.Vector
@@ -4347,7 +4347,7 @@ class PartLinGuideBlock (fc_clss.SinglePart, ShpLinGuideBlock):
         it is not necessary, but if not provided, the block will not have
         the rail hole
     axis_d: FreeCAD.Vector
-        The axis along the depth (lenght) of the block (and rail) 
+        The axis along the depth (length) of the block (and rail) 
     axis_w: FreeCAD.Vector
         The axis along the width of the block
     axis_h: FreeCAD.Vector

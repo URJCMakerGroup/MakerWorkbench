@@ -53,7 +53,7 @@ class StopHolder_TaskPanel:
         width_layout.addWidget(self.Width_Value)
 
         # ---- Height ----
-        self.Heigth_Label = QtWidgets.QLabel("Heigth:")
+        self.Heigth_Label = QtWidgets.QLabel("Height:")
         self.Heigth_Value = QtWidgets.QDoubleSpinBox()
         self.Heigth_Value.setValue(31)
         self.Heigth_Value.setSuffix("mm")
@@ -62,7 +62,7 @@ class StopHolder_TaskPanel:
         height_layout.addWidget(self.Heigth_Label)
         height_layout.addWidget(self.Heigth_Value)
 
-        # ---- Thikness ----
+        # ---- Thickness ----
         self.Thickness_Label = QtWidgets.QLabel("Thickness:")
         self.Thickness_Value = QtWidgets.QDoubleSpinBox()
         self.Thickness_Value.setValue(4)

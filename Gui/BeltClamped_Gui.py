@@ -147,20 +147,20 @@ class BeltClamped_TaskPanel:
         self.Label_Clamp.setAlignment(QtCore.Qt.AlignTop)
 
         # Clamp d:
-        self.Label_Clamp_d = QtWidgets.QLabel("Lenght:")
+        self.Label_Clamp_d = QtWidgets.QLabel("Length:")
         self.Clamp_d = QtWidgets.QDoubleSpinBox()
         self.Clamp_d.setValue(5)
         self.Clamp_d.setSuffix('')
         self.Clamp_d.setMinimum(1)
 
         # Clamp w:
-        self.Label_Clamp_w = QtWidgets.QLabel("Widht:")
+        self.Label_Clamp_w = QtWidgets.QLabel("Width:")
         self.Clamp_w = QtWidgets.QDoubleSpinBox()
         self.Clamp_w.setValue(4)
         self.Clamp_w.setSuffix('')
         self.Clamp_w.setMinimum(1)
 
-        # Separation bewteen clamps:
+        # Separation between clamps:
         self.Label_Sep_Clamp = QtWidgets.QLabel("Sepatarion:")
         self.Sep_Clamp = QtWidgets.QDoubleSpinBox()
         self.Sep_Clamp.setValue(8)

@@ -145,7 +145,7 @@ E3DV6_OUTBOT_H = 3.0
 # and total length of 70mm
 extrud_sep = 40.0
 
-# DIN-912 bolt dimmensions
+# DIN-912 bolt dimensions
 # head: the index is the M, i.e: M3, M4, ..., the value is the diameter of the head of the bolt
 D912_HEAD_D = {2: 3.8,  2.5:4.5,
                3: 5.5,  4: 7.0,  5:  8.5,
@@ -315,7 +315,7 @@ NUT_D934_2A = {
                4:   7.0,
                5:   8.0,
                6:   10.0}
-# the heigth, max value
+# the height, max value
 NUT_D934_L  = {
                1.6:  1.3,
                2:    1.6,
@@ -419,14 +419,14 @@ D934 = {
 # tightening bolt with added tolerances:
 # Bolt's head radius
 #tbolt_head_r = (tol * d912_head_d[sk_12['tbolt']])/2 
-# Bolt's head lenght
+# Bolt's head length
 #tbolt_head_l = tol * d912_head_l[sk_12['tbolt']] 
 # Mounting bolt radius with added tolerance
 #mbolt_r = tol * sk_12['mbolt']/2
 
 # ------------- DIN 125 Washers (small) -----------------------
 
-# The Index reffers to the Metric (M3,...
+# The Index refers to the Metric (M3,...
 # Inner Diameter (of the hole). Minimum diameter.
 WASH_D125_DI = {
                   2:    2.2,
@@ -482,7 +482,7 @@ for (k_di, di), (k_do, do), (k_t, t) in zip(WASH_D125_DI.items(),
 
 # ------------- DIN 9021 Washers (wide) -----------------------
 
-# The Index reffers to the Metric (M3,...
+# The Index refers to the Metric (M3,...
 # Inner Diameter of the hole. Minimum diameter.
 WASH_D9021_DI = {
                   3:  3.2,
@@ -596,7 +596,7 @@ for (k_ndi, di), (k_ndo, do), (k_nt, t) in zip(BEAR_DI.items(),
 
 
 
-# to acces more easily to the dimensions of objects that are just
+# to access more easily to the dimensions of objects that are just
 # a hollow cylinder, such as washers and bearings
 # Arguments:
 # part: 'bearing' or 'washer'
@@ -633,7 +633,7 @@ class HollowCyl(object):
 
 # ----------------------------- Idler pulley components --------
 # this may be an error, it is not a name list, is a objects list
-# this is a name list from botton to top that shows the component
+# this is a name list from bottom to top that shows the component
 # order to make an idler pulley out of washers and bearings
 
 """
@@ -1354,7 +1354,7 @@ SEB10_R = {'rw': 5.,  # W1
 # bl: block Length
 # bls: block Length, the inner part (smaller)
 # bw: block Width, the larger
-# bws: block Width, the smaler part at the ends
+# bws: block Width, the smaller part at the ends
 # bh: block Height, just the block
 # lh: linear guide Height: together the rail and the block
 # boltlsep: Bolt separation on the length dimension

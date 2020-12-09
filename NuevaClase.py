@@ -100,7 +100,7 @@ class Obj3D (object):
         Parameter:
         ----------
         d : float
-            depth: lenght of the vector along axis_d
+            depth: length of the vector along axis_d
         """
 
         # self.axis_d is normalized, so no need to use DraftVecUtils.scaleTo
@@ -116,7 +116,7 @@ class Obj3D (object):
         Parameter:
         ----------
         w : float
-            width: lenght of the vector along axis_w
+            width: length of the vector along axis_w
         """
 
         # self.axis_w is normalized, so no need to use DraftVecUtils.scaleTo
@@ -132,7 +132,7 @@ class Obj3D (object):
         Parameter:
         ----------
         h : float
-            height: lenght of the vector along axis_h
+            height: length of the vector along axis_h
         """
 
         # self.axis_h is normalized, so no need to use DraftVecUtils.scaleTo
@@ -150,7 +150,7 @@ class Obj3D (object):
         Parameters:
         ----------
         d, w, h : float
-            depth, widht and height
+            depth, width and height
         """
 
         vec = self.vec_d(d) + self.vec_w(w) + self.vec_h(h)
@@ -162,7 +162,7 @@ class Obj3D (object):
         Parameters:
         -----------
         adjust : int
-             1: If, when created, wasnt possible to set the piece at pos_o,
+             1: If, when created, wasn't possible to set the piece at pos_o,
                 and it was placed at pos, then the position will be adjusted
         """
 
@@ -429,7 +429,7 @@ class Obj3D (object):
         except:
             logger.warning('Error al asignar la propiedad h_o')
 
-        # try: #TODO: Furute line of the proyect. Add childs propertys to the father. This doesn't make sense if the children don't have points to import
+        # try: #TODO: Future line of the project. Add childs properties to the parent. This doesn't make sense if the children don't have points to import
         #     self.fco.addProperty("App::PropertyStringList","childs",name,"List of childs",4).childs = self.dict_child.keys()
         #     try:
         #         for key in self.dict_child:
@@ -458,7 +458,7 @@ class Obj3D (object):
             
         # Create a dictionary for each child trhat is added with key data
 
-        try: # TODO: Furute line of the proyect. Improve the child dictionary and usability 
+        try: # TODO: Future line of the project. Improve the child dictionary and usability 
             self.dict_child[child_name] = dict(child_d_o = child.d_o, child_w_o = child.w_o, child_h_o = child.h_o, child_shp = child.shp)
         except AttributeError:
             self.dict_child[child_name] = dict(child_d_o = None, child_w_o = None, child_h_o = None, child_shp = child)
@@ -802,14 +802,14 @@ class ShpBolt (Obj3D):
         if 0: no hex socket
     shank_out : float
         0: default
-        distance to the end of the shank, just for positioning, it doesnt
+        distance to the end of the shank, just for positioning, it doesn't
         change shank_l
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
     head_out : float
         0: default
-        distance to the end of the head, just for positioning, it doesnt
+        distance to the end of the head, just for positioning, it doesn't
         change head_l
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
     axis_h : FreeCAD.Vector
         vector along the axis of the bolt, pointing from the head to the shank
     axis_d : FreeCAD.Vector

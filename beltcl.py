@@ -53,7 +53,7 @@ CB_IW = 2.8
 CB_W = 4.0
 # Length of the clamp blocks (X axis)
 CB_L = 12.0
-# GT2 height is 6 mm, making the heigth 8mm
+# GT2 height is 6 mm, making the height 8mm
 C_H = 8.0
 # GT2 Clamp Cylinder radius
 CCYL_R = 4.0
@@ -108,7 +108,7 @@ class Gt2BeltClamp (object):
     CB_W = 4.0
     # Length of the clamp blocks (X axis)
     CB_L = 12.0
-    # GT2 height is 6 mm, making the heigth 8mm
+    # GT2 height is 6 mm, making the height 8mm
     C_H = 8.0
     # GT2 Clamp Cylinder radius
     CCYL_R = 4.0
@@ -1009,7 +1009,7 @@ class ShpBeltClamped (shp_clss.WireBeltClamped):
               |     |belt ||                    :
               |     |_____||....................:
               |        0 12|   for now, the belt will be at this pos_w 2
-                               because, there is alread a pos_w for the wire
+                               because, there is already a pos_w for the wire
                     :     :
                     :.....:
                        +
@@ -1052,9 +1052,9 @@ class ShpBeltClamped (shp_clss.WireBeltClamped):
         Radius of the cylinder for the belt, if it is not a cylinder but a
         shape of 2 cylinders: < ) , then the raidius of the larger one
     belt_width : float
-        Width of the belt, can be consfusing becasue the width is along axis_h
+        Width of the belt, can be consfusing because the width is along axis_h
     belt_thick : float
-        Thickness of the belt, it doesnt take into account the teeth, or the
+        Thickness of the belt, it doesn't take into account the teeth, or the
         detailed shape (contour)
     axis_d :  FreeCAD.Vector
         Coordinate System Vector along the depth

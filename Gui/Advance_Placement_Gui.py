@@ -57,7 +57,7 @@ class Advance_Placement_TaskPanel:
         btn_point = QtWidgets.QPushButton("Show point")
         button_layout.addWidget(btn_setpos)
         button_layout.addWidget(btn_point)
-        # Conect the button 
+        # Connect the button 
         btn_setpos.clicked.connect(self.button_clicked) 
         btn_point.clicked.connect(self.show_point) 
 
@@ -83,7 +83,7 @@ class Advance_Placement_TaskPanel:
                 for p in range(0,len(obj.d_o)):
                     self.obj_d.addItem(str(p))
             elif obj.d0_cen == 1:
-                for p in range(-len(obj.d_o)+1,len(obj.d_o)): # +1 is necesary to eliminate the 0 value duplicate
+                for p in range(-len(obj.d_o)+1,len(obj.d_o)): # +1 is necessary to eliminate the 0 value duplicate
                     self.obj_d.addItem(str(p)) 
         else: pass
         if hasattr(obj, "w_o"):

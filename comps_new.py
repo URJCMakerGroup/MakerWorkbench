@@ -169,7 +169,7 @@ class Sk_dir (Obj3D):
         # Bolt's head radius
         tbolt_head_r = (self.holtol
                         * kcomp.D912_HEAD_D[skdict['tbolt']])/2.0
-        # Bolt's head lenght
+        # Bolt's head length
         tbolt_head_l = (self.holtol
                         * kcomp.D912_HEAD_L[skdict['tbolt']] )
         # Mounting bolt radius with added tolerance
@@ -429,7 +429,7 @@ class AluProf (Obj3D):
               ||                :  :        : middle point considering total
               | thickness       :  :        :  length (xtr_nd + depth + xtr_d)
               |                 :  :        :
-               inner square     :  :         middle poit considering depth only
+               inner square     :  :         middle point considering depth only
                                 :  :
                                 :   start point, not counting xtr_nd
                                 :
@@ -620,7 +620,7 @@ class PartLinGuideBlock (Obj3D):
         it is not necessary, but if not provided, the block will not have
         the rail hole
     axis_d: FreeCAD.Vector
-        The axis along the depth (lenght) of the block (and rail) 
+        The axis along the depth (length) of the block (and rail) 
     axis_w: FreeCAD.Vector
         The axis along the width of the block
     axis_h: FreeCAD.Vector

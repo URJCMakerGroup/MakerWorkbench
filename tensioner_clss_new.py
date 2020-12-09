@@ -55,7 +55,7 @@ class BearWashSet (Obj3D):
         
     group : int
         1: make a group
-        0: leave as individual componentes
+        0: leave as individual components
         
     pos : FreeCAD.Vector
         Position of the cylinder, taking into account where the center is
@@ -118,7 +118,7 @@ class BearWashSet (Obj3D):
     # large washer (din9021) metric
     lwash_m_dict = { 3: 4, 4: 6}
     # regular washer (din125) has the same metric as the pulley
-    # bearing tipe
+    # bearing type
     bear_m_dict = { 3: 603, 4: 624}
 
     def __init__(self, metric,
@@ -282,14 +282,14 @@ class Din912BoltWashSet (Obj3D):
             to shank_l + washer thick available lengths for this type of bolts
     shank_out : float
         0: default
-        distance to the end of the shank, just for positioning, it doesnt
+        distance to the end of the shank, just for positioning, it doesn't
         change shank_l
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
     head_out : float
         0: default
-        distance to the end of the head, just for positioning, it doesnt
+        distance to the end of the head, just for positioning, it doesn't
         change head_l
-        I dont think it is necessary, but just in case
+        I don't think it is necessary, but just in case
 
     axis_h : FreeCAD.Vector
         vector along the bolt axis
@@ -339,7 +339,7 @@ class Din912BoltWashSet (Obj3D):
         
     group : int
         1: make a group
-        0: leave as individual componentes
+        0: leave as individual components
         
     pos : FreeCAD.Vector
         Position of the cylinder, taking into account where the center is
@@ -560,7 +560,7 @@ class Din934NutWashSet (Obj3D):
 
     group : int
         1: make a group
-        0: leave as individual componentes
+        0: leave as individual components
         
     pos : FreeCAD.Vector
         Position of the cylinder, taking into account where the center is
@@ -800,7 +800,7 @@ class IdlerTensioner (Obj3D):
 
     Attributes:
     -----------
-    All the parameters and attributes of father class SinglePart
+    All the parameters and attributes of parent class SinglePart
 
     Dimensional attributes:
     tens_d : float
@@ -1211,7 +1211,7 @@ class IdlerTensionerSet (Obj3D):
             * 1: at the beginning of the hole for the nut (position for the nut)
             * 2: at the beginning of the tensioner stroke hole
             * 3: at the end of the tensioner stroke hole
-            * 4: at the inner end of the bearing. It didnt exist in ShpIdlerTensioner
+            * 4: at the inner end of the bearing. It didn't exist in ShpIdlerTensioner
               Therefore, from this, numbers change compared with ShpIdlerTensioner
             * 5: at the center of the idler pulley hole
               it is 4 in ShpIdlerTensioner)
@@ -1336,7 +1336,7 @@ class IdlerTensionerSet (Obj3D):
         self.w0_cen = 1
         self.h0_cen = 1
 
-        # before creating the idler_pulley and the tensioner, we dont
+        # before creating the idler_pulley and the tensioner, we don't
         # know their dimensions and positions. We could calculate them
         # here, but it would be to calculate twice. Instead, we create
         # them, and then move them and calculate the vectors h_o, d_o, w_o
@@ -1353,7 +1353,7 @@ class IdlerTensionerSet (Obj3D):
         #self.pulley_h =  pulley.tot_h
         #self.pulley_r_in =  pulley.r_in
         #self.pulley_r_ext =  pulley.r_ext
-        # Creation of the tensioner, with pos_h,d,w = 0 because we dont know
+        # Creation of the tensioner, with pos_h,d,w = 0 because we don't know
         # the dimensions yet
         idler_tens_part =  IdlerTensioner(idler_h     = pulley.tot_h ,
                                           idler_r_in  = pulley.r_in,
@@ -1431,13 +1431,13 @@ class IdlerTensionerSet (Obj3D):
         self.h_o[3] = idler_tens_part.h_o[2]
 
         # Now we place the idler tensioner according to pos_d,w,h
-        # argument 1 means that pos_o wasnt in place and has to be
+        # argument 1 means that pos_o wasn't in place and has to be
         # adjusted
         self.set_pos_o(adjust = 1)
 
         # Now we have the position where the origin is, but:
-        # - we havent located the idler_tensioner at pos_o
-        # - we havent located the pulley at pos_o + dist to axis
+        # - we haven't located the idler_tensioner at pos_o
+        # - we haven't located the pulley at pos_o + dist to axis
 
         # we should have call PartIdlerTensioner (pos = self.pos_o)
         # instead, we have it at (pos = self.pos)
@@ -1614,7 +1614,7 @@ class TensionerHolder (Obj3D):
     in_fillet: float
         radius of the inner fillets
     boltaluprof_mtr : integer (could be float 2.5)
-        diameter (metric) of the bolt that attachs the tensioner holder to the
+        diameter (metric) of the bolt that attaches the tensioner holder to the
         aluminum profile (or whatever is attached to)
     bolttens_mtr : integer (could be float 2.5)
         diameter (metric) of the bolt for the tensioner
@@ -1678,7 +1678,7 @@ class TensionerHolder (Obj3D):
 
     Attributes:
     -----------
-    All the parameters and attributes of father class SinglePart
+    All the parameters and attributes of parent class SinglePart
 
     prnt_ax : FreeCAD.Vector
         Best axis to print (normal direction, pointing upwards)
@@ -2264,7 +2264,7 @@ class TensionerSet (Obj3D):
     in_fillet: float
         Radius of the inner fillets
     boltaluprof_mtr : float
-        Diameter (metric) of the bolt that attachs the tensioner holder to the
+        Diameter (metric) of the bolt that attaches the tensioner holder to the
         aluminum profile (or whatever is attached to)
     bolttens_mtr : float
         Diameter (metric) of the bolt for the tensioner
@@ -2335,7 +2335,7 @@ class TensionerSet (Obj3D):
     pos : FreeCAD.Vector
         position of the piece
 
-    Paramenters for the set
+    Parameters for the set
 
     tens_in_ratio : float
         from 0 to 1, the ratio of the stroke that the tensioner is inside.
@@ -2345,7 +2345,7 @@ class TensionerSet (Obj3D):
 
     Note
     ----
-    All the parameters and attributes of father class SinglePart
+    All the parameters and attributes of parent class SinglePart
 
     Attributes
     -----------
@@ -2484,13 +2484,13 @@ class TensionerSet (Obj3D):
                                    
 
         # Now we place the idler tensioner according to pos_d,w,h
-        # argument 1 means that pos_o wasnt in place and has to be
+        # argument 1 means that pos_o wasn't in place and has to be
         # adjusted
         self.set_pos_o(adjust = 1)
 
         # Now we have the position where the origin is, but:
-        # - we havent located the idler_tensioner at pos_o
-        # - we havent located the pulley at pos_o + dist to axis
+        # - we haven't located the idler_tensioner at pos_o
+        # - we haven't located the pulley at pos_o + dist to axis
 
         # we should have call PartIdlerTensioner (pos = self.pos_o)
         # instead, we have it at (pos = self.pos)

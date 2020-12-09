@@ -74,9 +74,9 @@ class CageCube (object):
     rod_thread_l: float
         Depth of the thread for the rods
     tap_d: float
-        Diameter of the tap to connect accesories
+        Diameter of the tap to connect accessories
     tap_l: float
-        Depth of the taps to connect accesories
+        Depth of the taps to connect accessories
     tap_sep_l: float
         Separation of the tap to connect, large
     tap_sep_s: float
@@ -89,7 +89,7 @@ class CageCube (object):
         Note
         ----
         Cannot be the same as axis_thru_rods
-        There are 6 posible orientations:
+        There are 6 possible orientations:
         Thru-rods can be on X, Y or Z axis
         thru-hole can be on X, Y, or Z axis, but not in the same as thru-rods
     """
@@ -327,7 +327,7 @@ def f_cagecube (d_cagecube,
         Note
         ----
         Cannot be the same as axis_thru_rods
-        There are 6 posible orientations:
+        There are 6 possible orientations:
         Thru-rods can be on X, Y or Z axis
         thru-hole can be on X, Y, or Z axis, but not in the same as thru-rods
 
@@ -418,9 +418,9 @@ class CageCubeHalf (object):
     rod_thread_l: float
         Depth of the thread for the rods
     tap_d: float
-        Diameter of the tap to connect accesories
+        Diameter of the tap to connect accessories
     tap_l: float
-        Depth of the taps to connect accesories
+        Depth of the taps to connect accessories
     tap_sep_l: float
         Separation of the tap to connect, large
     tap_sep_s: float
@@ -435,8 +435,8 @@ class CageCubeHalf (object):
         Note
         -----
         Cannot be the same as axis_1, or its negated. Has to be perpendicular
-        There are 24 posible orientations:
-        6 posible axis_1 and 4 axis_2 for each axis_1
+        There are 24 possible orientations:
+        6 possible axis_1 and 4 axis_2 for each axis_1
     
     name: str
         Name of the freecad object
@@ -487,8 +487,8 @@ class CageCubeHalf (object):
         # axis_2
         v_halfout = DraftVecUtils.neg(self.v_1 + self.v_2)
         v_halfout.normalize()
-        # Making the cut with a cilinder, because it is easier, since the 
-        # function is already availabe
+        # Making the cut with a cylinder, because it is easier, since the 
+        # function is already available
         # radius is smaller: pythagoras, but to make it simpler
         # the position is not just the half, about a centimeter less, but
         # just thake the thru_hole_depth
@@ -502,7 +502,7 @@ class CageCubeHalf (object):
 
         # hole on the 45 face, for the lense
         # on position (0,0,0) but the same direction as the previous
-        # the heigth is hypotenuse, but to symplify and to cut over the total
+        # the height is hypotenuse, but to symplify and to cut over the total
         # length, we make it twice the cathetus
         shp_lensehole = fcfun.shp_cyl(r= lenshole_45_d/2.,
                                       h=2*thru_hole_depth, 
@@ -652,8 +652,8 @@ def f_cagecubehalf (d_cagecubehalf,
         Note
         ----
         Cannot be the same as axis_1, or its negated. Has to be perpendicular
-        There are 24 posible orientations:
-        6 posible axis_1 and 4 axis_2 for each axis_1
+        There are 24 possible orientations:
+        6 possible axis_1 and 4 axis_2 for each axis_1
     
     name: str
         Name of the freecad object
@@ -744,7 +744,7 @@ class Lb1cPlate (object):
         Direction of the vertical (thickness)
     fc_axis_l: FreeCAD.Vector 
         Direction of the large distance of
-        the counterbored asymetrical holes
+        the counterbored asymmetrical holes
     ref_in: int
         
         * 1: fc_axis_h starts on the inside to outside of the plate
@@ -825,7 +825,7 @@ class Lb1cPlate (object):
 
 
         holes = [shp_ringhole]
-        # symetrical holes
+        # symmetrical holes
         for add_l in (DraftVecUtils.scaleTo(axis_l,  sym_hole_sep/2),
                       DraftVecUtils.scaleTo(axis_l, - sym_hole_sep/2)) :
             for add_s in (DraftVecUtils.scaleTo(axis_s,  sym_hole_sep/2),
@@ -838,7 +838,7 @@ class Lb1cPlate (object):
                                           pos=pos_hole)
                 holes.append(shp_hole)
 
-        # asymetrical hole
+        # asymmetrical hole
         for add_l in (DraftVecUtils.scaleTo(axis_l,  cbore_hole_sep_l/2),
                       DraftVecUtils.scaleTo(axis_l, - cbore_hole_sep_l/2)) :
             for add_s in (DraftVecUtils.scaleTo(axis_s,  cbore_hole_sep_s/2),
@@ -901,7 +901,7 @@ def plate_thruhole_hole8 (side_l,
     """
     Draws a square plate, with a thru-hole in the center.
     
-    * 4 sets of holes in symetrical positions for screws
+    * 4 sets of holes in symmetrical positions for screws
     * 4 sets of holes for cap-screws
 
     ::
@@ -934,9 +934,9 @@ def plate_thruhole_hole8 (side_l,
     thruhole_d: float
         Diamenter of the central hole
     sym_hole_d: float
-        Diamenter of the symetrical holes
+        Diamenter of the symmetrical holes
     sym_hole_sep: float
-        Distance between the centers of the symetrical holes 
+        Distance between the centers of the symmetrical holes 
     cbore_hole_d: float
         Diameter of the shank of the counter bored hole
     cbore_hole_head_d: float
@@ -952,7 +952,7 @@ def plate_thruhole_hole8 (side_l,
         from the inside of the plate
     fc_axis_l: FreeCAD.Vector 
         Direction of the large distance of
-        the counterbored asymetrical holes
+        the counterbored asymmetrical holes
     cl: int
         
         1: centered on the fc_axis_l direction
@@ -1006,7 +1006,7 @@ def plate_thruhole_hole8 (side_l,
                                       xtr_top=1., xtr_bot=1., 
                                       pos=pos_center)
 
-    # symetrical holes
+    # symmetrical holes
     holes = []
     for add_l in (DraftVecUtils.scaleTo(axis_l,  sym_hole_sep/2),
                   DraftVecUtils.scaleTo(axis_l, - sym_hole_sep/2)) :
@@ -1020,7 +1020,7 @@ def plate_thruhole_hole8 (side_l,
                                       pos=pos_hole)
             holes.append(shp_hole)
 
-    # asymetrical hole
+    # asymmetrical hole
     for add_l in (DraftVecUtils.scaleTo(axis_l,  cbore_hole_sep_l/2),
                   DraftVecUtils.scaleTo(axis_l, - cbore_hole_sep_l/2)) :
         for add_s in (DraftVecUtils.scaleTo(axis_s,  cbore_hole_sep_s/2),
@@ -1109,7 +1109,7 @@ class Lb2cPlate (object):
         Direction of the vertical (thickness)
     fc_axis_l: FreeCAD.Vector 
         Direction of the large distance of
-        the counterbored asymetrical holes
+        the counterbored asymmetrical holes
     cl: int
         * 1: centered on the fc_axis_l direction
     
@@ -1201,7 +1201,7 @@ class PlateThruholeMhole (object):
     Draws a square plate, with a thru-hole in the center.
     
         * 1 hole on the side to mount it
-        * 4 sets of holes in symetrical positions for screws
+        * 4 sets of holes in symmetrical positions for screws
         * 4 sets of holes for cap-screws
 
     if any of these holes are zero, they will not be made
@@ -1251,9 +1251,9 @@ class PlateThruholeMhole (object):
     mhole_l:
         Length (depth) of the mounting hole. If 0: no hole
     sym_hole_d:
-        Diamenter of the symetrical holes. If 0: no hole
+        Diamenter of the symmetrical holes. If 0: no hole
     sym_hole_sep: float
-        Distance between the centers of the symetrical holes 
+        Distance between the centers of the symmetrical holes 
     cbore_hole_d: float
         Diameter of the shank of the counter bored hole. If 0: no hole
     cbore_hole_head_d: float
@@ -1436,7 +1436,7 @@ class PlateThruholeMhole (object):
         topcen_pos = pos + fc_ref2topcen # m_0 + p_0 + h_top
         # position at the center
         center_pos = pos + fc_ref2center # m_0 + p_0 + h_cen
-        # it doesnt matter if there is no mounting hole
+        # it doesn't matter if there is no mounting hole
         mount_pos = pos + fc_ref2mhole
 
         self.botcen_pos = botcen_pos
@@ -1465,7 +1465,7 @@ class PlateThruholeMhole (object):
             holes.append(shp_mhole)
 
 
-        # symetrical holes
+        # symmetrical holes
         if sym_hole_d > 0:
             for add_m in (DraftVecUtils.scaleTo(axis_m,  sym_hole_sep/2),
                       DraftVecUtils.scaleTo(axis_m, - sym_hole_sep/2)) :
@@ -1479,7 +1479,7 @@ class PlateThruholeMhole (object):
                                           pos=pos_hole)
                     holes.append(shp_hole)
 
-        # asymetrical holes
+        # asymmetrical holes
         if cbore_hole_d > 0:
             for add_l in (DraftVecUtils.scaleTo(axis_l,  cbore_hole_sep_l/2),
                           DraftVecUtils.scaleTo(axis_l, - cbore_hole_sep_l/2)) :
@@ -1808,7 +1808,7 @@ class Lcpb1mBase (object):
         # slot holes are in w=2
         for pos_wi in [fc_1_2_w, fc_1_2_w.negative()]:
             slot_pos = w1_d2_h1_pos + pos_wi
-            # longer length, it doesnt matter
+            # longer length, it doesn't matter
             shp_slot_hole = fcfun.shp_stadium_dir(length = d_tot,
                                                 radius = slot_d/2. + kcomp.TOL,
                                                 height = h_slot,
@@ -1835,7 +1835,7 @@ class Lcpb1mBase (object):
         fc_1_to_smholes = DraftVecUtils.scale(axis_w, s_mholes_dist/2.)
         for pos_wi in [fc_1_to_smholes.negative(), fc_1_to_smholes]:
             mshole_pos = w1_d2_h1_pos + pos_wi
-            # longer length, it doesnt matter
+            # longer length, it doesn't matter
             shp_smhole = fcfun.shp_cylcenxtr(
                                                 r = s_mholes_d/2.,
                                                 h = h_sup,
@@ -1906,7 +1906,7 @@ def lcpb1m_base (d_lcpb1m_base = kcomp_optic.LCPB1M_BASE,
             * 3: lower side
 
     ref_w: int
-        Postion in the fc_axis_w:
+        Position in the fc_axis_w:
 
             * 1: center
             * 2: center in left slot
@@ -2347,7 +2347,7 @@ class PrizLed (object):
                                        fc_axis_d = nnorm_ledn,
                                        cw = 1, cd = 0, ch = 1,
                                        pos = pos_center_block)
-        # chamfer the edge on these vertexes:
+        # chamfer the edge on these vertices:
         chmf_v0 = (  pos_center_block
                    + DraftVecUtils.scale(nnorm_clear, d_led['H']/2.)
                    + DraftVecUtils.scale(nnorm_perp, d_led['width']/2.))
@@ -2377,7 +2377,7 @@ class PrizLed (object):
         shp_block = shp_block.fuse(shp_fan)
         shp_block = shp_block.removeSplitter()
 
-        # make a hole for the SM1 thread, doesnt say how deep it is
+        # make a hole for the SM1 thread, doesn't say how deep it is
         shp_cyl_sm1 = fcfun.shp_cylcenxtr(r = d_led['led_hole_d']/2.,
                                           h = d_led['led_hole_depth'],
                                           normal = nnorm_ledn,

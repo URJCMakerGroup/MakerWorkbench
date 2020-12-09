@@ -111,7 +111,7 @@ class AluProfBracketPerp (object):
         if zero, takes min distance
     bolts_lin_rail : int
         Instead of bolt holes, it will be a rail
-        it doesnt make sense to have number of bolts with this option
+        it doesn't make sense to have number of bolts with this option
         it will work on 2 bolts or more. If nbolts_lin == 3, it 
         will make a rail between them. so it will be the same to have
         nbolts_lin = 2 and bolts_lin_dist = 20
@@ -300,7 +300,7 @@ class AluProfBracketPerp (object):
                             xtr_shank = 1,
                             support = 0,
                             fc_normal = axis_lin_neg,
-                            fc_verx1 = axis_perp, #it doesnt matter
+                            fc_verx1 = axis_perp, #it doesn't matter
                             pos = pos_boltpe)
         boltholes.append(shp_boltpe)
 
@@ -335,7 +335,7 @@ class AluProfBracketPerp (object):
                             xtr_shank = 1,
                             support = 0,
                             fc_normal = axis_perp_neg,
-                            fc_verx1 = axis_lin, #it doesnt matter
+                            fc_verx1 = axis_lin, #it doesn't matter
                             pos = pos_boltli_top)
             boltholes.append(shp_boltli)
             # the rest of boltli holes
@@ -557,7 +557,7 @@ class AluProfBracketPerpFlap (object):
         if zero, takes min distance
     bolts_lin_rail : int
         Instead of bolt holes, it will be a rail
-        it doesnt make sense to have number of bolts with this option
+        it doesn't make sense to have number of bolts with this option
         it will work on 2 bolts or more. If nbolts_lin == 3, it 
         will make a rail between them. so it will be the same to have
         nbolts_lin = 2 and bolts_lin_dist = 20
@@ -572,11 +572,11 @@ class AluProfBracketPerpFlap (object):
         * 1: if the top part is removed,
         * 2: No reinforcement at all
     flap : int
-        If it has flaps, if it hasnt flaps, it is kind of useless
+        If it has flaps or if it doesn't have flaps, it is kind of useless
         because it is just the middle part without bolts on the
-        wall, but it can be used to make an union with other parts
+        wall, but it can be used to make a union with other parts
     fc_perp_ax : FreeCAD.Vector
-        Axis of the bracket on the perpendicular prof, see picture
+        Axis of the bracket on the perpendicular profile, see picture
     fc_lin_ax : FreeCAD.Vector
         Axis of the bracket on the aligned profile, see picture
     pos : FreeCAD.Vector
@@ -787,7 +787,7 @@ class AluProfBracketPerpFlap (object):
                               xtr_shank = 1,
                               support = 0,
                               fc_normal = axis_lin_neg,
-                              fc_verx1 = axis_perp, #it doesnt matter
+                              fc_verx1 = axis_perp, #it doesn't matter
                               pos = pos_boltpe)
                 boltholes.append(shp_boltpe)
 
@@ -823,7 +823,7 @@ class AluProfBracketPerpFlap (object):
                             xtr_shank = 1,
                             support = 0,
                             fc_normal = axis_perp_neg,
-                            fc_verx1 = axis_lin, #it doesnt matter
+                            fc_verx1 = axis_lin, #it doesn't matter
                             pos = pos_boltli)
             boltholes.append(shp_boltli)
 
@@ -839,7 +839,7 @@ class AluProfBracketPerpFlap (object):
                             xtr_shank = 1,
                             support = 0,
                             fc_normal = axis_perp_neg,
-                            fc_verx1 = axis_lin, #it doesnt matter
+                            fc_verx1 = axis_lin, #it doesn't matter
                             pos = pos_boltli)
                 boltholes.append(shp_boltli)
 
@@ -1014,7 +1014,7 @@ class AluProfBracketPerpTwin (object):
     alusize_perp : float
         Width of the perpendicular aluminum profile
     alu_sep : float
-        Separation of the 2 paralell profiles, from their centers
+        Separation of the 2 parallel profiles, from their centers
     br_lin_thick : float
         Thickness of the line bracket
     br_perp_thick : float
@@ -1033,7 +1033,7 @@ class AluProfBracketPerpTwin (object):
         if zero, takes min distance
     bolts_lin_rail : int
         Instead of bolt holes, it will be a rail
-        it doesnt make sense to have number of bolts with this option
+        it doesn't make sense to have number of bolts with this option
         it will work on 2 bolts or more. If nbolts_lin == 3, it 
         will make a rail between them. so it will be the same to have
         nbolts_lin = 2 and bolts_lin_dist = 20
@@ -1237,7 +1237,7 @@ class AluProfBracketPerpTwin (object):
                             xtr_shank = 1,
                             support = 0,
                             fc_normal = axis_lin_neg,
-                            fc_verx1 = axis_perp, #it doesnt matter
+                            fc_verx1 = axis_perp, #it doesn't matter
                             pos = pos_boltpe)
             bolthole_list.append(shp_boltpe)
         else:
@@ -1257,7 +1257,7 @@ class AluProfBracketPerpTwin (object):
                             xtr_shank = 1,
                             support = 0,
                             fc_normal = axis_lin_neg,
-                            fc_verx1 = axis_perp, #it doesnt matter
+                            fc_verx1 = axis_perp, #it doesn't matter
                             pos = pos_boltpe)
                 bolthole_list.append(shp_boltpe)
 
@@ -1424,7 +1424,7 @@ class AluProfBracketPerpTwin (object):
 # holdbolt_d: diameter of the bolts used to attach this part to the aluminum
 #   profile
 # above_h: height of this piece above the aluminum profile
-# rail: posibility of having a rail instead of holes for mounting the 
+# rail: possibility of having a rail instead of holes for mounting the 
 #       holder. It has been made fast, so there may be bugs
 # mindepth: If there is a minimum depth. Sometimes needed for the endstop
 #            to reach its target
@@ -1496,7 +1496,7 @@ class IdlePulleyHolder (object):
     above_h : float
         Height of this piece above the aluminum profile
     rail : float
-        Posibility of having a rail instead of holes for mounting the 
+        Possibility of having a rail instead of holes for mounting the 
         holder. It has been made fast, so there may be bugs
     mindepth : float
         If there is a minimum depth. Sometimes needed for the endstop
@@ -1754,7 +1754,7 @@ class IdlePulleyHolder (object):
             pulleyhold_aux = doc.addObject("Part::Feature", name + '_aux')
             pulleyhold_aux.Shape = shp_pulleyhold
 
-            # fillet the top part if it has no endstop. So the belt doesnt
+            # fillet the top part if it has no endstop. So the belt doesn't
             # hit the corner
             if endstop_side == 0:
                 fillet_r = (width - pulleynut_d_tol - 2 * extra_w) / 2.
@@ -2151,7 +2151,7 @@ class SimpleEndstopHolder (object):
             # nut axis: (nut axis of the hexagon vertex
             hex_verx = axis_d
         else:
-            # Taking the minimum lenght, very tight
+            # Taking the minimum length, very tight
             tot_d = (3*mbolt_head_r + rail_l + estp_d - holder_out
                      + estp_pin_d/2.)
             hex_verx = axis_w # less space
@@ -2303,7 +2303,7 @@ class SimpleEndstopHolder (object):
             shp_estpbolt = fcfun.shp_bolt_dir (
                              r_shank= (estp_bolt_d+TOL)/2.,
                              l_bolt = tot_h,
-                           # 1 TOL didnt fit
+                           # 1 TOL didn't fit
                            r_head = (kcomp.NUT_D934_D[estp_bolt_d]+2*TOL)/2.,
                              l_head = endstop_nut_l,
                              hex_head = 1,
@@ -2319,7 +2319,7 @@ class SimpleEndstopHolder (object):
                 shp_estpbolt = fcfun.shp_bolt_dir (
                              r_shank= (estp_bolt_d+TOL)/2.,
                              l_bolt = tot_h,
-                           # 1 TOL didnt fit
+                           # 1 TOL didn't fit
                            r_head = (kcomp.NUT_D934_D[estp_bolt_d]+2*TOL)/2.,
                              l_head = endstop_nut_l,
                              hex_head = 1,
@@ -2425,7 +2425,7 @@ class ThinLinBearHouse1rail (object):
 
     """
     Makes a housing for a linear bearing, but it is very thin
-    and intented to be attached to one rail, instead of 2
+    and intended to be attached to one rail, instead of 2
     it has to parts, the lower and the upper part
     ::
 
@@ -2614,7 +2614,7 @@ class ThinLinBearHouse1rail (object):
         if rod_d > 8 :
           housing_w = max ((bearing_d_tol + 2* MIN_SEP_WALL), 
                            (d_lbear['Di'] + 4* MIN2_SEP_WALL + 2*BOLT_D))
-        else: # 8 is very thight
+        else: # 8 is very tight
           housing_w = max ((bearing_d_tol + 2* MIN_SEP_WALL), 
                            (d_lbear['Di'] + 4* MIN_SEP_WALL + 2*BOLT_D))
         print ("housing_w: %", housing_w)
@@ -2626,7 +2626,7 @@ class ThinLinBearHouse1rail (object):
         # width of the base (very tight), the same as the housing
         base_w = housing_w
         print ("base_w: %", base_w)
-        # height of the base (not tight). twice the mininum height
+        # height of the base (not tight). twice the minimum height
         base_h = 2 * OUT_SEP_H 
         print ("base_h: %", base_h)
 
@@ -2705,7 +2705,7 @@ class ThinLinBearHouse1rail (object):
         shp_rodlbear = shp_rod.fuse(shp_lbear)
         shp_block_hole = shp_block.cut(shp_rodlbear)
 
-        # bolts to atach to the support
+        # bolts to attach to the support
         
         bolt1_atch_pos = (  botcenter_pos
                           + DraftVecUtils.scale(n1_slide_axis,boltrailcen_dist))
@@ -2825,7 +2825,7 @@ class ThinLinBearHouse (object):
 
     """
     Makes a housing for a linear bearing, but it is very thin
-    and intented to be attached to 2 rail
+    and intended to be attached to 2 rail
     it has to parts, the lower and the upper part
     ::
 
@@ -2867,7 +2867,7 @@ class ThinLinBearHouse (object):
            mid_center =0                   |_:3___2____::_|
         4: axis_center=1
 
-        And 8 more posibilities:
+        And 8 more possibilities:
         5: bolt_center = 1
         6: bolt_center = 0
 
@@ -2982,7 +2982,7 @@ class ThinLinBearHouse (object):
 
     MIN_SEP_WALL = 3. # min separation of a wall
     MIN2_SEP_WALL = 2. # min separation of a wall
-    OUT_SEP_H = kparts.OUT_SEP_H # minimun separation of the linear bearing
+    OUT_SEP_H = kparts.OUT_SEP_H # minimum separation of the linear bearing
     MTOL = kparts.MTOL
     MLTOL = kparts.MLTOL
     TOL_BEARING_L = kparts.TOL_BEARING_L
@@ -3097,7 +3097,7 @@ class ThinLinBearHouse (object):
             housing_h = housing_min_h
             axis_h = axis_min_h
 
-        # Atributes
+        # Attributes
         self.L = housing_l
         self.W = housing_w
         self.H = housing_h
@@ -3582,7 +3582,7 @@ class ThinLinBearHouseAsim (object):
     bolt2cen_wid_n or bolt2cen_wid_p are not zero
 
     Makes a housing for a linear bearing, but it is very thin
-    and intented to be attached to 2 rail
+    and intended to be attached to 2 rail
     it has to parts, the lower and the upper part
     ::
 
@@ -3632,7 +3632,7 @@ class ThinLinBearHouseAsim (object):
            fro_center =0                   |_:3___2____::_|
         4: refcen_hei=1
 
-        And 8 more posibilities:
+        And 8 more possibilities:
         5: refcen_wid = 0
         6: refcen_wid = 1
 
@@ -3760,7 +3760,7 @@ class ThinLinBearHouseAsim (object):
 
     MIN_SEP_WALL = 3. # min separation of a wall
     MIN2_SEP_WALL = 2. # min separation of a wall
-    OUT_SEP_H = kparts.OUT_SEP_H # minimun separation of the linear bearing
+    OUT_SEP_H = kparts.OUT_SEP_H # minimum separation of the linear bearing
     MTOL = kparts.MTOL
     MLTOL = kparts.MLTOL
     TOL_BEARING_L = kparts.TOL_BEARING_L
@@ -3898,7 +3898,7 @@ class ThinLinBearHouseAsim (object):
             housing_h = housing_min_h
             axis_h = axis_min_h
 
-        # Atributes
+        # Attributes
         self.D = housing_d
         self.W = housing_w
         self.H = housing_h
@@ -4302,7 +4302,7 @@ class NemaMotorHolder (object):
                              + DraftVecUtils.scale(axis_h, motor_thick))
         topwallcent_pos = pos + ref2topwallcent
 
-        # atributes with dimensions, distances and positions
+        # attributes with dimensions, distances and positions
         self.tot_h = tot_h
         self.tot_w = tot_w
         self.tot_d = tot_d
@@ -4443,7 +4443,7 @@ class NemaMotorHolder (object):
         axis_up = self.axis_print
         rotation = DraftVecUtils.getRotation(axis_up, VZ)
         if (DraftVecUtils.equals(axis_up, VZN)):
-            #we have to flip it, but rotation doesnt get it done:
+            #we have to flip it, but rotation doesn't get it done:
             rotation = FreeCAD.Rotation(VX,180)
             
         shp = self.shp
@@ -5159,7 +5159,7 @@ class Plate3CageCubes (object):
                0: take the value of the cagecube hole
                X: take this value, since there may be something attached,
                   such as a tubelens, which may have a ring that makes
-                  necesary to have larger diameter hole
+                  necessary to have larger diameter hole
                -1: no hole
         boltatt_n: number of bolt holes on the extra top side
         boltatt_d: diameter of the bolt holes on the top side
@@ -5385,8 +5385,8 @@ class Plate3CageCubes (object):
             if sqr_w == 0: # square width will be the total distance
                 sqr_w = larg_sp_w
 
-            # since in dont have shp_box_dir_extr, I put extra depth
-            # double thick because we need extra and I havent brought it back
+            # since I don't have shp_box_dir_extr, I put extra depth
+            # double thick because we need extra and I haven't brought it back
             # then a little more to cut the other
             # 1 mm tolerance. 0.5 on each side
             shp_sqr = fcfun.shp_box_dir (box_w = sqr_w + 1., # 1mm tolerance

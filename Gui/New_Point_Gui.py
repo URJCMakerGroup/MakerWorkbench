@@ -201,7 +201,7 @@ class Set_axis_TaskPanel:
         button_layout.addWidget(btn_new_axes)
 
         main_layout.addLayout(button_layout)
-        # Conect the button 
+        # Connect the button 
         btn_new_axes.clicked.connect(self.new_axes) 
 
         obj = self.Object.obj_list[self.Object.obj_combo.currentIndex()]
@@ -321,7 +321,7 @@ class Set_points_TaskPanel:
         button_layout.addWidget(btn_new_point)
 
         main_layout.addLayout(button_layout)
-        # Conect the button 
+        # Connect the button 
         btn_new_point.clicked.connect(self.new_point) 
 
     def new_point(self):

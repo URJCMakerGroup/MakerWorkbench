@@ -20,7 +20,7 @@
 import kcomp
 
 # Separation from the end of the linear bearing to the end of the piece
-# on the Heigth dimension (Z)
+# on the Height dimension (Z)
 
 OUT_SEP_H = 2. # Originally 3.
 
