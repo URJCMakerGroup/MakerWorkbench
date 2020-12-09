@@ -6,16 +6,16 @@ This FreeCAD [external workbench](https://wiki.freecadweb.org/External_Workbench
 
 The user can modify these components to customize their own system. This also includes a [Filter Stage](https://github.com/felipe-m/freecad_filter_stage) (see screenshot below)
 
-![filter_stage](https://github.com/davidmubernal/Mechatronic_Documentation/blob/master/parts/img/filter_stage.png)
+![filter_stage](https://github.com/URJCMakerGroup/MakerWorkbench_Documentation/blob/master/parts/img/filter_stage.png)
 
 All the models are parametric, meaning the user can set the dimensions dynamically, generate the preferred placement and the models will scale correctly. There are many models to choose from and create ones own Mechatronic system.
 
-![sk](https://github.com/davidmubernal/Mechatronic_Documentation/blob/master/parts/img/sk08.png)
-![bracket](https://github.com/davidmubernal/Mechatronic_Documentation/blob/master/parts/img/bracket_30x30_m6.png)
-![motor_holder](https://github.com/davidmubernal/Mechatronic_Documentation/blob/master/parts/img/nema17_holder_rail35_8.FCStd.png)
-![bear_house](https://github.com/davidmubernal/Mechatronic_Documentation/blob/master/parts/img/thinlinbearhouse1rail_lm8.png)
-![aluprof](https://github.com/davidmubernal/Mechatronic_Documentation/blob/master/parts/img/Profiles.png)
-![clamp](https://github.com/davidmubernal/Mechatronic_Documentation/blob/master/parts/img/Belt_clamp_simple.png)
+![sk](https://github.com/URJCMakerGroup/MakerWorkbench_Documentation/blob/master/parts/img/sk08.png)
+![bracket](https://github.com/URJCMakerGroup/MakerWorkbench_Documentation/blob/master/parts/img/bracket_30x30_m6.png)
+![motor_holder](https://github.com/URJCMakerGroup/MakerWorkbench_Documentation/blob/master/parts/img/nema17_holder_rail35_8.FCStd.png)
+![bear_house](https://github.com/URJCMakerGroup/MakerWorkbench_Documentation/blob/master/parts/img/thinlinbearhouse1rail_lm8.png)
+![aluprof](https://github.com/URJCMakerGroup/MakerWorkbench_Documentation/blob/master/parts/img/Profiles.png)
+![clamp](https://github.com/URJCMakerGroup/MakerWorkbench_Documentation/blob/master/parts/img/Belt_clamp_simple.png)
 
 You can see the Workbench in action in [YouTube](https://www.youtube.com/playlist?list=PLJAGaIjAPiFIkdTY4OOOegZvmtumLL3OK):
 
@@ -53,7 +53,7 @@ In FreeCAD, go to the `Tools -> Addon manager` dropdown menu and search for **Ma
 
 ##### zip file
 
-* Download Maker Workbench from the following [file](https://codeload.github.com/davidmubernal/Mechatronic/zip/master).
+* Download Maker Workbench from the following [file](https://codeload.github.com/URJCMakerGroup/MakerWorkbench/zip/master).
 * Extract the `MakerWorkbench-master` folder from the `MakerWorkbench.zip` and rename to `Maker` 
 * Put this folder in the `Mod/` folder inside the `FreeCAD` installation folder mentioned above.
 * Start FreeCAD
