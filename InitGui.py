@@ -24,8 +24,8 @@
 #*                                                                         *
 #***************************************************************************/
 
-class MechatronicWorkbench (Workbench):
-    """Mechatronic Wokbench to create objects"""
+class MakerWorkbench (Workbench):
+    """Maker Wokbench to create objects"""
     #Icon in XPM 16x16
     Icon = """
     /* XPM */
@@ -53,8 +53,8 @@ class MechatronicWorkbench (Workbench):
     ".++++++++++++...",
     "................"};
     """
-    MenuText = "Mechatronic"
-    ToolTip = "Mechatronic Workbench"
+    MenuText = "Maker Workbench"
+    ToolTip = "Maker Workbench"
 
     def Initialize(self):
         from PySide import QtCore, QtGui
@@ -88,6 +88,8 @@ class MechatronicWorkbench (Workbench):
         import Gui.ChangePos_Gui
         import Gui.Assembly_Gui
         import Gui.test_Gui
+
+        import Gui.New_Point_Gui
 
         # +-------------------------------+
         # |                               |
@@ -141,7 +143,8 @@ class MechatronicWorkbench (Workbench):
         # +-------------------------------+
 
         modList = ["ChangePosExport",
-                   "Assembly"]#,
+                   "Assembly",
+                   "New_Internal_Point"]#,
                    #"test"]
 
         # +-------------------------------+
@@ -151,13 +154,13 @@ class MechatronicWorkbench (Workbench):
         # +-------------------------------+
 
         self.appendToolbar(
-            str(QtCore.QT_TRANSLATE_NOOP("Mechatronic", "Parts")), partsList)
+            str(QtCore.QT_TRANSLATE_NOOP("Maker", "Parts")), partsList)
         self.appendToolbar(
-            str(QtCore.QT_TRANSLATE_NOOP("Mechatronic", "Optic")), opticList)
+            str(QtCore.QT_TRANSLATE_NOOP("Maker", "Optic")), opticList)
         self.appendToolbar(
-            str(QtCore.QT_TRANSLATE_NOOP("Mechatronic", "Systems")), sysList)
+            str(QtCore.QT_TRANSLATE_NOOP("Maker", "Systems")), sysList)
         self.appendToolbar(
-            str(QtCore.QT_TRANSLATE_NOOP("Mechatronic", "Functions")), modList)
+            str(QtCore.QT_TRANSLATE_NOOP("Maker", "Functions")), modList)
 
         # +-------------------------------+
         # |                               |
@@ -167,18 +170,18 @@ class MechatronicWorkbench (Workbench):
 
 
         self.appendMenu(
-            str(QtCore.QT_TRANSLATE_NOOP("Mechatronic", "Parts")), partsList)
+            str(QtCore.QT_TRANSLATE_NOOP("Maker", "Parts")), partsList)
         self.appendMenu(
-            str(QtCore.QT_TRANSLATE_NOOP("Mechatronic", "Optic")), opticList)
+            str(QtCore.QT_TRANSLATE_NOOP("Maker", "Optic")), opticList)
         self.appendMenu(
-            str(QtCore.QT_TRANSLATE_NOOP("Mechatronic", "Systems")), sysList)
+            str(QtCore.QT_TRANSLATE_NOOP("Maker", "Systems")), sysList)
         self.appendMenu(
-            str(QtCore.QT_TRANSLATE_NOOP("Mechatronic", "Functions")), modList)
+            str(QtCore.QT_TRANSLATE_NOOP("Maker", "Functions")), modList)
         
-        Log ('Loalding Mechatronic Workbench... done! \n')
+        Log ('Loalding Maker Workbench... done! \n')
     
     def GetClassName(self):
         return "Gui::PythonWorkbench"
     
 #Add workbench
-Gui.addWorkbench(MechatronicWorkbench())
+Gui.addWorkbench(MakerWorkbench())
