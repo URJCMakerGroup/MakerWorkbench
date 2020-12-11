@@ -244,7 +244,7 @@ class StopHolder_Dialog:
                 FreeCAD.ActiveDocument.removeObject('Point_d_w_h')
 
         Width = self.StopHolder.Width_Value.value()
-        Heigth = self.StopHolder.Heigth_Value.value()
+        Height = self.StopHolder.Heigth_Value.value()
         Thick = self.StopHolder.Thickness_Value.value()
         Bolt_values = {0: 3,
                        1: 4,
@@ -265,7 +265,7 @@ class StopHolder_Dialog:
         
         if ortonormal_axis(axis_d,axis_w,axis_h) == True:
             hallestop_holder(stp_w = Width,
-                                stp_h = Heigth,
+                                stp_h = Height,
                                 base_thick = Thick,
                                 sup_thick = Thick,
                                 bolt_base_d = Bolt, #metric of the bolt 

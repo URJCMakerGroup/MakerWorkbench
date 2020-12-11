@@ -43,8 +43,8 @@ class Tensioner_TaskPanel:
         self.widget.setWindowTitle("Tensioner options")
         main_layout = QtWidgets.QVBoxLayout(self.widget)
 
-        # ---- Belt High ----
-        self.belt_h_Label = QtWidgets.QLabel("Belt hight:")
+        # ---- Belt Height ----
+        self.belt_h_Label = QtWidgets.QLabel("Belt height:")
         self.belt_h_Value = QtWidgets.QDoubleSpinBox()
         self.belt_h_Value.setValue(20)
         self.belt_h_Value.setSuffix(' mm')

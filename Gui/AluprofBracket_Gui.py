@@ -75,16 +75,16 @@ class AluprofBracket_TaskPanel:
         size_layout_2.addWidget(self.Size_2_Label)
         size_layout_2.addWidget(self.Size_2_ComboBox)
         
-        # ---- Thikness ----
-        self.Thikness_Label = QtWidgets.QLabel("Thikness:")
-        self.Thikness_Value = QtWidgets.QDoubleSpinBox()
-        self.Thikness_Value.setValue(3)
-        self.Thikness_Value.setMinimum(2)
-        self.Thikness_Value.setSuffix(' mm')
+        # ---- Thickness ----
+        self.Thickness_Label = QtWidgets.QLabel("Thickness:")
+        self.Thickness_Value = QtWidgets.QDoubleSpinBox()
+        self.Thickness_Value.setValue(3)
+        self.Thickness_Value.setMinimum(2)
+        self.Thickness_Value.setSuffix(' mm')
 
-        thikness_layout = QtWidgets.QHBoxLayout()
-        thikness_layout.addWidget(self.Thikness_Label)
-        thikness_layout.addWidget(self.Thikness_Value)
+        thickness_layout = QtWidgets.QHBoxLayout()
+        thickness_layout.addWidget(self.Thickness_Label)
+        thickness_layout.addWidget(self.Thickness_Value)
         
         # ---- Nut profile line 1 ----
         self.Nut_Profile_1_Label = QtWidgets.QLabel("Size of Nut first profile :")
@@ -139,7 +139,7 @@ class AluprofBracket_TaskPanel:
         # ---- Sunk ----
         self.Sunk_Label = QtWidgets.QLabel("Sunk:")
         self.Sunk_ComboBox = QtWidgets.QComboBox()
-        Sunk_Text = ["Hole fot Nut","Without center","Withput reinforce"]
+        Sunk_Text = ["Hole for Nut","Without center","Without reinforce"]
         self.Sunk_ComboBox.addItems(Sunk_Text)
         self.Sunk_ComboBox.setCurrentIndex(0)
         
@@ -297,7 +297,7 @@ class AluprofBracket_TaskPanel:
         main_layout.addLayout(type_layout)
         main_layout.addLayout(size_layout_1)
         main_layout.addLayout(size_layout_2)
-        main_layout.addLayout(thikness_layout)
+        main_layout.addLayout(thickness_layout)
         main_layout.addLayout(nut_layout_1)
         main_layout.addLayout(nut_layout_2)
         main_layout.addLayout(dist_nut_layout)
@@ -351,7 +351,7 @@ class AluprofBracket_Dialog:
         Sunk_values = {0:0, 1:1, 2:2}
         Size_1 = Size[self.AluprofBracket.Size_1_ComboBox.currentIndex()]
         Size_2 = Size[self.AluprofBracket.Size_2_ComboBox.currentIndex()]
-        Thikness = self.AluprofBracket.Thikness_Value.value()
+        Thickness = self.AluprofBracket.Thickness_Value.value()
         Nut_Prof_1 = NUT[self.AluprofBracket.Nut_Profile_1_ComboBox.currentIndex()]
         Nut_Prof_2 = NUT[self.AluprofBracket.Nut_Profile_2_ComboBox.currentIndex()]
         NumberNut = 1+self.AluprofBracket.N_Nut_ComboBox.currentIndex()
@@ -367,8 +367,8 @@ class AluprofBracket_Dialog:
             if self.Type == 0:
                 Reinforce = self.AluprofBracket.Reinforce_ComboBox.currentIndex()
                 AluProfBracketPerp(alusize_lin = Size_1, alusize_perp = Size_2, #cambiar a combobox
-                                    br_perp_thick = Thikness,
-                                    br_lin_thick = Thikness,
+                                    br_perp_thick = Thickness,
+                                    br_lin_thick = Thickness,
                                     bolt_lin_d = Nut_Prof_1,
                                     bolt_perp_d = Nut_Prof_2,
                                     nbolts_lin = NumberNut,
@@ -385,8 +385,8 @@ class AluprofBracket_Dialog:
             elif self.Type == 1:
                 Flap = self.AluprofBracket.Flap_ComboBox.currentIndex()
                 AluProfBracketPerpFlap(alusize_lin = Size_1, alusize_perp = Size_2,
-                                        br_perp_thick = Thikness,
-                                        br_lin_thick = Thikness,
+                                        br_perp_thick = Thickness,
+                                        br_lin_thick = Thickness,
                                         bolt_lin_d = Nut_Prof_1,
                                         bolt_perp_d = Nut_Prof_2,
                                         nbolts_lin = NumberNut,
@@ -404,8 +404,8 @@ class AluprofBracket_Dialog:
                 Dis_Prof = self.AluprofBracket.Dist_Prof_Value.value()
                 AluProfBracketPerpTwin(alusize_lin = Size_1, alusize_perp = Size_2,
                                         alu_sep = Dis_Prof,
-                                        br_perp_thick = Thikness,
-                                        br_lin_thick = Thikness,
+                                        br_perp_thick = Thickness,
+                                        br_lin_thick = Thickness,
                                         bolt_lin_d = Nut_Prof_1,
                                         bolt_perp_d = Nut_Prof_2,
                                         nbolts_lin = NumberNut,
