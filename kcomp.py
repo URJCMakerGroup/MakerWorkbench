@@ -849,7 +849,7 @@ SCE20UU_Pr30 = {    # to print with 30x30 profiles sep_l = 60
         }
 
 SCE20UU_Pr30b = {    # to print with 30x30 profiles sep_l = 30
-        'L'          : 53.,
+        'L'          : 58., # changed from 53 to 58, bearing limit was too thin
         'W'          : 54.,
         'H'          : 41.,
         'axis_h'     : 21.,
