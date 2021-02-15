@@ -34,7 +34,7 @@ class _Aluproft_Cmd:
             '',
             '')
         return {
-            'Pixmap': __dir__ + '/../icons/Aluproft_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_Aluproft_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

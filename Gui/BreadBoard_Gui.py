@@ -32,7 +32,7 @@ class _BreadBoard_Cmd:
             '',
             '')
         return {
-            'Pixmap': __dir__ + '/../icons/BreadBoard_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_BreadBoard_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

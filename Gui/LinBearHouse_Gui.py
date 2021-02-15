@@ -31,7 +31,7 @@ class _LinBearHouse_Cmd:
             'Linear Bear House',
             'Creates a Linear Bear House')
         return {
-            'Pixmap': __dir__ + '/../icons/Thin_Linear_Bear_House_1Rail_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_LinBearHouse_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

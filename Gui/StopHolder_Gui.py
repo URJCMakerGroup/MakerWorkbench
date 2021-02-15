@@ -29,7 +29,7 @@ class _StopHolder_Cmd:
             'Stop Holder',
             'Creates Stop Holder with set parametres')
         return {
-            'Pixmap': __dir__ + '/../icons/Stop_Holder.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_Stop_Holder_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
 

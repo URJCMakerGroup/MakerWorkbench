@@ -31,7 +31,7 @@ class _FilterStage_Cmd:
             'Filter_Stage',
             'Creates a Filter Stage with set parametres')
         return {
-            'Pixmap': __dir__ + '/../icons/Filter_Stage_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_FilterStage_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
 

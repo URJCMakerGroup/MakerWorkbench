@@ -26,7 +26,7 @@ class _New_Point_Cmd:
             '',
             '')
         return {
-            'Pixmap': __dir__ + '',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_New_Point_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

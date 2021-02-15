@@ -29,7 +29,7 @@ class _MotorHolder_Cmd:
             'Motor Holder',
             'Creates a Motor Holder')
         return {
-            'Pixmap': __dir__ + '/../icons/Motor_Holder_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_MotorHolder_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

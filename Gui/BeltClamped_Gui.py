@@ -31,7 +31,7 @@ class _BeltClamped_Cmd:
             '',
             'Creates a belt clamped')
         return {
-            'Pixmap': __dir__ + '/icons/Belt_Clamped_cmd.svg',
+            'Pixmap': __dir__ + '/Resources/icons/MakerWorkbench_BeltClamped_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

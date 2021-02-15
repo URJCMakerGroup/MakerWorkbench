@@ -29,7 +29,7 @@ class _BeltClamp_Cmd:
             '',
             'Creates a belt clamp')
         return {
-            'Pixmap': __dir__ + '/../icons/Double_Belt_Clamp_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_BeltClamp_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

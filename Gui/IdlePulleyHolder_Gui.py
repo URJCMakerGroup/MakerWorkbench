@@ -29,7 +29,7 @@ class _IdlePulleyHolder_Cmd:
             'Idle Pulley Holder',
             'Create an Idle Pulley Holder')
         return {
-            'Pixmap': __dir__ + '/../icons/IdlePulleyHolder_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_IdlePulleyHolder_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
 

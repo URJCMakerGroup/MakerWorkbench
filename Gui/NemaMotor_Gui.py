@@ -29,7 +29,7 @@ class _NemaMotor_Cmd:
             'Nema Motor',
             'Creates a Motor')
         return {
-            'Pixmap': __dir__ + '/../icons/NemaMotor_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_NemaMotor_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

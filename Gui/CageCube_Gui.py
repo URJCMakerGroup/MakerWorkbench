@@ -31,7 +31,7 @@ class _CageCube_Cmd:
             '',
             '')
         return {
-            'Pixmap': __dir__ + '/../icons/CageCube_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_CageCube_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

@@ -30,7 +30,7 @@ class _SkDir_Cmd:
             'Sk',
             'Create a Sk')
         return {
-            'Pixmap': __dir__ + '/../icons/Sk_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_SkDir_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     
