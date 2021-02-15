@@ -29,7 +29,7 @@ class _SensorHolder_Cmd:
             '',
             'Creates a sensor holder')
         return {
-            'Pixmap': __dir__ + '/../icons/Sensor_holder_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_SensorHolder_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

@@ -31,7 +31,7 @@ class _Plate_Cmd:
             '',
             '')
         return {
-            'Pixmap': __dir__ + '/../icons/Plate_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_Plate_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

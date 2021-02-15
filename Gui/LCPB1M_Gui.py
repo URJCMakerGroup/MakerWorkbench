@@ -34,7 +34,7 @@ class _Lcpb1mBase_Cmd:
             '',
             '')
         return {
-            'Pixmap': __dir__ + '/../icons/Lcpb1mBase_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_Lcpb1mBase_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

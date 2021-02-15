@@ -1,3 +1,20 @@
+# ----------------------------------------------------------------------------
+# -- Components
+# -- comps library
+# -- Python classes that creates useful parts for FreeCAD
+# ----------------------------------------------------------------------------
+# -- (c) Felipe Machado
+# -- Area of Electronics. Rey Juan Carlos University (urjc.es)
+# -- October-2016
+# ----------------------------------------------------------------------------
+# -- (c) David Muñoz
+# -- Update
+# -- Area of Electronics. Rey Juan Carlos University (urjc.es)
+# -- February-2021
+# ----------------------------------------------------------------------------
+# --- LGPL Licence
+# ----------------------------------------------------------------------------
+
 import FreeCAD
 import Part
 import DraftVecUtils

@@ -21,7 +21,7 @@ class _ChangePosExport_Cmd:
             '',
             'Object selected changes to print position and it is exported in .stl')
         return {
-            'Pixmap': __dir__ + '/../icons/Print_Export_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_ChangePosExport_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

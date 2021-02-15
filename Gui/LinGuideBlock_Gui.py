@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 maxnum =  1e10000
 minnum = -1e10000
 
-class _LinGuideBlockCmd:
+class _LinGuideBlock_Cmd:
     """
     This class create Linear Guide Block
     """
@@ -34,7 +34,7 @@ class _LinGuideBlockCmd:
             '',
             '')
         return {
-            'Pixmap': __dir__ + '/../icons/LinGuideBlock_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_LinGuideBlockCmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):
@@ -291,4 +291,4 @@ class LinGuideBlock_Dialog:
             except Exception: None
 
 # Command
-FreeCADGui.addCommand('Linear_Guide_Block',_LinGuideBlockCmd())
+FreeCADGui.addCommand('Linear_Guide_Block',_LinGuideBlock_Cmd())

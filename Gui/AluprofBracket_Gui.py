@@ -28,7 +28,7 @@ class _AluprofBracket_Cmd:
             'Aluprof Bracket',
             'Create an Aluprof Bracket')
         return {
-            'Pixmap': __dir__ + '/../icons/AluprofBracket_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_AluprofBracket_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     

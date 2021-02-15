@@ -30,7 +30,7 @@ class _PrizLed_Cmd:
             '',
             '')
         return {
-            'Pixmap': __dir__ + '/../icons/PrizLed_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_PrizLed_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

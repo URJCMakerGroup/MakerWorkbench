@@ -31,7 +31,7 @@ class _Tensioner_Cmd:
             'Tensioner',
             'Creates a Tensioner')
         return {
-            'Pixmap': __dir__ + '/../icons/Tensioner_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_Tensioner_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

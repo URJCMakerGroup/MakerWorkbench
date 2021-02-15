@@ -30,7 +30,7 @@ class _ThLed30_Cmd:
             '',
             '')
         return {
-            'Pixmap': __dir__ + '/../icons/ThLed30_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_ThLed30_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):

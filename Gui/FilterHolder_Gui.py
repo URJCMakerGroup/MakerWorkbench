@@ -30,7 +30,7 @@ class _FilterHolder_Cmd:
             '',
             'Creates a Filter Holder')
         return {
-            'Pixmap': __dir__ + '/../icons/Filter_Holder_cmd.svg',
+            'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_FilterHolder_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
     def IsActive(self):
