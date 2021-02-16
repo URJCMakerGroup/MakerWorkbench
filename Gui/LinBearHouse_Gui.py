@@ -46,9 +46,10 @@ class LinBearHouse_TaskPanel:
         # ---- Version ----
         self.LinBearHouse_Label = QtWidgets.QLabel("Select Bear House:")
         self.LinBearHouse_ComboBox = QtWidgets.QComboBox()
-        self.LinBearHouse_text = ["Thin 1 rail", "Thin","Normal (only SC type)","Asimetric"]
+        self.LinBearHouse_text = ["Thin 1 rail", "Thin","Normal","Asimetric"]
         self.LinBearHouse_ComboBox.addItems(self.LinBearHouse_text)
         self.LinBearHouse_ComboBox.setCurrentIndex(0)
+        self.LinBearHouse_ComboBox.currentTextChanged.connect(self.set_type)
 
         version_layout = QtWidgets.QHBoxLayout()
         version_layout.addWidget(self.LinBearHouse_Label)
@@ -57,7 +58,7 @@ class LinBearHouse_TaskPanel:
         # ---- Type ----
         self.Type_Label = QtWidgets.QLabel("Type:")
         self.Type_ComboBox = QtWidgets.QComboBox()
-        self.Type_text = ["LMUU 6","LMUU 8","LMUU 10","LMUU 12","LMUU 20","LMEUU 8","LMEUU 10","LMEUU12","LMELUU 12","LMEUU 20","SC8UU_Pr","SC10UU_Pr","SC12UU_Pr","SCE20UU_Pr30","SCE20UU_Pr30b"]
+        self.Type_text = ["LMUU 6","LMUU 8","LMUU 10","LMUU 12","LMUU 20","LMEUU 8","LMEUU 10","LMEUU12","LMELUU 12","LMEUU 20"]
         self.Type_ComboBox.addItems(self.Type_text)
         self.Type_ComboBox.setCurrentIndex(1)
 
@@ -184,6 +185,18 @@ class LinBearHouse_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+    def set_type(self):
+        self.Type_ComboBox.clear()
+        t = self.LinBearHouse_text[self.LinBearHouse_ComboBox.currentIndex()]
+        if t == "Normal":
+            text = ["SC8UU_Pr","SC10UU_Pr","SC12UU_Pr","SCE20UU_Pr30","SCE20UU_Pr30b"]
+            self.Type_ComboBox.addItems(text)
+        else:
+            text = ["LMUU 6","LMUU 8","LMUU 10","LMUU 12","LMUU 20","LMEUU 8","LMEUU 10","LMEUU12","LMELUU 12","LMEUU 20"]
+            self.Type_ComboBox.addItems(text)
+
+
+
 class LinBearHouse_Dialog:
     def __init__(self):
         self.placement = True
@@ -212,14 +225,15 @@ class LinBearHouse_Dialog:
                        6:kcomp.LME10UU,
                        7:kcomp.LME12UU,
                        8:kcomp.LME12LUU,
-                       9:kcomp.LME20UU,
-                       10:kcomp.SC8UU_Pr,
-                       11:kcomp.SC10UU_Pr,
-                       12:kcomp.SC12UU_Pr,
-                       13:kcomp.SCE20UU_Pr30,
-                       14:kcomp.SCE20UU_Pr30b }
+                       9:kcomp.LME20UU}
 
-        LinBearHouse = self.LinBearHouse.LinBearHouse_ComboBox.currentIndex()
+        Version = self.LinBearHouse.LinBearHouse_ComboBox.currentIndex()
+        if Version == 2:
+            Type_values = {0:kcomp.SC8UU_Pr,
+                           1:kcomp.SC10UU_Pr,
+                           2:kcomp.SC12UU_Pr,
+                           3:kcomp.SCE20UU_Pr30,
+                           4:kcomp.SCE20UU_Pr30b }
         Type = Type_values[self.LinBearHouse.Type_ComboBox.currentIndex()]
         pos = FreeCAD.Vector(self.LinBearHouse.pos_x.value(), self.LinBearHouse.pos_y.value(), self.LinBearHouse.pos_z.value())
         axis_d = FreeCAD.Vector(self.LinBearHouse.axis_d_x.value(),self.LinBearHouse.axis_d_y.value(),self.LinBearHouse.axis_d_z.value())
@@ -227,7 +241,7 @@ class LinBearHouse_Dialog:
         axis_h = FreeCAD.Vector(self.LinBearHouse.axis_h_x.value(),self.LinBearHouse.axis_h_y.value(),self.LinBearHouse.axis_h_z.value())
         
         if ortonormal_axis(axis_d,axis_w,axis_h) == True:
-            if LinBearHouse == 0:
+            if Version == 0:
                 ThinLinBearHouse1rail(d_lbear = Type,
                                             fc_slide_axis = axis_d, #VX
                                             fc_bot_axis =axis_h, #VZN
@@ -235,7 +249,7 @@ class LinBearHouse_Dialog:
                                             mid_center  = 1,
                                             pos = pos,
                                             name = 'thinlinbearhouse1rail')
-            elif LinBearHouse == 1:
+            elif Version == 1:
                 ThinLinBearHouse(d_lbear = Type,
                                     fc_slide_axis = axis_d, #VX
                                     fc_bot_axis =axis_h, #VZN
@@ -247,7 +261,7 @@ class LinBearHouse_Dialog:
                                     bolt_center  = 0,
                                     pos = pos,
                                     name = 'thinlinbearhouse')
-            elif LinBearHouse == 2:
+            elif Version == 2:
                 LinBearHouse(d_lbearhousing = Type, #SC only
                                 fc_slide_axis = axis_d, #VX
                                 fc_bot_axis =axis_h, #VZN
@@ -256,7 +270,7 @@ class LinBearHouse_Dialog:
                                 pos = pos,
                                 name = 'linbearhouse')
 
-            else:
+            elif Version == 3:
                 ThinLinBearHouseAsim(d_lbear = Type,
                                         fc_fro_ax = axis_d,
                                         fc_bot_ax = axis_h,
@@ -270,7 +284,8 @@ class LinBearHouse_Dialog:
                                         bolt2cen_wid_p = 0,
                                         pos = pos,
                                         name = 'thinlinbearhouse_asim')
-
+            else:
+                print("Error, not correct version")
 
             FreeCADGui.activeDocument().activeView().viewAxonometric()
             FreeCADGui.Control.closeDialog() #close the dialog
