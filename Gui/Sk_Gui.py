@@ -1,12 +1,10 @@
-import PySide2
 from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
 import os
 import FreeCAD
 import FreeCADGui
 import logging
 
-from comps import Sk_dir
-import comps_new
+from comps_new import SkDir
 from Gui.Advance_Placement_Gui import Advance_Placement_TaskPanel
 from Gui.function_Gui import set_place, ortonormal_axis
 
@@ -15,8 +13,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _SkDir_Cmd:
     def Activated(self):
@@ -37,6 +36,7 @@ class _SkDir_Cmd:
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None
 
+
 class Sk_Dir_TaskPanel:
     def __init__(self):
         self.widget = QtWidgets.QWidget()
@@ -47,7 +47,7 @@ class Sk_Dir_TaskPanel:
         # ---- Size ----
         self.Size_Label = QtWidgets.QLabel("Size:")
         self.Size_ComboBox = QtWidgets.QComboBox()
-        self.Size_text = ["6","8","10","12"]
+        self.Size_text = ["6", "8", "10", "12"]
         self.Size_ComboBox.addItems(self.Size_text)
         self.Size_ComboBox.setCurrentIndex(0)
         size_layout = QtWidgets.QHBoxLayout()
@@ -57,17 +57,17 @@ class Sk_Dir_TaskPanel:
         # ---- Pillow ----
         self.Pillow_Label = QtWidgets.QLabel("Pillow:")
         self.Pillow_ComboBox = QtWidgets.QComboBox()
-        self.V_Pillow = ["No","Yes"]
+        self.V_Pillow = ["No", "Yes"]
         self.Pillow_ComboBox.addItems(self.V_Pillow)
         self.Pillow_ComboBox.setCurrentIndex(self.V_Pillow.index('No'))
         if self.Size_ComboBox.currentText() == "8":
             self.Pillow_ComboBox.setEnabled(True)
-        else:self.Pillow_ComboBox.setEnabled(False)
+        else:
+            self.Pillow_ComboBox.setEnabled(False)
 
         pillow_layout = QtWidgets.QHBoxLayout()
         pillow_layout.addWidget(self.Pillow_Label)
         pillow_layout.addWidget(self.Pillow_ComboBox)
-
 
         # ---- Placement ----
         self.Label_position = QtWidgets.QLabel("Placement ")
@@ -87,7 +87,6 @@ class Sk_Dir_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-
 
         placement_layout = QtWidgets.QHBoxLayout()
 
@@ -109,7 +108,7 @@ class Sk_Dir_TaskPanel:
         # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
         self.pos_d = QtWidgets.QComboBox()
-        self.pos_d.addItems(['0','1'])
+        self.pos_d.addItems(['0', '1'])
         self.pos_d.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_d)
@@ -118,7 +117,7 @@ class Sk_Dir_TaskPanel:
         # w :
         self.Label_pos_w = QtWidgets.QLabel("in w:")
         self.pos_w = QtWidgets.QComboBox()
-        self.pos_w.addItems(['-1','0','1'])
+        self.pos_w.addItems(['-1', '0', '1'])
         self.pos_w.setCurrentIndex(1)
 
         placement_layout_2.addWidget(self.Label_pos_w)
@@ -127,7 +126,7 @@ class Sk_Dir_TaskPanel:
         # h :
         self.Label_pos_h = QtWidgets.QLabel("in h:")
         self.pos_h = QtWidgets.QComboBox()
-        self.pos_h.addItems(['0','1'])
+        self.pos_h.addItems(['0', '1'])
         self.pos_h.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_h)
@@ -223,6 +222,7 @@ class Sk_Dir_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+
 class SK_Dialog:
     def __init__(self):
         self.placement = True
@@ -235,51 +235,57 @@ class SK_Dialog:
         self.Sk.Size_ComboBox.currentTextChanged.connect(self.change_layout)
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
                 FreeCAD.ActiveDocument.removeObject('Point_d_w_h')
 
-        Size_Value = {0:6, 1:8, 2:10, 3:12}
+        Size_Value = {0: 6, 1: 8, 2: 10, 3: 12}
         Values_Pillow = {0: 0, 1: 1}
         TOL_Value = {0: 0.4, 1: 0.7}
         Size = Size_Value[self.Sk.Size_ComboBox.currentIndex()]
         Pillow = Values_Pillow[self.Sk.Pillow_ComboBox.currentIndex()]
         Tol = TOL_Value[self.Sk.Pillow_ComboBox.currentIndex()]
         pos = FreeCAD.Vector(self.Sk.pos_x.value(), self.Sk.pos_y.value(), self.Sk.pos_z.value())
-        positions_d = [0,1]
-        positions_w = [-1,0,1]
-        positions_h = [0,1]
+        positions_d = [0, 1]
+        positions_w = [-1, 0, 1]
+        positions_h = [0, 1]
         pos_d = positions_d[self.Sk.pos_d.currentIndex()]
         pos_w = positions_w[self.Sk.pos_w.currentIndex()]
         pos_h = positions_h[self.Sk.pos_h.currentIndex()]
-        axis_d = FreeCAD.Vector(self.Sk.axis_d_x.value(),self.Sk.axis_d_y.value(),self.Sk.axis_d_z.value())
-        axis_w = FreeCAD.Vector(self.Sk.axis_w_x.value(),self.Sk.axis_w_y.value(),self.Sk.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.Sk.axis_h_x.value(),self.Sk.axis_h_y.value(),self.Sk.axis_h_z.value())
+        axis_d = FreeCAD.Vector(self.Sk.axis_d_x.value(),
+                                self.Sk.axis_d_y.value(),
+                                self.Sk.axis_d_z.value())
+        axis_w = FreeCAD.Vector(self.Sk.axis_w_x.value(),
+                                self.Sk.axis_w_y.value(),
+                                self.Sk.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.Sk.axis_h_x.value(),
+                                self.Sk.axis_h_y.value(),
+                                self.Sk.axis_h_z.value())
         
-        if ortonormal_axis(axis_d,axis_w,axis_h) == True:
-            if Pillow == 0 or (Pillow == 1 and Size == 8): # Pillow only exist for size 8.
+        if ortonormal_axis(axis_d, axis_w, axis_h) is True:
+            if Pillow == 0 or (Pillow == 1 and Size == 8):  # Pillow only exist for size 8.
                 
-                comps_new.Sk_dir(size = Size,
-                                fc_axis_h = axis_h,
-                                fc_axis_d = axis_d,
-                                fc_axis_w = axis_w,
-                                pos_h = pos_h,
-                                pos_w = pos_w,
-                                pos_d = pos_d,
-                                pillow = Pillow,
-                                pos = pos,
-                                tol = Tol,#0.7, # for the pillow block
-                                wfco = 1,
-                                name= "shaft" + str(Size) + "_holder")
+                SkDir(size=Size,
+                      fc_axis_h=axis_h,
+                      fc_axis_d=axis_d,
+                      fc_axis_w=axis_w,
+                      pos_h=pos_h,
+                      pos_w=pos_w,
+                      pos_d=pos_d,
+                      pillow=Pillow,
+                      pos=pos,
+                      tol=Tol,  # 0.7, # for the pillow block
+                      wfco=1,
+                      name="shaft" + str(Size) + "_holder")
 
-                FreeCADGui.activeDocument().activeView().viewAxonometric() #Axonometric view
-                FreeCADGui.SendMsgToActiveView("ViewFit") #Fit the view to the object
-                FreeCADGui.Control.closeDialog() #close the dialog
+                FreeCADGui.activeDocument().activeView().viewAxonometric()  # Axonometric view
+                FreeCADGui.SendMsgToActiveView("ViewFit")  # Fit the view to the object
+                FreeCADGui.Control.closeDialog()  # close the dialog
 
             elif Pillow == 1 and Size != 8:
                 message = QtWidgets.QMessageBox()
@@ -290,7 +296,7 @@ class SK_Dialog:
         # else: axis_message 
         
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -298,36 +304,45 @@ class SK_Dialog:
                 
         FreeCADGui.Control.closeDialog()
 
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
 
-        if self.placement == True:
-            set_place(self.Sk, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.Sk,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.Sk,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.Sk, pos.x, pos.y, pos.z)
+            except Exception:
+                None
 
     def change_layout(self):
         if self.Sk.Size_ComboBox.currentText() == "8":
             self.Sk.Pillow_ComboBox.setEnabled(True)
-        else: self.Sk.Pillow_ComboBox.setEnabled(False)
-    
+        else:
+            self.Sk.Pillow_ComboBox.setEnabled(False)
+
+
 # Command
-FreeCADGui.addCommand('Sk',_SkDir_Cmd())
+FreeCADGui.addCommand('Sk', _SkDir_Cmd())

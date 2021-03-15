@@ -1,4 +1,3 @@
-import PySide2
 from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
 import os
 import FreeCAD
@@ -13,8 +12,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _MotorHolder_Cmd:
     
@@ -32,8 +32,10 @@ class _MotorHolder_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_MotorHolder_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None
+
 
 class MotorHolder_TaskPanel:
     def __init__(self):
@@ -44,7 +46,7 @@ class MotorHolder_TaskPanel:
         # ---- Size Holder ----
         self.Size_Holder_Label = QtWidgets.QLabel("Size")
         self.ComboBox_Size_Holder = QtWidgets.QComboBox()
-        self.TextSizeHolder = ["8","11","14","17","23","34","42"]
+        self.TextSizeHolder = ["8", "11", "14", "17", "23", "34", "42"]
         self.ComboBox_Size_Holder.addItems(self.TextSizeHolder)
         self.ComboBox_Size_Holder.setCurrentIndex(self.TextSizeHolder.index('11'))
 
@@ -108,7 +110,7 @@ class MotorHolder_TaskPanel:
         # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
         self.pos_d = QtWidgets.QComboBox()
-        self.pos_d.addItems(['0','1','2','3','4','5'])
+        self.pos_d.addItems(['0', '1', '2', '3', '4', '5'])
         self.pos_d.setCurrentIndex(3)
 
         placement_layout_2.addWidget(self.Label_pos_d)
@@ -117,7 +119,7 @@ class MotorHolder_TaskPanel:
         # w :
         self.Label_pos_w = QtWidgets.QLabel("in w:")
         self.pos_w = QtWidgets.QComboBox()
-        self.pos_w.addItems(['0','1','2','3'])
+        self.pos_w.addItems(['0', '1', '2', '3'])
         self.pos_w.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_w)
@@ -126,7 +128,7 @@ class MotorHolder_TaskPanel:
         # h :
         self.Label_pos_h = QtWidgets.QLabel("in h:")
         self.pos_h = QtWidgets.QComboBox()
-        self.pos_h.addItems(['0','1','2','3','4'])
+        self.pos_h.addItems(['0', '1', '2', '3', '4'])
         self.pos_h.setCurrentIndex(1)
 
         placement_layout_2.addWidget(self.Label_pos_h)
@@ -224,6 +226,7 @@ class MotorHolder_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+
 class MotorHolder_Dialog:
     def __init__(self):
         self.placement = True
@@ -234,56 +237,64 @@ class MotorHolder_Dialog:
         self.form = [self.MotorHolder.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
                 FreeCAD.ActiveDocument.removeObject('Point_d_w_h')
 
-        SizeHolder = {0:8, 1:11, 2:14, 3:17, 4:23, 5:34, 6:42}
+        SizeHolder = {0: 8, 1: 11, 2: 14, 3: 17, 4: 23, 5: 34, 6: 42}
         self.size_motor = SizeHolder[self.MotorHolder.ComboBox_Size_Holder.currentIndex()]
-        h_motor=self.MotorHolder.motor_high_Value.value()
+        h_motor = self.MotorHolder.motor_high_Value.value()
         Thickness = self.MotorHolder.Thickness_Value.value()
-        pos = FreeCAD.Vector(self.MotorHolder.pos_x.value(), self.MotorHolder.pos_y.value(), self.MotorHolder.pos_z.value())
+        pos = FreeCAD.Vector(self.MotorHolder.pos_x.value(),
+                             self.MotorHolder.pos_y.value(),
+                             self.MotorHolder.pos_z.value())
         pos_h = self.MotorHolder.pos_h.currentIndex()
         pos_d = self.MotorHolder.pos_d.currentIndex()
         pos_w = self.MotorHolder.pos_w.currentIndex()
-        axis_d = FreeCAD.Vector(self.MotorHolder.axis_d_x.value(),self.MotorHolder.axis_d_y.value(),self.MotorHolder.axis_d_z.value())
-        axis_w = FreeCAD.Vector(self.MotorHolder.axis_w_x.value(),self.MotorHolder.axis_w_y.value(),self.MotorHolder.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.MotorHolder.axis_h_x.value(),self.MotorHolder.axis_h_y.value(),self.MotorHolder.axis_h_z.value())
+        axis_d = FreeCAD.Vector(self.MotorHolder.axis_d_x.value(),
+                                self.MotorHolder.axis_d_y.value(),
+                                self.MotorHolder.axis_d_z.value())
+        axis_w = FreeCAD.Vector(self.MotorHolder.axis_w_x.value(),
+                                self.MotorHolder.axis_w_y.value(),
+                                self.MotorHolder.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.MotorHolder.axis_h_x.value(),
+                                self.MotorHolder.axis_h_y.value(),
+                                self.MotorHolder.axis_h_z.value())
 
-        if ortonormal_axis(axis_d,axis_w,axis_h) == True:
+        if ortonormal_axis(axis_d, axis_w, axis_h) is True:
 
-            NemaMotorHolder(nema_size = self.size_motor,
-                            wall_thick = Thickness,
-                            motorside_thick = Thickness,
-                            reinf_thick = Thickness,
-                            motor_min_h =10.,
-                            motor_max_h = h_motor,
-                            rail = 1, # if there is a rail or not at the profile side
-                            motor_xtr_space = 2., # counting on one side
-                            bolt_wall_d = 4., # Metric of the wall bolts
-                            bolt_wall_sep = 0., # optional   30
-                            chmf_r = 1.,
-                            axis_h = axis_h,
-                            axis_d = axis_d,
-                            axis_w = axis_w,
-                            pos_h = pos_h,
-                            pos_d = pos_d,
-                            pos_w = pos_w,
-                            pos = pos,
-                            model_type = 3,
-                            name = 'nema_holder')
+            NemaMotorHolder(nema_size=self.size_motor,
+                            wall_thick=Thickness,
+                            motorside_thick=Thickness,
+                            reinf_thick=Thickness,
+                            motor_min_h=0.,
+                            motor_max_h=h_motor,
+                            rail=1,  # if there is a rail or not at the profile side
+                            motor_xtr_space=2.,  # counting on one side
+                            bolt_wall_d=4.,  # Metric of the wall bolts
+                            bolt_wall_sep=0.,  # optional   30
+                            chmf_r=1.,
+                            axis_h=axis_h,
+                            axis_d=axis_d,
+                            axis_w=axis_w,
+                            pos_h=pos_h,
+                            pos_d=pos_d,
+                            pos_w=pos_w,
+                            pos=pos,
+                            model_type=3,
+                            name='nema_holder')
 
             FreeCADGui.activeDocument().activeView().viewAxonometric()
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.Control.closeDialog()  # close the dialog
             FreeCADGui.SendMsgToActiveView("ViewFit")
     
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -291,32 +302,40 @@ class MotorHolder_Dialog:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.MotorHolder, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
+        if self.placement is True:
+            set_place(self.MotorHolder,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
 
-        else: pass
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.MotorHolder,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.MotorHolder, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('Motor_Holder',_MotorHolder_Cmd())
+FreeCADGui.addCommand('Motor_Holder', _MotorHolder_Cmd())

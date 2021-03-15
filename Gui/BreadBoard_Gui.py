@@ -17,8 +17,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _BreadBoard_Cmd:
     def Activated(self):
@@ -35,8 +36,10 @@ class _BreadBoard_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_BreadBoard_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None 
+
 
 class BreadBoard_TaskPanel:
     def __init__(self):
@@ -172,6 +175,7 @@ class BreadBoard_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+
 class BreadBoard_Dialog:
     def __init__(self):
         self.placement = True
@@ -182,10 +186,10 @@ class BreadBoard_Dialog:
         self.form = [self.BreadBoard.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -193,30 +197,36 @@ class BreadBoard_Dialog:
 
         length = self.BreadBoard.len.value()
         width = self.BreadBoard.wid.value()
-        pos = FreeCAD.Vector(self.BreadBoard.pos_x.value(), self.BreadBoard.pos_y.value(), self.BreadBoard.pos_z.value())
-        axis_w = FreeCAD.Vector(self.BreadBoard.axis_w_x.value(),self.BreadBoard.axis_w_y.value(),self.BreadBoard.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.BreadBoard.axis_h_x.value(),self.BreadBoard.axis_h_y.value(),self.BreadBoard.axis_h_z.value())
+        pos = FreeCAD.Vector(self.BreadBoard.pos_x.value(),
+                             self.BreadBoard.pos_y.value(),
+                             self.BreadBoard.pos_z.value())
+        axis_w = FreeCAD.Vector(self.BreadBoard.axis_w_x.value(),
+                                self.BreadBoard.axis_w_y.value(),
+                                self.BreadBoard.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.BreadBoard.axis_h_x.value(),
+                                self.BreadBoard.axis_h_y.value(),
+                                self.BreadBoard.axis_h_z.value())
         
-        if fc_isperp(axis_w,axis_h) == 1:
+        if fc_isperp(axis_w, axis_h) == 1:
             f_breadboard(kcomp_optic.BREAD_BOARD_M,
-                                    length,
-                                    width,
-                                    cl = 1,
-                                    cw = 1,
-                                    ch = 1,
-                                    fc_dir_h = axis_h ,#VZ,
-                                    fc_dir_w = axis_w ,#VY,
-                                    pos = pos,
-                                    name = 'breadboard')
+                         length,
+                         width,
+                         cl=1,
+                         cw=1,
+                         ch=1,
+                         fc_dir_h=axis_h,  # VZ,
+                         fc_dir_w=axis_w,  # VY,
+                         pos=pos,
+                         name='breadboard')
             
             FreeCADGui.activeDocument().activeView().viewAxonometric()
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.Control.closeDialog()  # close the dialog
             FreeCADGui.SendMsgToActiveView("ViewFit")
         else:
             axis_message()
 
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -224,31 +234,39 @@ class BreadBoard_Dialog:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.BreadBoard, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.BreadBoard,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.BreadBoard,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.BreadBoard, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('BreadBoard',_BreadBoard_Cmd())
+FreeCADGui.addCommand('BreadBoard', _BreadBoard_Cmd())

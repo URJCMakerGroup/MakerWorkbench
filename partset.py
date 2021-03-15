@@ -20,19 +20,21 @@ import Draft
 import DraftGeomUtils
 import DraftVecUtils
 import math
-#import copy;
-#import Mesh;
+
+# import copy;
+# import Mesh;
 
 # ---------------------- can be taken away after debugging
 # directory this file is
 filepath = os.getcwd()
 import sys
+
 # to get the components
 # In FreeCAD can be added: Preferences->General->Macro->Macro path
 sys.path.append(filepath)
 # ---------------------- can be taken away after debugging
 
-import kcomp # before, it was called mat_cte
+import kcomp  # before, it was called mat_cte
 import fcfun
 import comps
 import shp_clss
@@ -42,15 +44,13 @@ import parts
 from fcfun import V0, VX, VY, VZ
 from fcfun import VXN, VYN, VZN
 
-
 logging.basicConfig(level=logging.DEBUG,
                     format='%(%(levelname)s - %(message)s')
 
 logger = logging.getLogger(__name__)
 
 
-
-class BearWashSet (fc_clss.PartsSet):
+class BearWashSet(fc_clss.PartsSet):
     """ A set of bearings and washers, usually to make idle pulleys
 
     Parameters:
@@ -145,30 +145,30 @@ class BearWashSet (fc_clss.PartsSet):
     """
 
     # large washer (din9021) metric
-    lwash_m_dict = { 3: 4, 4: 6}
+    lwash_m_dict = {3: 4, 4: 6}
     # regular washer (din125) has the same metric as the pulley
     # bearing type
-    bear_m_dict = { 3: 603, 4: 624}
+    bear_m_dict = {3: 603, 4: 624}
 
     def __init__(self, metric,
                  axis_h, pos_h,
-                 axis_d = None, pos_d = 0,
-                 axis_w = None, pos_w = 0,
-                 pos = V0,
-                 group = 1,
-                 name = ''):
+                 axis_d=None, pos_d=0,
+                 axis_w=None, pos_w=0,
+                 pos=V0,
+                 group=1,
+                 name=''):
 
         default_name = 'bearing_idlpulley_m' + str(metric)
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
 
         fc_clss.PartsSet.__init__(self,
-                          axis_d = axis_d, axis_w = axis_w, axis_h = axis_h)
+                                  axis_d=axis_d, axis_w=axis_w, axis_h=axis_h)
 
         # save the arguments as attributes:
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes by CylHole
+            if not hasattr(self, i):  # so we keep the attributes by CylHole
                 setattr(self, i, values[i])
 
         try:
@@ -187,12 +187,12 @@ class BearWashSet (fc_clss.PartsSet):
         else:
             # dimensions of each element
             # height, along axis_h
-            self.lwash_h     = self.lwash_dict['t'] # height (thickness)
-            self.lwash_r_out = self.lwash_dict['do']/2.
-            self.rwash_h     = self.rwash_dict['t'] # height (thickness)
-            self.rwash_r_out = self.rwash_dict['do']/2.
-            self.bear_h      = self.bear_dict['t'] # height (thickness)
-            self.bear_r_out  = self.bear_dict['do']/2.
+            self.lwash_h = self.lwash_dict['t']  # height (thickness)
+            self.lwash_r_out = self.lwash_dict['do'] / 2.
+            self.rwash_h = self.rwash_dict['t']  # height (thickness)
+            self.rwash_r_out = self.rwash_dict['do'] / 2.
+            self.bear_h = self.bear_dict['t']  # height (thickness)
+            self.bear_r_out = self.bear_dict['do'] / 2.
             # total height:
             self.tot_h = 2 * (self.lwash_h + self.rwash_h) + self.bear_h
             #  inner radius of the pulley, the radius of the bearing
@@ -209,15 +209,15 @@ class BearWashSet (fc_clss.PartsSet):
             # vectors from o (orig) along axis_h, to the pos_h points
             # h_o is a dictionary created in Obj3D.__init__
             self.h_o[0] = V0
-            self.h_o[1] = self.vec_h(-self.bear_h/2.)
-            self.h_o[2] = self.vec_h(-self.bear_h/2. - self.rwash_h)
-            self.h_o[3] = self.vec_h(- self.bear_h/2.
+            self.h_o[1] = self.vec_h(-self.bear_h / 2.)
+            self.h_o[2] = self.vec_h(-self.bear_h / 2. - self.rwash_h)
+            self.h_o[3] = self.vec_h(- self.bear_h / 2.
                                      - self.rwash_h
                                      - self.lwash_h)
 
             self.d_o[0] = V0
             if self.axis_d is not None:
-                self.d_o[1] = self.vec_d(-metric/2.)
+                self.d_o[1] = self.vec_d(-metric / 2.)
                 self.d_o[2] = self.vec_d(-self.bear_r_out)
                 self.d_o[3] = self.vec_d(-self.lwash_r_out)
             elif pos_d != 0:
@@ -225,7 +225,7 @@ class BearWashSet (fc_clss.PartsSet):
 
             self.w_o[0] = V0
             if self.axis_d is not None:
-                self.w_o[1] = self.vec_w(-self.metric/2.)
+                self.w_o[1] = self.vec_w(-self.metric / 2.)
                 self.w_o[2] = self.vec_w(-self.bear_r_out)
                 self.w_o[3] = self.vec_w(-self.lwash_r_out)
             elif pos_w != 0:
@@ -236,53 +236,50 @@ class BearWashSet (fc_clss.PartsSet):
             self.set_pos_o()
 
             # creation of the bearing
-            bearing = fc_clss.BearingOutl(bearing_nb = self.bear_type,
-                                  axis_h = self.axis_h,
-                                  pos_h = 0,
-                                  axis_d = self.axis_d,
-                                  axis_w = self.axis_w,
-                                  pos = self.pos_o,
-                                  #pos = rwash_b.get_pos_h(1),
-                                  name = 'idlpull_bearing')
+            bearing = fc_clss.BearingOutl(bearing_nb=self.bear_type,
+                                          axis_h=self.axis_h,
+                                          pos_h=0,
+                                          axis_d=self.axis_d,
+                                          axis_w=self.axis_w,
+                                          pos=self.pos_o,
+                                          # pos = rwash_b.get_pos_h(1),
+                                          name='idlpull_bearing')
             self.append_part(bearing)
             # creation of the bottom regular washer
-            rwash_b = fc_clss.Din125Washer(metric= metric,
-                                   axis_h = self.axis_h,
-                                   pos_h = 1,
-                                   pos = bearing.get_pos_h(-1),
-                                   name = 'idlpull_rwash_bt')
+            rwash_b = fc_clss.Din125Washer(metric=metric,
+                                           axis_h=self.axis_h,
+                                           pos_h=1,
+                                           pos=bearing.get_pos_h(-1),
+                                           name='idlpull_rwash_bt')
             self.append_part(rwash_b)
             # creation of the bottom large washer
-            lwash_b = fc_clss.Din9021Washer(metric= self.lwash_m,
-                                    axis_h = self.axis_h,
-                                    pos_h = 1,
-                                    pos = rwash_b.get_pos_h(-1),
-                                    name = 'idlpull_lwash_bt')
+            lwash_b = fc_clss.Din9021Washer(metric=self.lwash_m,
+                                            axis_h=self.axis_h,
+                                            pos_h=1,
+                                            pos=rwash_b.get_pos_h(-1),
+                                            name='idlpull_lwash_bt')
             self.append_part(lwash_b)
             # creation of the top regular washer
-            rwash_t = fc_clss.Din125Washer(metric= metric,
-                                   axis_h = self.axis_h,
-                                   pos_h = -1,
-                                   pos = bearing.get_pos_h(1),
-                                   name = 'idlpull_rwash_tp')
+            rwash_t = fc_clss.Din125Washer(metric=metric,
+                                           axis_h=self.axis_h,
+                                           pos_h=-1,
+                                           pos=bearing.get_pos_h(1),
+                                           name='idlpull_rwash_tp')
             self.append_part(rwash_t)
             # creation of the top large washer
-            lwash_t = fc_clss.Din9021Washer(metric= self.lwash_m,
-                                    axis_h = self.axis_h,
-                                    pos_h = -1,
-                                    pos = rwash_t.get_pos_h(1),
-                                    name = 'idlpull_lwash_tp')
+            lwash_t = fc_clss.Din9021Washer(metric=self.lwash_m,
+                                            axis_h=self.axis_h,
+                                            pos_h=-1,
+                                            pos=rwash_t.get_pos_h(1),
+                                            name='idlpull_lwash_tp')
             self.append_part(lwash_t)
 
-
             if group == 1:
-                self.make_group ()
+                self.make_group()
 
 
-
-
-#doc = FreeCAD.newDocument()
-#idle_pulley = BearWashSet( metric=3,
+# doc = FreeCAD.newDocument()
+# idle_pulley = BearWashSet( metric=3,
 #                 axis_h = VZ, pos_h = 0,
 #                 axis_d = None, pos_d = 0,
 #                 axis_w = None, pos_w = 0,
@@ -290,7 +287,7 @@ class BearWashSet (fc_clss.PartsSet):
 #                 name = '')
 
 
-class Din912BoltWashSet (fc_clss.PartsSet):
+class Din912BoltWashSet(fc_clss.PartsSet):
     """ A din 912 bolt and a wahser set 
 
     Parameters:
@@ -413,28 +410,27 @@ class Din912BoltWashSet (fc_clss.PartsSet):
 
     def __init__(self, metric,
                  shank_l,
-                 wide_washer = 0,
-                 shank_l_adjust = 0,
-                 shank_out = 0,
-                 head_out = 0,
-                 axis_h = VZ,
-                 axis_d = None, axis_w = None,
-                 pos_h  = 0, pos_d = 0, pos_w = 0,
-                 pos    = V0,
-                 group  = 1, # 1: make a group
-                 name = ''):
-
+                 wide_washer=0,
+                 shank_l_adjust=0,
+                 shank_out=0,
+                 head_out=0,
+                 axis_h=VZ,
+                 axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
+                 pos=V0,
+                 group=1,  # 1: make a group
+                 name=''):
 
         default_name = 'd912bolt_washer_m' + str(int(metric))
-        self.set_name (name, default_name, change=0)
+        self.set_name(name, default_name, change=0)
 
         fc_clss.PartsSet.__init__(self,
-                          axis_d = axis_d, axis_w = axis_w, axis_h = axis_h)
+                                  axis_d=axis_d, axis_w=axis_w, axis_h=axis_h)
 
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes by CylHole
+            if not hasattr(self, i):  # so we keep the attributes by CylHole
                 setattr(self, i, values[i])
 
         self.bolt_dict = kcomp.D912[metric]
@@ -445,22 +441,22 @@ class Din912BoltWashSet (fc_clss.PartsSet):
             self.washer_dict = kcomp.D9021[metric]
         self.washer_thick = self.washer_dict['t']
         self.washer_do = self.washer_dict['do']
-        self.washer_ro = self.washer_do/2.
+        self.washer_ro = self.washer_do / 2.
 
         if shank_l_adjust == 0:
             self.shank_l = shank_l
         else:
             sh_l_list = self.bolt_dict['shank_l_list']
-            if shank_l_adjust == -1: # smaller closest to shank_l
-                self.shank_l = [sh_l for sh_l in sh_l_list if sh_l<=shank_l][-1]
-            elif shank_l_adjust == 1: # larger closest to shank_l
-                self.shank_l = [sh_l for sh_l in sh_l_list if sh_l>=shank_l][0]
-            elif shank_l_adjust == -2: # smaller closest to shank_l, washer
+            if shank_l_adjust == -1:  # smaller closest to shank_l
+                self.shank_l = [sh_l for sh_l in sh_l_list if sh_l <= shank_l][-1]
+            elif shank_l_adjust == 1:  # larger closest to shank_l
+                self.shank_l = [sh_l for sh_l in sh_l_list if sh_l >= shank_l][0]
+            elif shank_l_adjust == -2:  # smaller closest to shank_l, washer
                 self.shank_l = [sh_l for sh_l in sh_l_list
-                                if sh_l<=shank_l+self.washer_thick][-1]
-            elif shank_l_adjust == 2: # larger closest to shank_l + washer_thick
+                                if sh_l <= shank_l + self.washer_thick][-1]
+            elif shank_l_adjust == 2:  # larger closest to shank_l + washer_thick
                 self.shank_l = [sh_l for sh_l in sh_l_list
-                                if sh_l>=shank_l+self.washer_thick][0]
+                                if sh_l >= shank_l + self.washer_thick][0]
             else:
                 logger.error('wrong value for parameter shank_l_adjust')
                 self.shank_l = shank_l
@@ -470,26 +466,25 @@ class Din912BoltWashSet (fc_clss.PartsSet):
         else:
             self.thread_l = self.bolt_dict['thread']
 
-        self.shank_r = self.metric/2.
+        self.shank_r = self.metric / 2.
         self.head_l = self.bolt_dict['head_l']
         self.head_r = self.bolt_dict['head_r']
 
-
         self.h0_cen = 0
-        self.d0_cen = 1 # symmetrical
-        self.w0_cen = 1 # symmetrical
+        self.d0_cen = 1  # symmetrical
+        self.w0_cen = 1  # symmetrical
 
         self.tot_l = self.head_l + self.shank_l
 
         # vectors from o (orig) along axis_h, to the pos_h points
         # h_o is a dictionary created in Obj3D.__init__
-        self.h_o[0] =  V0 #origin
-        self.h_o[1] =  self.vec_h(head_out)
-        self.h_o[2] =  self.vec_h(self.head_l)
-        self.h_o[3] =  self.vec_h(self.head_l + self.washer_thick)
-        self.h_o[4] =  self.vec_h(self.tot_l - self.thread_l)
-        self.h_o[5] =  self.vec_h(self.tot_l - shank_out)
-        self.h_o[6] =  self.vec_h(self.tot_l)
+        self.h_o[0] = V0  # origin
+        self.h_o[1] = self.vec_h(head_out)
+        self.h_o[2] = self.vec_h(self.head_l)
+        self.h_o[3] = self.vec_h(self.head_l + self.washer_thick)
+        self.h_o[4] = self.vec_h(self.tot_l - self.thread_l)
+        self.h_o[5] = self.vec_h(self.tot_l - shank_out)
+        self.h_o[6] = self.vec_h(self.tot_l)
 
         self.d_o[0] = V0
         if not (self.axis_d is None or self.axis_d == V0):
@@ -512,34 +507,34 @@ class Din912BoltWashSet (fc_clss.PartsSet):
         self.set_pos_o()
 
         # creation of the bolt, at the origin self.pos_o:
-        bolt = fc_clss.Din912Bolt(metric = metric,
-                                  shank_l = self.shank_l,
-                                  shank_out = shank_out,
-                                  head_out = head_out,
-                                  axis_h = self.axis_h,
-                                  axis_d = self.axis_d,
-                                  axis_w = self.axis_w,
-                                  pos_h = 0, pos_d = 0, pos_w = 0,
-                                  pos = self.pos_o)
+        bolt = fc_clss.Din912Bolt(metric=metric,
+                                  shank_l=self.shank_l,
+                                  shank_out=shank_out,
+                                  head_out=head_out,
+                                  axis_h=self.axis_h,
+                                  axis_d=self.axis_d,
+                                  axis_w=self.axis_w,
+                                  pos_h=0, pos_d=0, pos_w=0,
+                                  pos=self.pos_o)
         self.append_part(bolt)
         # creation of the washer, at the origin at pos_h = 2, and at the end
         # of the washer, could use an if
         if wide_washer == 0:
-            washer = fc_clss.Din125Washer(metric = metric,
-                                          axis_h = self.axis_h,
-                                          pos_h = -1, # base of cylinder
-                                          pos = self.get_pos_h(2))
+            washer = fc_clss.Din125Washer(metric=metric,
+                                          axis_h=self.axis_h,
+                                          pos_h=-1,  # base of cylinder
+                                          pos=self.get_pos_h(2))
         else:
-            washer = fc_clss.Din9021Washer(metric = metric,
-                                           axis_h = self.axis_h,
-                                           pos_h = -1, # base of cylinder
-                                           pos = self.get_pos_h(2))
+            washer = fc_clss.Din9021Washer(metric=metric,
+                                           axis_h=self.axis_h,
+                                           pos_h=-1,  # base of cylinder
+                                           pos=self.get_pos_h(2))
         self.append_part(washer)
         if group == 1:
             self.make_group()
-            
-        
-#boltwash = Din912BoltWashSet(metric = 3, shank_l = 20,
+
+
+# boltwash = Din912BoltWashSet(metric = 3, shank_l = 20,
 #                 wide_washer = 0,
 #                 shank_l_adjust = 1, # 1: take the next larger size
 #                 shank_out = 0,
@@ -548,10 +543,9 @@ class Din912BoltWashSet (fc_clss.PartsSet):
 #                 axis_d = None, axis_w = None,
 #                 pos_h  = 0, pos_d = 0, pos_w = 0,
 #                 pos    = V0)
-     
 
 
-class Din934NutWashSet (fc_clss.PartsSet):
+class Din934NutWashSet(fc_clss.PartsSet):
     """ A din 934 nut and a wahser set 
 
     Parameters:
@@ -627,26 +621,25 @@ class Din934NutWashSet (fc_clss.PartsSet):
     """
 
     def __init__(self, metric,
-                 wide_washer = 0,
-                 axis_d_apo = 0,
-                 axis_h = VZ,
-                 axis_d = None, axis_w = None,
-                 pos_h  = 0, pos_d = 0, pos_w = 0,
-                 pos    = V0,
-                 group  = 1, # 1: make a group
-                 name = ''):
-
+                 wide_washer=0,
+                 axis_d_apo=0,
+                 axis_h=VZ,
+                 axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
+                 pos=V0,
+                 group=1,  # 1: make a group
+                 name=''):
 
         default_name = 'd934' + str(int(metric))
-        self.set_name (name, default_name, change=0)
+        self.set_name(name, default_name, change=0)
 
         fc_clss.PartsSet.__init__(self,
-                          axis_d = axis_d, axis_w = axis_w, axis_h = axis_h)
+                                  axis_d=axis_d, axis_w=axis_w, axis_h=axis_h)
 
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes by CylHole
+            if not hasattr(self, i):  # so we keep the attributes by CylHole
                 setattr(self, i, values[i])
 
         self.nut_dict = kcomp.D934[metric]
@@ -654,8 +647,8 @@ class Din934NutWashSet (fc_clss.PartsSet):
         self.nut_h = self.nut_dict['l']
         self.nut_ro = self.nut_dict['circ_r']
         # either or the next, not exact
-        #self.nut_apo = self.nut_dict['a2']/2.
-        self.nut_apo = self.nut_ro * 0.866 # cos 30
+        # self.nut_apo = self.nut_dict['a2']/2.
+        self.nut_apo = self.nut_ro * 0.866  # cos 30
 
         if wide_washer == 0:
             self.washer_dict = kcomp.D125[metric]
@@ -664,24 +657,24 @@ class Din934NutWashSet (fc_clss.PartsSet):
 
         self.washer_thick = self.washer_dict['t']
         self.washer_do = self.washer_dict['do']
-        self.washer_ro = self.washer_do/2.
+        self.washer_ro = self.washer_do / 2.
 
         self.h0_cen = 0
-        self.d0_cen = 1 # symmetrical
-        self.w0_cen = 1 # symmetrical
+        self.d0_cen = 1  # symmetrical
+        self.w0_cen = 1  # symmetrical
 
         self.tot_h = self.nut_h + self.washer_thick
 
         # vectors from o (orig) along axis_h, to the pos_h points
         # h_o is a dictionary created in Obj3D.__init__
-        self.h_o[0] =  V0 #origin
-        self.h_o[1] =  self.vec_h(self.washer_thick)
-        self.h_o[2] =  self.vec_h(self.washer_thick + self.nut_h)
+        self.h_o[0] = V0  # origin
+        self.h_o[1] = self.vec_h(self.washer_thick)
+        self.h_o[2] = self.vec_h(self.washer_thick + self.nut_h)
 
         self.d_o[0] = V0
         if not (self.axis_d is None or self.axis_d == V0):
             # negative because is symmetric
-            self.d_o[1] = self.vec_d(-metric/2.)
+            self.d_o[1] = self.vec_d(-metric / 2.)
             self.d_o[2] = self.vec_d(-self.nut_apo)
             self.d_o[3] = self.vec_d(-self.nut_ro)
             self.d_o[4] = self.vec_d(-self.washer_ro)
@@ -691,7 +684,7 @@ class Din934NutWashSet (fc_clss.PartsSet):
         self.w_o[0] = V0
         if not (self.axis_w is None or self.axis_w == V0):
             # negative because is symmetric
-            self.w_o[1] = self.vec_w(-metric/2.)
+            self.w_o[1] = self.vec_w(-metric / 2.)
             self.w_o[2] = self.vec_w(-self.nut_apo)
             self.w_o[3] = self.vec_w(-self.nut_ro)
             self.w_o[4] = self.vec_w(-self.washer_ro)
@@ -701,31 +694,32 @@ class Din934NutWashSet (fc_clss.PartsSet):
         self.set_pos_o()
 
         # creation of the nut, at pos h = 1
-        nut = fc_clss.Din934Nut(metric = metric,
-                                axis_d_apo = axis_d_apo,
-                                axis_h = self.axis_h,
-                                axis_d = self.axis_d,
-                                axis_w = self.axis_w,
-                                pos_h = -1, pos_d = 0, pos_w = 0,
-                                pos = self.get_pos_h(1))
+        nut = fc_clss.Din934Nut(metric=metric,
+                                axis_d_apo=axis_d_apo,
+                                axis_h=self.axis_h,
+                                axis_d=self.axis_d,
+                                axis_w=self.axis_w,
+                                pos_h=-1, pos_d=0, pos_w=0,
+                                pos=self.get_pos_h(1))
         self.append_part(nut)
         # creation of the washer, at the origin , and at the end
         # of the washer, could use an if
         if wide_washer == 0:
-            washer = fc_clss.Din125Washer(metric = metric,
-                                          axis_h = self.axis_h,
-                                          pos_h = -1, # base of cylinder
-                                          pos = self.pos_o)
+            washer = fc_clss.Din125Washer(metric=metric,
+                                          axis_h=self.axis_h,
+                                          pos_h=-1,  # base of cylinder
+                                          pos=self.pos_o)
         else:
-            washer = fc_clss.Din9021Washer(metric = metric,
-                                           axis_h = self.axis_h,
-                                           pos_h = -1, # base of cylinder
-                                           pos = self.pos_o)
+            washer = fc_clss.Din9021Washer(metric=metric,
+                                           axis_h=self.axis_h,
+                                           pos_h=-1,  # base of cylinder
+                                           pos=self.pos_o)
         self.append_part(washer)
         if group == 1:
             self.make_group()
-  
-#nut_wash = Din934NutWashSet(metric =4,
+
+
+# nut_wash = Din934NutWashSet(metric =4,
 #                 wide_washer = 0,
 #                 axis_d_apo = 1,
 #                 axis_h = VZ,
@@ -736,9 +730,7 @@ class Din934NutWashSet (fc_clss.PartsSet):
 #                 name = '')
 
 
-
-
-class NemaMotorPulleySet (fc_clss.PartsSet):
+class NemaMotorPulleySet(fc_clss.PartsSet):
     """ 
     Set composed of a Nema Motor and a pulley
 
@@ -923,82 +915,82 @@ class NemaMotorPulleySet (fc_clss.PartsSet):
         Object name
     """
 
-    def __init__ (self,
-                  # motor parameters
-                  nema_size = 17,
-                  base_l = 32.,
-                  shaft_l = 24.,
-                  shaft_r = 0,
-                  circle_r = 11.,
-                  circle_h = 2.,
-                  chmf_r = 1, 
-                  rear_shaft_l=0,
-                  bolt_depth = 3.,
-                  # pulley parameters
-                  pulley_pitch = 2.,
-                  pulley_n_teeth = 20,
-                  pulley_toothed_h = 7.5,
-                  pulley_top_flange_h = 1.,
-                  pulley_bot_flange_h = 0,
-                  pulley_tot_h = 16.,
-                  pulley_flange_d = 15.,
-                  pulley_base_d = 15.,
-                  pulley_tol = 0,
-                  pulley_pos_h = -1,
-                  # general parameters
-                  axis_d = VX,
-                  axis_w = None,
-                  axis_h = VZ,
-                  pos_d = 0,
-                  pos_w = 0,
-                  pos_h = 1,
-                  pos = V0,
-                  group = 1,
-                  name = ''):
+    def __init__(self,
+                 # motor parameters
+                 nema_size=17,
+                 base_l=32.,
+                 shaft_l=24.,
+                 shaft_r=0,
+                 circle_r=11.,
+                 circle_h=2.,
+                 chmf_r=1,
+                 rear_shaft_l=0,
+                 bolt_depth=3.,
+                 # pulley parameters
+                 pulley_pitch=2.,
+                 pulley_n_teeth=20,
+                 pulley_toothed_h=7.5,
+                 pulley_top_flange_h=1.,
+                 pulley_bot_flange_h=0,
+                 pulley_tot_h=16.,
+                 pulley_flange_d=15.,
+                 pulley_base_d=15.,
+                 pulley_tol=0,
+                 pulley_pos_h=-1,
+                 # general parameters
+                 axis_d=VX,
+                 axis_w=None,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=1,
+                 pos=V0,
+                 group=1,
+                 name=''):
 
         default_name = 'nema' + str(nema_size) + '_pulley_set'
-        self.set_name (name, default_name, change=0)
+        self.set_name(name, default_name, change=0)
 
         if (axis_w is None) or (axis_w == V0):
             axis_w = axis_h.cross(axis_d)
 
-        fc_clss.PartsSet.__init__(self, axis_d = axis_d,
-                                  axis_w = axis_w, axis_h = axis_h)
+        fc_clss.PartsSet.__init__(self, axis_d=axis_d,
+                                  axis_w=axis_w, axis_h=axis_h)
 
         # save the arguments as attributes:
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
         # pos_w = 0 and pos_d are at the center, pos_h
-        self.d0_cen = 1 #symmetric
-        self.w0_cen = 1 #symmetric
+        self.d0_cen = 1  # symmetric
+        self.w0_cen = 1  # symmetric
         self.h0_cen = 0
 
         # creation of the motor, we don't know all the relative positions
         # so we create it at pos_d=pos_w = 0, pos_h = 1
 
-        nema_motor = comps.PartNemaMotor (
-                              nema_size = nema_size,
-                              base_l = base_l,
-                              shaft_l = shaft_l,
-                              shaft_r = shaft_r,
-                              circle_r = circle_r,
-                              circle_h = circle_h,
-                              chmf_r = chmf_r, 
-                              rear_shaft_l= rear_shaft_l,
-                              bolt_depth = bolt_depth,
-                              bolt_out  = 0,
-                              cut_extra = 0,
-                              axis_d = self.axis_d,
-                              axis_w = self.axis_w,
-                              axis_h = self.axis_h,
-                              pos_d = 0,
-                              pos_w = 0,
-                              pos_h = 0,
-                              pos = pos)
+        nema_motor = comps.PartNemaMotor(
+            nema_size=nema_size,
+            base_l=base_l,
+            shaft_l=shaft_l,
+            shaft_r=shaft_r,
+            circle_r=circle_r,
+            circle_h=circle_h,
+            chmf_r=chmf_r,
+            rear_shaft_l=rear_shaft_l,
+            bolt_depth=bolt_depth,
+            bolt_out=0,
+            cut_extra=0,
+            axis_d=self.axis_d,
+            axis_w=self.axis_w,
+            axis_h=self.axis_h,
+            pos_d=0,
+            pos_w=0,
+            pos_h=0,
+            pos=pos)
 
         self.append_part(nema_motor)
         nema_motor.parent = self
@@ -1008,27 +1000,27 @@ class NemaMotorPulleySet (fc_clss.PartsSet):
         self.circle_h = nema_motor.circle_h
 
         # creation of the pulley. Locate it at pos_d,w,h = 0
-        gt_pulley = comps.PartGtPulley (
-                              pitch = pulley_pitch,
-                              n_teeth = pulley_n_teeth,
-                              toothed_h = pulley_toothed_h,
-                              top_flange_h = pulley_top_flange_h,
-                              bot_flange_h = pulley_bot_flange_h,
-                              tot_h = pulley_tot_h,
-                              flange_d = pulley_flange_d,
-                              base_d = pulley_base_d,
-                              shaft_d = 2 * self.shaft_r,
-                              tol = 0,
-                              axis_d = self.axis_d,
-                              axis_w = self.axis_w,
-                              axis_h = self.axis_h,
-                              pos_d = 0,
-                              pos_w = 0,
-                              pos_h = 0,
-                              pos = pos,
-                              model_type = 1) # dimensional model
+        gt_pulley = comps.PartGtPulley(
+            pitch=pulley_pitch,
+            n_teeth=pulley_n_teeth,
+            toothed_h=pulley_toothed_h,
+            top_flange_h=pulley_top_flange_h,
+            bot_flange_h=pulley_bot_flange_h,
+            tot_h=pulley_tot_h,
+            flange_d=pulley_flange_d,
+            base_d=pulley_base_d,
+            shaft_d=2 * self.shaft_r,
+            tol=0,
+            axis_d=self.axis_d,
+            axis_w=self.axis_w,
+            axis_h=self.axis_h,
+            pos_d=0,
+            pos_w=0,
+            pos_h=0,
+            pos=pos,
+            model_type=1)  # dimensional model
 
-        if pulley_pos_h < 0: #top of the pulley aligned with top of the shaft
+        if pulley_pos_h < 0:  # top of the pulley aligned with top of the shaft
             # shaft_l includes the length of the circle
             pulley_pos_h = shaft_l - gt_pulley.tot_h
             if pulley_pos_h < 0:
@@ -1041,7 +1033,7 @@ class NemaMotorPulleySet (fc_clss.PartsSet):
         gt_pulley.parent = self
 
         # conversions of the relative points from the parts to the total set
-        self.d_o[0] = nema_motor.d_o[0] # V0
+        self.d_o[0] = nema_motor.d_o[0]  # V0
         self.d_o[1] = nema_motor.d_o[1]
         self.d_o[2] = nema_motor.d_o[2]
         self.d_o[3] = nema_motor.d_o[3]
@@ -1052,7 +1044,7 @@ class NemaMotorPulleySet (fc_clss.PartsSet):
         self.d_o[8] = gt_pulley.d_o[5]
         self.d_o[9] = gt_pulley.d_o[6]
 
-        self.w_o[0] = nema_motor.w_o[0] # V0
+        self.w_o[0] = nema_motor.w_o[0]  # V0
         self.w_o[1] = nema_motor.w_o[1]
         self.w_o[2] = nema_motor.w_o[2]
         self.w_o[3] = nema_motor.w_o[3]
@@ -1063,12 +1055,12 @@ class NemaMotorPulleySet (fc_clss.PartsSet):
         self.w_o[8] = gt_pulley.w_o[5]
         self.w_o[9] = gt_pulley.w_o[6]
 
-        self.h_o[0] = nema_motor.h_o[0] # V0 (origin) base of the shaft
-        self.h_o[1] = nema_motor.h_o[1] # end of the circle
-        self.h_o[2] = nema_motor.h_o[2] # end of the shaft
-        self.h_o[3] = nema_motor.h_o[3] # bottom end of the bolt holes
-        self.h_o[4] = nema_motor.h_o[4] # bottom of the base 
-        self.h_o[5] = nema_motor.h_o[5] # rear shaft
+        self.h_o[0] = nema_motor.h_o[0]  # V0 (origin) base of the shaft
+        self.h_o[1] = nema_motor.h_o[1]  # end of the circle
+        self.h_o[2] = nema_motor.h_o[2]  # end of the shaft
+        self.h_o[3] = nema_motor.h_o[3]  # bottom end of the bolt holes
+        self.h_o[4] = nema_motor.h_o[4]  # bottom of the base
+        self.h_o[5] = nema_motor.h_o[5]  # rear shaft
         # position of the base of the shaft (including the circle)
         # + nema_motor.h_o[0] = V0 (not needed)
         # relative position of the base of the pulley: V0 (not needed)
@@ -1076,12 +1068,12 @@ class NemaMotorPulleySet (fc_clss.PartsSet):
         # distance from the base of the shaft (circle included) to the base
         # of the pulley:
         # + self.vec_h(self.pulley_pos_h):
-        #self.h_o[6]  = (   nema_motor.h_o[0] + gt_pulley.h_o[0]
+        # self.h_o[6]  = (   nema_motor.h_o[0] + gt_pulley.h_o[0]
         #                 + self.vec_h(self.pulley_pos_h))
-        self.h_o[6]  = self.vec_h(self.pulley_pos_h)
-        self.h_o[7]  = self.h_o[6] + gt_pulley.h_o[1]
-        self.h_o[8]  = self.h_o[6] + gt_pulley.h_o[2]
-        self.h_o[9]  = self.h_o[6] + gt_pulley.h_o[3]
+        self.h_o[6] = self.vec_h(self.pulley_pos_h)
+        self.h_o[7] = self.h_o[6] + gt_pulley.h_o[1]
+        self.h_o[8] = self.h_o[6] + gt_pulley.h_o[2]
+        self.h_o[9] = self.h_o[6] + gt_pulley.h_o[3]
         self.h_o[10] = self.h_o[6] + gt_pulley.h_o[4]
         self.h_o[11] = self.h_o[6] + gt_pulley.h_o[5]
 
@@ -1091,7 +1083,7 @@ class NemaMotorPulleySet (fc_clss.PartsSet):
         else:
             self.tot_h = self.h_o[5].Length + self.h_o[0].Length
 
-        self.set_pos_o(adjust = 1)
+        self.set_pos_o(adjust=1)
         self.set_part_place(nema_motor)
         self.set_part_place(gt_pulley, self.get_o_to_h(6))
 
@@ -1114,9 +1106,7 @@ class NemaMotorPulleySet (fc_clss.PartsSet):
                 return part_i
 
 
- 
-
-#motor_pulley = NemaMotorPulleySet(pulley_pos_h = 10,
+# motor_pulley = NemaMotorPulleySet(pulley_pos_h = 10,
 #                                  rear_shaft_l = 10,
 #                                  axis_d = VZ,
 #                                  axis_w = VY,
@@ -1128,8 +1118,7 @@ class NemaMotorPulleySet (fc_clss.PartsSet):
 #                                  )
 
 
-
-class NemaMotorPulleyHolderSet (fc_clss.PartsSet):
+class NemaMotorPulleyHolderSet(fc_clss.PartsSet):
     """ Set composed of a Nema Motor with a pulley and the holder of the motor
 
     Number positions of the pulley will be after the positions of the motor
@@ -1270,139 +1259,136 @@ class NemaMotorPulleyHolderSet (fc_clss.PartsSet):
 
     """
 
-
-    def __init__ (self,
-                  # motor parameters
-                  nema_size = 17,
-                  motor_base_l = 32.,
-                  motor_shaft_l = 24.,
-                  motor_shaft_r = 0,
-                  motor_circle_r = 11.,
-                  motor_circle_h = 2.,
-                  motor_chmf_r = 1, 
-                  motor_rear_shaft_l=0,
-                  motor_bolt_depth = 3.,
-                  # pulley parameters
-                  pulley_pitch = 2.,
-                  pulley_n_teeth = 20,
-                  pulley_toothed_h = 7.5,
-                  pulley_top_flange_h = 1.,
-                  pulley_bot_flange_h = 0,
-                  pulley_tot_h = 16.,
-                  pulley_flange_d = 15.,
-                  pulley_base_d = 15.,
-                  pulley_tol = 0,
-                  pulley_pos_h = -1,
-                  # holder parameters
-                  hold_wall_thick = 4.,
-                  hold_motorside_thick = 4.,
-                  hold_reinf_thick = 4.,
-                  hold_rail_min_h =10.,
-                  hold_rail_max_h =20.,
-                  hold_rail = 1, # if there is a rail or not at the profile side
-                  hold_motor_xtr_space = 2., # counting on one side
-                  hold_bolt_wall_d = 4., # Metric of the wall bolts
-                  hold_bolt_wall_sep = 0, # optional
-                  hold_chmf_r = 1.,
-                  # general parameters
-                  axis_d = VX,
-                  axis_w = None,
-                  axis_h = VZ,
-                  pos_d = 0,
-                  pos_w = 0,
-                  pos_h = 1,
-                  pos = V0,
-                  group = 0,
-                  name = ''):
-
+    def __init__(self,
+                 # motor parameters
+                 nema_size=17,
+                 motor_base_l=32.,
+                 motor_shaft_l=24.,
+                 motor_shaft_r=0,
+                 motor_circle_r=11.,
+                 motor_circle_h=2.,
+                 motor_chmf_r=1,
+                 motor_rear_shaft_l=0,
+                 motor_bolt_depth=3.,
+                 # pulley parameters
+                 pulley_pitch=2.,
+                 pulley_n_teeth=20,
+                 pulley_toothed_h=7.5,
+                 pulley_top_flange_h=1.,
+                 pulley_bot_flange_h=0,
+                 pulley_tot_h=16.,
+                 pulley_flange_d=15.,
+                 pulley_base_d=15.,
+                 pulley_tol=0,
+                 pulley_pos_h=-1,
+                 # holder parameters
+                 hold_wall_thick=4.,
+                 hold_motorside_thick=4.,
+                 hold_reinf_thick=4.,
+                 hold_rail_min_h=10.,
+                 hold_rail_max_h=20.,
+                 hold_rail=1,  # if there is a rail or not at the profile side
+                 hold_motor_xtr_space=2.,  # counting on one side
+                 hold_bolt_wall_d=4.,  # Metric of the wall bolts
+                 hold_bolt_wall_sep=0,  # optional
+                 hold_chmf_r=1.,
+                 # general parameters
+                 axis_d=VX,
+                 axis_w=None,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=1,
+                 pos=V0,
+                 group=0,
+                 name=''):
 
         default_name = 'nema_' + str(nema_size) + 'holer_motor_pulley_set'
-        self.set_name (name, default_name, change=0)
+        self.set_name(name, default_name, change=0)
 
         if (axis_w is None) or (axis_w == V0):
             axis_w = axis_h.cross(axis_d)
 
-        fc_clss.PartsSet.__init__(self, axis_d = axis_d,
-                                  axis_w = axis_w, axis_h = axis_h)
-
+        fc_clss.PartsSet.__init__(self, axis_d=axis_d,
+                                  axis_w=axis_w, axis_h=axis_h)
 
         # save the arguments as attributes:
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
         # pos_w = 0 is at the center
         self.d0_cen = 0
-        self.w0_cen = 1 #symmetric
+        self.w0_cen = 1  # symmetric
         self.h0_cen = 0
 
         # creation of the motor with pulley
-        nema_motor_pulley = NemaMotorPulleySet (
-                  # motor parameters
-                  nema_size = nema_size,
-                  base_l = motor_base_l,
-                  shaft_l = motor_shaft_l,
-                  shaft_r = motor_shaft_r,
-                  circle_r = motor_circle_r,
-                  circle_h = motor_circle_h,
-                  chmf_r = motor_chmf_r, 
-                  rear_shaft_l = motor_rear_shaft_l,
-                  bolt_depth = motor_bolt_depth,
-                  # pulley parameters
-                  pulley_pitch = pulley_pitch,
-                  pulley_n_teeth = pulley_n_teeth,
-                  pulley_toothed_h = pulley_toothed_h,
-                  pulley_top_flange_h = pulley_top_flange_h,
-                  pulley_bot_flange_h = pulley_bot_flange_h,
-                  pulley_tot_h = pulley_tot_h,
-                  pulley_flange_d = pulley_flange_d,
-                  pulley_base_d = pulley_base_d,
-                  pulley_tol = pulley_tol,
-                  pulley_pos_h = pulley_pos_h,
-                  # general parameters
-                  axis_d = axis_d,
-                  axis_w = axis_w,
-                  axis_h = axis_h,
-                  pos_d = 0,
-                  pos_w = 0,
-                  pos_h = 0,
-                  pos = pos)
+        nema_motor_pulley = NemaMotorPulleySet(
+            # motor parameters
+            nema_size=nema_size,
+            base_l=motor_base_l,
+            shaft_l=motor_shaft_l,
+            shaft_r=motor_shaft_r,
+            circle_r=motor_circle_r,
+            circle_h=motor_circle_h,
+            chmf_r=motor_chmf_r,
+            rear_shaft_l=motor_rear_shaft_l,
+            bolt_depth=motor_bolt_depth,
+            # pulley parameters
+            pulley_pitch=pulley_pitch,
+            pulley_n_teeth=pulley_n_teeth,
+            pulley_toothed_h=pulley_toothed_h,
+            pulley_top_flange_h=pulley_top_flange_h,
+            pulley_bot_flange_h=pulley_bot_flange_h,
+            pulley_tot_h=pulley_tot_h,
+            pulley_flange_d=pulley_flange_d,
+            pulley_base_d=pulley_base_d,
+            pulley_tol=pulley_tol,
+            pulley_pos_h=pulley_pos_h,
+            # general parameters
+            axis_d=axis_d,
+            axis_w=axis_w,
+            axis_h=axis_h,
+            pos_d=0,
+            pos_w=0,
+            pos_h=0,
+            pos=pos)
 
         self.append_part(nema_motor_pulley)
         nema_motor_pulley.parent = self
 
         nema_holder = parts.PartNemaMotorHolder(
-                  nema_size = nema_size,
-                  wall_thick = hold_wall_thick,
-                  motorside_thick = hold_motorside_thick,
-                  reinf_thick = hold_reinf_thick,
-                  motor_min_h = hold_rail_min_h,
-                  motor_max_h = hold_rail_max_h,
-                  rail = hold_rail, 
-                  motor_xtr_space = hold_motor_xtr_space,
-                  bolt_wall_d = hold_bolt_wall_d,
-                  bolt_wall_sep = hold_bolt_wall_sep,
-                  chmf_r = hold_chmf_r,
-                  axis_h = axis_h.negative(), #pointing down
-                  axis_d = axis_d,
-                  axis_w = axis_w,
-                  #pos_h = 0, # at the point of union with the motor
-                  pos_h = 0, # at the point of union with the motor
-                  pos_d = 0,
-                  pos_w = 0,
-                  pos = pos)
+            nema_size=nema_size,
+            wall_thick=hold_wall_thick,
+            motorside_thick=hold_motorside_thick,
+            reinf_thick=hold_reinf_thick,
+            motor_min_h=hold_rail_min_h,
+            motor_max_h=hold_rail_max_h,
+            rail=hold_rail,
+            motor_xtr_space=hold_motor_xtr_space,
+            bolt_wall_d=hold_bolt_wall_d,
+            bolt_wall_sep=hold_bolt_wall_sep,
+            chmf_r=hold_chmf_r,
+            axis_h=axis_h.negative(),  # pointing down
+            axis_d=axis_d,
+            axis_w=axis_w,
+            # pos_h = 0, # at the point of union with the motor
+            pos_h=0,  # at the point of union with the motor
+            pos_d=0,
+            pos_w=0,
+            pos=pos)
 
         self.append_part(nema_holder)
         nema_holder.parent = self
 
-        self.d_o[0] = nema_holder.d_o[0] # end that is attached to the profile
-        self.d_o[1] = nema_holder.d_o[1] # inside the wall that is attached
-        self.d_o[2] = nema_holder.d_o[2] # bolt holes closed to the wall
-        self.d_o[3] = nema_holder.d_o[3] # at the motor axis
-        self.d_o[4] = nema_holder.d_o[4] # bolt holes away from the wall
-        self.d_o[5] = nema_holder.d_o[5] # the other end, opposite to the wall
+        self.d_o[0] = nema_holder.d_o[0]  # end that is attached to the profile
+        self.d_o[1] = nema_holder.d_o[1]  # inside the wall that is attached
+        self.d_o[2] = nema_holder.d_o[2]  # bolt holes closed to the wall
+        self.d_o[3] = nema_holder.d_o[3]  # at the motor axis
+        self.d_o[4] = nema_holder.d_o[4]  # bolt holes away from the wall
+        self.d_o[5] = nema_holder.d_o[5]  # the other end, opposite to the wall
         # not sure which order to take
         # taking first away from the wall
         #             axis -v                 shaft radius
@@ -1425,26 +1411,26 @@ class NemaMotorPulleyHolderSet (fc_clss.PartsSet):
         self.d_o[13] = nema_holder.d_o[3] + nema_motor_pulley.d_o[7].negative()
 
         # symmetric
-        self.w_o[0] = nema_holder.w_o[0] # motor axis
-        self.w_o[1] = nema_holder.w_o[1] # rail (or wall bolt holes)
-        self.w_o[2] = nema_holder.w_o[2] # bolt holes for the motor
-        self.w_o[3] = nema_holder.w_o[3] # end of the piece
-        self.w_o[4] = nema_motor_pulley.w_o[4] # shaft radius
-        self.w_o[5] = nema_motor_pulley.w_o[5] # belt inner radius
-        self.w_o[6] = nema_motor_pulley.w_o[6] # belt outer radius
-        self.w_o[7] = nema_motor_pulley.w_o[7] # belt pitch radius
+        self.w_o[0] = nema_holder.w_o[0]  # motor axis
+        self.w_o[1] = nema_holder.w_o[1]  # rail (or wall bolt holes)
+        self.w_o[2] = nema_holder.w_o[2]  # bolt holes for the motor
+        self.w_o[3] = nema_holder.w_o[3]  # end of the piece
+        self.w_o[4] = nema_motor_pulley.w_o[4]  # shaft radius
+        self.w_o[5] = nema_motor_pulley.w_o[5]  # belt inner radius
+        self.w_o[6] = nema_motor_pulley.w_o[6]  # belt outer radius
+        self.w_o[7] = nema_motor_pulley.w_o[7]  # belt pitch radius
 
-        self.h_o[0] = nema_holder.h_o[0] # top of the holder
-        self.h_o[1] = nema_holder.h_o[1] # top inner wall: top of motor body
-        self.h_o[2] = nema_holder.h_o[2] # top end of the rail
-        self.h_o[3] = nema_holder.h_o[3] # bottom end of the rail
-        self.h_o[4] = nema_holder.h_o[4] # bottom end of the rail
+        self.h_o[0] = nema_holder.h_o[0]  # top of the holder
+        self.h_o[1] = nema_holder.h_o[1]  # top inner wall: top of motor body
+        self.h_o[2] = nema_holder.h_o[2]  # top end of the rail
+        self.h_o[3] = nema_holder.h_o[3]  # bottom end of the rail
+        self.h_o[4] = nema_holder.h_o[4]  # bottom end of the rail
         # end of the motor circle (cylinder):
         self.h_o[5] = self.h_o[1] + nema_motor_pulley.h_o[1]
-        self.h_o[6] = self.h_o[1] + nema_motor_pulley.h_o[2] #end of the shaft
-        self.h_o[7] = self.h_o[1] + nema_motor_pulley.h_o[4] #base of motor body
-        self.h_o[8] = self.h_o[1] + nema_motor_pulley.h_o[5] #rear shaft
-        self.h_o[9] = self.h_o[1] + nema_motor_pulley.h_o[5] #base of pulley
+        self.h_o[6] = self.h_o[1] + nema_motor_pulley.h_o[2]  # end of the shaft
+        self.h_o[7] = self.h_o[1] + nema_motor_pulley.h_o[4]  # base of motor body
+        self.h_o[8] = self.h_o[1] + nema_motor_pulley.h_o[5]  # rear shaft
+        self.h_o[9] = self.h_o[1] + nema_motor_pulley.h_o[5]  # base of pulley
         # bottom of pulley toothed part
         self.h_o[10] = self.h_o[1] + nema_motor_pulley.h_o[8]
         # middle of pulley toothed part
@@ -1454,10 +1440,10 @@ class NemaMotorPulleyHolderSet (fc_clss.PartsSet):
         # end of pulley
         self.h_o[13] = self.h_o[1] + nema_motor_pulley.h_o[11]
 
-        self.set_pos_o(adjust = 1)
+        self.set_pos_o(adjust=1)
         self.set_part_place(nema_holder)
         self.set_part_place(nema_motor_pulley, self.get_o_to_h(1)
-                                              +self.get_o_to_d(3))
+                            + self.get_o_to_d(3))
 
         self.place_fcos()
         if group == 1:
@@ -1477,10 +1463,8 @@ class NemaMotorPulleyHolderSet (fc_clss.PartsSet):
             if isinstance(part_i, NemaMotorPulleySet):
                 return part_i
 
-
-
-#doc = FreeCAD.newDocument()
-#nemamotorpullhold = NemaMotorPulleyHolderSet(
+# doc = FreeCAD.newDocument()
+# nemamotorpullhold = NemaMotorPulleyHolderSet(
 #                                      hold_bolt_wall_sep = 40.,
 #                                      axis_d = VX,
 #                                      axis_w = VY,

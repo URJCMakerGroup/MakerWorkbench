@@ -253,7 +253,10 @@ class AluProfBracketPerp (object):
         # add one, to have it a minimum of one mm
         if (reinforce == 1 and
            (alusize_lin > 2*(boltmaxhead_r + kcomp.TOL) + 1 )):
-            inside_w =  2*(boltmaxhead_r + kcomp.TOL)
+            if thickness_reinforce !=None and thickness_reinforce>0: 
+               inside_w = alusize_lin - 2*thickness_reinforce
+            else:
+                inside_w =  2*(boltmaxhead_r + kcomp.TOL)
             #print ("inside width " + str(inside_w))
         else:
             #no space for reinforcement, or reinforcement 0

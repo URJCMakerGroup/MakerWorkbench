@@ -15,7 +15,9 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(%(levelname)s - %(message)s')
 
 logger = logging.getLogger(__name__)
-class PartFilterHolder (Obj3D):
+
+
+class PartFilterHolder(Obj3D):
     """ Creates the filter holder shape
 
 
@@ -278,59 +280,58 @@ class PartFilterHolder (Obj3D):
     """
 
     def __init__(self,
-                 filter_l = 60.,
-                 filter_w = 25.,
-                 filter_t = 2.5,
-                 base_h = 6.,
-                 hold_d = 12.,
-                 filt_supp_in = 2.,
-                 filt_rim = 3.,
-                 filt_cen_d = 0,
-                 fillet_r = 1.,
+                 filter_l=60.,
+                 filter_w=25.,
+                 filter_t=2.5,
+                 base_h=6.,
+                 hold_d=12.,
+                 filt_supp_in=2.,
+                 filt_rim=3.,
+                 filt_cen_d=0,
+                 fillet_r=1.,
                  # linear guides SEBLV16 y SEBS15, y MGN12H:
-                 boltcol1_dist = 20/2.,
-                 boltcol2_dist = 12.5, #thorlabs breadboard distance
-                 boltcol3_dist = 25,
-                 boltrow1_h = 0,
-                 boltrow1_2_dist = 12.5,
+                 boltcol1_dist=20 / 2.,
+                 boltcol2_dist=12.5,  # thorlabs breadboard distance
+                 boltcol3_dist=25,
+                 boltrow1_h=0,
+                 boltrow1_2_dist=12.5,
                  # linear guide MGN12H
-                 boltrow1_3_dist = 20.,
+                 boltrow1_3_dist=20.,
                  # linear guide SEBLV16 and SEBS15
-                 boltrow1_4_dist = 25.,
+                 boltrow1_4_dist=25.,
 
-                 bolt_cen_mtr = 4, 
-                 bolt_linguide_mtr = 3, # linear guide bolts
+                 bolt_cen_mtr=4,
+                 bolt_linguide_mtr=3,  # linear guide bolts
 
-                 beltclamp_t = 3.,
-                 beltclamp_l = 12.,
-                 beltclamp_h = 8.,
-                 clamp_post_dist = 4.,
-                 sm_beltpost_r = 1.,
+                 beltclamp_t=3.,
+                 beltclamp_l=12.,
+                 beltclamp_h=8.,
+                 clamp_post_dist=4.,
+                 sm_beltpost_r=1.,
 
-                 tol = kcomp.TOL,
-                 axis_d = VX,
-                 axis_w = VY,
-                 axis_h = VZ,
-                 pos_d = 0,
-                 pos_w = 0,
-                 pos_h = 0,
-                 pos = V0,
-                 model_type = 0, # exact
-                 name = ''):
+                 tol=kcomp.TOL,
+                 axis_d=VX,
+                 axis_w=VY,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=0,
+                 pos=V0,
+                 model_type=0,  # exact
+                 name=''):
 
         default_name = 'filter_holder'
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
         Obj3D.__init__(self, axis_d, axis_w, axis_h, self.name)
-
 
         # save the arguments as attributes:
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
-        self.pos = FreeCAD.Vector(0,0,0)
+        self.pos = FreeCAD.Vector(0, 0, 0)
         self.position = pos
 
         # calculation of the dimensions:
@@ -339,9 +340,9 @@ class PartFilterHolder (Obj3D):
         # to depth and width
         # they are relative to the holder, not to the filter
         # no need to have the tolerances here:
-        self.filt_hole_d = filter_w # + tol # depth
-        self.filt_hole_w = filter_l # + tol # width in holder axis
-        self.filt_hole_h = filter_t # + tol/2. # 0.5 tolerance for height
+        self.filt_hole_d = filter_w  # + tol # depth
+        self.filt_hole_w = filter_l  # + tol # width in holder axis
+        self.filt_hole_h = filter_t  # + tol/2. # 0.5 tolerance for height
 
         # The hole under the filter to let the light go through
         # and big enough to hold the filter
@@ -367,11 +368,11 @@ class PartFilterHolder (Obj3D):
                                   self.bolt_cen_head_r_tol)
 
         if boltrow1_h == 0:
-            self.boltrow1_h = 2* max_row1_head_r_tol
+            self.boltrow1_h = 2 * max_row1_head_r_tol
         elif boltrow1_h < 2 * max_row1_head_r_tol:
-            self.boltrow1_h = 2* max_row1_head_r_tol
+            self.boltrow1_h = 2 * max_row1_head_r_tol
             msg1 = 'boltrow1_h smaller than bolt head diameter'
-            msg2 = 'boltrow1_h will be bolt head diameter' 
+            msg2 = 'boltrow1_h will be bolt head diameter'
             logger.warning(msg1 + msg2 + str(self.boltrow1_h))
         # else # it will be as it is
 
@@ -379,97 +380,96 @@ class PartFilterHolder (Obj3D):
                        + 2 * self.bolt_linguide_head_r_tol)
         self.tot_h = self.hold_h + beltclamp_h
 
-        self.beltclamp_blk_t = (hold_d - beltclamp_t)/2.
+        self.beltclamp_blk_t = (hold_d - beltclamp_t) / 2.
 
         # the large radius of the belt post
         self.lr_beltpost_r = (hold_d - 3) / 2.
 
-        min_filt_cen_d = hold_d + filt_rim + filter_w/2.
-        if filt_cen_d == 0: 
-            filt_cen_d = hold_d + filt_rim + filter_w/2.
+        min_filt_cen_d = hold_d + filt_rim + filter_w / 2.
+        if filt_cen_d == 0:
+            filt_cen_d = hold_d + filt_rim + filter_w / 2.
         elif filt_cen_d < min_filt_cen_d:
-            filt_cen_d = hold_d + filt_rim + filter_w/2.
-            msg =  'filt_cen_d is smaller than needed, taking: '
+            filt_cen_d = hold_d + filt_rim + filter_w / 2.
+            msg = 'filt_cen_d is smaller than needed, taking: '
             logger.warning(msg + str(filt_cen_d))
         self.filt_cen_d = filt_cen_d
 
-        self.tot_d = self.filt_cen_d + filter_w/2. + filt_rim 
+        self.tot_d = self.filt_cen_d + filter_w / 2. + filt_rim
 
         # find out if the max width if given by the filter or the holder
         base_w = filter_l + 2 * filt_rim
         hold_w = 2 * boltcol3_dist + 4 * self.bolt_cen_head_r_tol
         self.tot_w = max(base_w, hold_w)
 
-
-        self.beltpost_l = (3*self.lr_beltpost_r) + sm_beltpost_r
-        self.clamp_lrbeltpostcen_dist = (  self.beltpost_l
+        self.beltpost_l = (3 * self.lr_beltpost_r) + sm_beltpost_r
+        self.clamp_lrbeltpostcen_dist = (self.beltpost_l
                                          - self.lr_beltpost_r
                                          + self.clamp_post_dist)
 
         self.d0_cen = 0
-        self.w0_cen = 1 # symmetrical
+        self.w0_cen = 1  # symmetrical
         self.h0_cen = 0
 
         self.d_o[0] = V0
         self.d_o[1] = self.vec_d(self.beltclamp_blk_t)
-        self.d_o[2] = self.vec_d(hold_d/2.)
+        self.d_o[2] = self.vec_d(hold_d / 2.)
         self.d_o[3] = self.vec_d(hold_d - self.beltclamp_blk_t)
         # at the beginning of the bolt head hole for the central bolt
         self.d_o[4] = self.vec_d(hold_d - self.bolt_cen_head_l_tol)
         self.d_o[5] = self.vec_d(hold_d - self.bolt_linguide_head_l_tol)
         self.d_o[6] = self.vec_d(hold_d)
         # at the beginning of the hole of the porta (no tolerance):
-        self.d_o[7] = self.vec_d(self.filt_cen_d - filter_w/2.)
+        self.d_o[7] = self.vec_d(self.filt_cen_d - filter_w / 2.)
         # inner side of porta thruhole
         self.d_o[8] = self.d_o[7] + self.vec_d(filt_supp_in)
         # at the center of the porta:
         self.d_o[9] = self.vec_d(self.filt_cen_d)
         # outer side of porta thruhole
-        self.d_o[10] = self.vec_d(self.filt_cen_d + filter_w/2. - filt_supp_in)
+        self.d_o[10] = self.vec_d(self.filt_cen_d + filter_w / 2. - filt_supp_in)
         # at the end of the hole of the porta (no tolerance):
-        self.d_o[11] = self.vec_d(self.filt_cen_d + filter_w/2.)
+        self.d_o[11] = self.vec_d(self.filt_cen_d + filter_w / 2.)
         self.d_o[12] = self.vec_d(self.tot_d)
 
         # these are negative because actually the pos_w indicates a negative
         # position along axis_w
 
         self.w_o[0] = V0
-        #1: at the first bolt column
+        # 1: at the first bolt column
         self.w_o[1] = self.vec_w(-boltcol1_dist)
-        #2: at the second bolt column
+        # 2: at the second bolt column
         self.w_o[2] = self.vec_w(-boltcol2_dist)
-        #3: at the third bolt column
+        # 3: at the third bolt column
         self.w_o[3] = self.vec_w(-boltcol3_dist)
 
-        #4: at the inner side of the clamp post (larger circle)
-        self.w_o[4] = self.vec_w(self.beltpost_l + clamp_post_dist + beltclamp_l - self.tot_w/2.)
-        #5: at the outer side of the clamp post (smaller circle)
-        self.w_o[5] = self.vec_w(clamp_post_dist + beltclamp_l - self.tot_w/2.)
-        #6: at the inner side of the clamp rails
+        # 4: at the inner side of the clamp post (larger circle)
+        self.w_o[4] = self.vec_w(self.beltpost_l + clamp_post_dist + beltclamp_l - self.tot_w / 2.)
+        # 5: at the outer side of the clamp post (smaller circle)
+        self.w_o[5] = self.vec_w(clamp_post_dist + beltclamp_l - self.tot_w / 2.)
+        # 6: at the inner side of the clamp rails
         # add belt_clamp because  w_o are negative
-        self.w_o[6] = self.vec_w(beltclamp_l - self.tot_w/2.)
-        #7: at the end of the piece
-        self.w_o[7] = self.vec_w(-self.tot_w/2.)
+        self.w_o[6] = self.vec_w(beltclamp_l - self.tot_w / 2.)
+        # 7: at the end of the piece
+        self.w_o[7] = self.vec_w(-self.tot_w / 2.)
 
-        #0: at the bottom (base)
+        # 0: at the bottom (base)
         self.h_o[0] = V0
-        #1: at the base for the porta
+        # 1: at the base for the porta
         self.h_o[1] = self.vec_h(base_h - self.filt_hole_h)
-        #2: at the top of the base
+        # 2: at the top of the base
         self.h_o[2] = self.vec_h(base_h)
-        #3: first row of bolts
+        # 3: first row of bolts
         self.h_o[3] = self.vec_h(base_h + self.boltrow1_h)
-        #4: second row of bolts
+        # 4: second row of bolts
         self.h_o[4] = self.h_o[3] + self.vec_h(boltrow1_2_dist)
-        #5: third row of bolts, taking self.h_o[3]
+        # 5: third row of bolts, taking self.h_o[3]
         self.h_o[5] = self.h_o[3] + self.vec_h(boltrow1_3_dist)
-        #6: 4th row of bolts
+        # 6: 4th row of bolts
         self.h_o[6] = self.h_o[3] + self.vec_h(boltrow1_4_dist)
-        #7: at the base of the belt clamp
+        # 7: at the base of the belt clamp
         self.h_o[7] = self.vec_h(self.hold_h)
-        #8: at the middle of the belt clamp
-        self.h_o[8] = self.vec_h(self.hold_h + self.beltclamp_h/2.)
-        #9: at the top of the piece
+        # 8: at the middle of the belt clamp
+        self.h_o[8] = self.vec_h(self.hold_h + self.beltclamp_h / 2.)
+        # 9: at the top of the piece
         self.h_o[9] = self.vec_h(self.tot_h)
 
         # calculates the position of the origin, and keeps it in attribute pos_o
@@ -477,45 +477,44 @@ class PartFilterHolder (Obj3D):
 
         # -------- building of the piece
         # the base
-        shp_base = fcfun.shp_box_dir (box_w = self.tot_w,
-                                      box_d = self.tot_d,
-                                      box_h = base_h,
-                                      fc_axis_w = self.axis_w,
-                                      fc_axis_d = self.axis_d,
-                                      fc_axis_h = self.axis_h,
-                                      cw = 1, cd = 0, ch = 0,
-                                      pos = self.pos_o)
+        shp_base = fcfun.shp_box_dir(box_w=self.tot_w,
+                                     box_d=self.tot_d,
+                                     box_h=base_h,
+                                     fc_axis_w=self.axis_w,
+                                     fc_axis_d=self.axis_d,
+                                     fc_axis_h=self.axis_h,
+                                     cw=1, cd=0, ch=0,
+                                     pos=self.pos_o)
 
-
-        shp_base = fcfun.shp_filletchamfer_dir (shp_base, self.axis_h,
-                                                fillet = 1, radius = fillet_r)
+        shp_base = fcfun.shp_filletchamfer_dir(shp_base, self.axis_h,
+                                               fillet=1, radius=fillet_r)
         shp_base = shp_base.removeSplitter()
 
         # the holder to attach to a linear guide
 
-        shp_holder = fcfun.shp_boxdir_fillchmfplane (
-                                        box_w = self.tot_w,
-                                        box_d = hold_d,
-                                        box_h = self.hold_h,
-                                        axis_d = self.axis_d,
-                                        axis_h = self.axis_h,
-                                        cw = 1, cd = 0, ch = 0,
-                                        fillet = 1,
-                                        radius = fillet_r,
-                                        plane_fill = self.axis_d.negative(),
-                                        both_planes = 0,
-                                        edge_dir = self.axis_h,
-                                        pos = self.pos_o)
+        shp_holder = fcfun.shp_boxdir_fillchmfplane(
+            box_w=self.tot_w,
+            box_d=hold_d,
+            box_h=self.hold_h,
+            axis_d=self.axis_d,
+            axis_h=self.axis_h,
+            cw=1, cd=0, ch=0,
+            fillet=1,
+            radius=fillet_r,
+            plane_fill=self.axis_d.negative(),
+            both_planes=0,
+            edge_dir=self.axis_h,
+            pos=self.pos_o)
 
         shp_base = shp_base.removeSplitter()
 
         shp_l = shp_base.fuse(shp_holder)
         shp_l = shp_l.removeSplitter()
         # pos (6,0,2): position at the corner of the L
-        shp_l = fcfun.shp_filletchamfer_dirpt (shp_l,
-                                            fc_axis= self.axis_w,
-                                            fc_pt = self.get_pos_dwh(6,0,2),
-                                            fillet = 0, radius = fillet_r)
+        shp_l = fcfun.shp_filletchamfer_dirpt(shp_l,
+                                              fc_axis=self.axis_w,
+                                              fc_pt=self.get_pos_dwh(6, 0, 2),
+                                              fillet=0, radius=fillet_r)
         shp_l = shp_l.removeSplitter()
         # now we have the L shape with its chamfers and fillets
 
@@ -523,29 +522,29 @@ class PartFilterHolder (Obj3D):
         # include tolerances, along nh: only half of it, along h= 1 to make
         # the cut
         # pos (9,0,1) position at the center of the porta, at its bottom
-        shp_filter_hole = fcfun.shp_box_dir_xtr (box_w = self.filt_hole_w,
-                                             box_d = self.filt_hole_d,
-                                             box_h = self.filt_hole_h,
-                                             fc_axis_h = self.axis_h,
-                                             fc_axis_d = self.axis_d,
-                                             cw = 1, cd = 1, ch = 0,
-                                             xtr_h = 1, xtr_nh = tol/2.,
-                                             xtr_d = tol, xtr_nd = tol,
-                                             xtr_w = tol, xtr_nw = tol,
-                                             pos = self.get_pos_dwh(9,0,1))
+        shp_filter_hole = fcfun.shp_box_dir_xtr(box_w=self.filt_hole_w,
+                                                box_d=self.filt_hole_d,
+                                                box_h=self.filt_hole_h,
+                                                fc_axis_h=self.axis_h,
+                                                fc_axis_d=self.axis_d,
+                                                cw=1, cd=1, ch=0,
+                                                xtr_h=1, xtr_nh=tol / 2.,
+                                                xtr_d=tol, xtr_nd=tol,
+                                                xtr_w=tol, xtr_nw=tol,
+                                                pos=self.get_pos_dwh(9, 0, 1))
         # pos (9,0,0) position at the center of the porta, at the bottom of the
         # piece
         # no extra on top because it will be fused with shp_filter_hole
-        shp_filter_thruhole = fcfun.shp_box_dir_xtr (box_w = self.filt_supp_w,
-                                             box_d = self.filt_supp_d,
-                                             box_h = base_h,
-                                             fc_axis_h = self.axis_h,
-                                             fc_axis_d = self.axis_d,
-                                             cw = 1, cd = 1, ch = 0,
-                                             xtr_h = 0, xtr_nh = 1,
-                                             xtr_d = tol, xtr_nd = tol,
-                                             xtr_w = tol, xtr_nw = tol,
-                                             pos = self.get_pos_dwh(9,0,0))
+        shp_filter_thruhole = fcfun.shp_box_dir_xtr(box_w=self.filt_supp_w,
+                                                    box_d=self.filt_supp_d,
+                                                    box_h=base_h,
+                                                    fc_axis_h=self.axis_h,
+                                                    fc_axis_d=self.axis_d,
+                                                    cw=1, cd=1, ch=0,
+                                                    xtr_h=0, xtr_nh=1,
+                                                    xtr_d=tol, xtr_nd=tol,
+                                                    xtr_w=tol, xtr_nw=tol,
+                                                    pos=self.get_pos_dwh(9, 0, 0))
         shp_fuse_filter_hole = shp_filter_hole.fuse(shp_filter_thruhole)
         shp_l = shp_l.cut(shp_fuse_filter_hole)
         shp_l = shp_l.removeSplitter()
@@ -555,150 +554,149 @@ class PartFilterHolder (Obj3D):
 
         bolt_list = []
 
-        shp_cen_bolt = fcfun.shp_bolt_dir (r_shank = self.bolt_cen_r_tol,
-                                           l_bolt = hold_d,
-                                           r_head = self.bolt_cen_head_r_tol,
-                                           l_head = self.bolt_cen_head_l_tol,
-                                           xtr_head = 1,
-                                           xtr_shank = 1,
-                                           support = 0, #not at printing directi
-                                           fc_normal = self.axis_d.negative(),
-                                           pos_n = 2,
-                                           pos = self.get_pos_dwh(0,0,3))
-        bolt_list.append (shp_cen_bolt)
+        shp_cen_bolt = fcfun.shp_bolt_dir(r_shank=self.bolt_cen_r_tol,
+                                          l_bolt=hold_d,
+                                          r_head=self.bolt_cen_head_r_tol,
+                                          l_head=self.bolt_cen_head_l_tol,
+                                          xtr_head=1,
+                                          xtr_shank=1,
+                                          support=0,  # not at printing directi
+                                          fc_normal=self.axis_d.negative(),
+                                          pos_n=2,
+                                          pos=self.get_pos_dwh(0, 0, 3))
+        bolt_list.append(shp_cen_bolt)
         # the rest of the bolts come in pairs:
-        for w_side in [-1,1]:
+        for w_side in [-1, 1]:
             # the wider bolts (although can be smaller)
-            for cen_col, cen_row in zip([2,3], [4,3]):
-                boltpos = self.get_pos_dwh(0,w_side*cen_col, cen_row)
-                shp_cen_bolt = fcfun.shp_bolt_dir ( 
-                                           r_shank = self.bolt_cen_r_tol,
-                                           l_bolt = hold_d,
-                                           r_head = self.bolt_cen_head_r_tol,
-                                           l_head = self.bolt_cen_head_l_tol,
-                                           xtr_head = 1,
-                                           xtr_shank = 1,
-                                           support = 0, #not at printing directi
-                                           fc_normal = self.axis_d.negative(),
-                                           pos_n = 2,
-                                           pos = boltpos)
-                bolt_list.append (shp_cen_bolt)
+            for cen_col, cen_row in zip([2, 3], [4, 3]):
+                boltpos = self.get_pos_dwh(0, w_side * cen_col, cen_row)
+                shp_cen_bolt = fcfun.shp_bolt_dir(
+                    r_shank=self.bolt_cen_r_tol,
+                    l_bolt=hold_d,
+                    r_head=self.bolt_cen_head_r_tol,
+                    l_head=self.bolt_cen_head_l_tol,
+                    xtr_head=1,
+                    xtr_shank=1,
+                    support=0,  # not at printing directi
+                    fc_normal=self.axis_d.negative(),
+                    pos_n=2,
+                    pos=boltpos)
+                bolt_list.append(shp_cen_bolt)
             # the smaller bolts (although can be larger). Linear guide
             # first row:
-            boltpos = self.get_pos_dwh(0,w_side*1, 3)
-            shp_lin_bolt = fcfun.shp_bolt_dir ( 
-                                       r_shank = self.bolt_linguide_r_tol,
-                                       l_bolt = hold_d,
-                                       r_head = self.bolt_linguide_head_r_tol,
-                                       l_head = self.bolt_linguide_head_l_tol,
-                                       xtr_head = 1,
-                                       xtr_shank = 1,
-                                       support = 0, #not at printing directi
-                                       fc_normal = self.axis_d.negative(),
-                                       pos_n = 2,
-                                       pos = boltpos)
-            bolt_list.append (shp_lin_bolt)
+            boltpos = self.get_pos_dwh(0, w_side * 1, 3)
+            shp_lin_bolt = fcfun.shp_bolt_dir(
+                r_shank=self.bolt_linguide_r_tol,
+                l_bolt=hold_d,
+                r_head=self.bolt_linguide_head_r_tol,
+                l_head=self.bolt_linguide_head_l_tol,
+                xtr_head=1,
+                xtr_shank=1,
+                support=0,  # not at printing directi
+                fc_normal=self.axis_d.negative(),
+                pos_n=2,
+                pos=boltpos)
+            bolt_list.append(shp_lin_bolt)
             # 3rd and 4th row. Just 2 shanks and a stadium per side
             for linrow in [5, 6]:
-                boltpos = self.get_pos_dwh(0,w_side*1, linrow)
-                shp_lin_shank = fcfun.shp_cylcenxtr ( 
-                                       r = self.bolt_linguide_r_tol,
-                                       h = hold_d,
-                                       normal = self.axis_d,
-                                       ch = 0,
-                                       xtr_top = 0, #no need: stadium
-                                       xtr_bot = 1,
-                                       pos = boltpos)
-                bolt_list.append (shp_lin_shank)
+                boltpos = self.get_pos_dwh(0, w_side * 1, linrow)
+                shp_lin_shank = fcfun.shp_cylcenxtr(
+                    r=self.bolt_linguide_r_tol,
+                    h=hold_d,
+                    normal=self.axis_d,
+                    ch=0,
+                    xtr_top=0,  # no need: stadium
+                    xtr_bot=1,
+                    pos=boltpos)
+                bolt_list.append(shp_lin_shank)
             # the stadium for both bolts head (they are too close)
-            stadpos = self.get_pos_dwh(6,w_side*1, 5)
-            shp_stad = fcfun.shp_stadium_dir (
-                                 length = boltrow1_4_dist - boltrow1_3_dist,
-                                 radius = self.bolt_linguide_head_r_tol,
-                                 height = self.bolt_linguide_head_l_tol,
-                                 fc_axis_h = self.axis_d.negative(),
-                                 fc_axis_l = self.axis_h,
-                                 ref_l = 2,
-                                 ref_h = 2,
-                                 xtr_h = 0, xtr_nh = 1,
-                                 pos = stadpos)
-            bolt_list.append (shp_stad)
-                                 
+            stadpos = self.get_pos_dwh(6, w_side * 1, 5)
+            shp_stad = fcfun.shp_stadium_dir(
+                length=boltrow1_4_dist - boltrow1_3_dist,
+                radius=self.bolt_linguide_head_r_tol,
+                height=self.bolt_linguide_head_l_tol,
+                fc_axis_h=self.axis_d.negative(),
+                fc_axis_l=self.axis_h,
+                ref_l=2,
+                ref_h=2,
+                xtr_h=0, xtr_nh=1,
+                pos=stadpos)
+            bolt_list.append(shp_stad)
+
         shp_bolts = fcfun.fuseshplist(bolt_list)
         shp_l = shp_l.cut(shp_bolts)
 
         # ---------------- Belt clamps
         # at both sides
         clamp_list = []
-        for w_side in [-1,1]:
-            clamp_pos = self.get_pos_dwh(0, w_side*7,7)
+        for w_side in [-1, 1]:
+            clamp_pos = self.get_pos_dwh(0, w_side * 7, 7)
             if w_side == 1:
                 clamp_axis_w = self.axis_w.negative()
             else:
                 clamp_axis_w = self.axis_w
-            shp_clamp = fcfun.shp_box_dir_xtr (
-                                      box_w = beltclamp_l,
-                                      box_d = self.beltclamp_blk_t,
-                                      box_h = beltclamp_h,
-                                      fc_axis_h = self.axis_h,
-                                      fc_axis_d = self.axis_d,
-                                      fc_axis_w = clamp_axis_w,
-                                      cw = 0, cd = 0, ch = 0,
-                                      xtr_nh = 1,
-                                      pos = clamp_pos)
-
+            shp_clamp = fcfun.shp_box_dir_xtr(
+                box_w=beltclamp_l,
+                box_d=self.beltclamp_blk_t,
+                box_h=beltclamp_h,
+                fc_axis_h=self.axis_h,
+                fc_axis_d=self.axis_d,
+                fc_axis_w=clamp_axis_w,
+                cw=0, cd=0, ch=0,
+                xtr_nh=1,
+                pos=clamp_pos)
 
             # fillet the corner
-            shp_clamp = fcfun.shp_filletchamfer_dirpt (shp_clamp, self.axis_h,
-                                               fc_pt = clamp_pos,
-                                               fillet = 1, radius = fillet_r)
+            shp_clamp = fcfun.shp_filletchamfer_dirpt(shp_clamp, self.axis_h,
+                                                      fc_pt=clamp_pos,
+                                                      fillet=1, radius=fillet_r)
             shp_clamp = shp_clamp.removeSplitter()
-            clamp_list.append (shp_clamp)
+            clamp_list.append(shp_clamp)
 
             # the other clamp, with no fillet
-            clamp_pos = self.get_pos_dwh(6, w_side*7,7)
-            shp_clamp = fcfun.shp_box_dir_xtr (
-                                      box_w = beltclamp_l,
-                                      box_d = self.beltclamp_blk_t,
-                                      box_h = beltclamp_h,
-                                      fc_axis_h = self.axis_h,
-                                      fc_axis_d = self.axis_d.negative(),
-                                      fc_axis_w = clamp_axis_w,
-                                      cw = 0, cd = 0, ch = 0,
-                                      xtr_nh = 1,
-                                      pos = clamp_pos)
-            clamp_list.append (shp_clamp)
+            clamp_pos = self.get_pos_dwh(6, w_side * 7, 7)
+            shp_clamp = fcfun.shp_box_dir_xtr(
+                box_w=beltclamp_l,
+                box_d=self.beltclamp_blk_t,
+                box_h=beltclamp_h,
+                fc_axis_h=self.axis_h,
+                fc_axis_d=self.axis_d.negative(),
+                fc_axis_w=clamp_axis_w,
+                cw=0, cd=0, ch=0,
+                xtr_nh=1,
+                pos=clamp_pos)
+            clamp_list.append(shp_clamp)
 
             # the belt post
-            beltpost_pos = self.get_pos_dwh(2, w_side*5,7)
+            beltpost_pos = self.get_pos_dwh(2, w_side * 5, 7)
             shp_beltpost = fcfun.shp_belt_dir(
-                                       center_sep = 2 * self.lr_beltpost_r,
-                                       rad1 = sm_beltpost_r,
-                                       rad2 = self.lr_beltpost_r,
-                                       height = beltclamp_h,
-                                       fc_axis_h = self.axis_h,
-                                       fc_axis_l = clamp_axis_w,
-                                       ref_l = 3,
-                                       ref_h = 2,
-                                       xtr_h = 0, xtr_nh = 1,
-                                       pos = beltpost_pos)
-            
-            clamp_list.append (shp_beltpost)
+                center_sep=2 * self.lr_beltpost_r,
+                rad1=sm_beltpost_r,
+                rad2=self.lr_beltpost_r,
+                height=beltclamp_h,
+                fc_axis_h=self.axis_h,
+                fc_axis_l=clamp_axis_w,
+                ref_l=3,
+                ref_h=2,
+                xtr_h=0, xtr_nh=1,
+                pos=beltpost_pos)
+
+            clamp_list.append(shp_beltpost)
         shp_filterholder = shp_l.multiFuse(clamp_list)
         shp_filterholder = shp_filterholder.removeSplitter()
-        
+
         self.shp = shp_filterholder
 
         # Then the Part
         super().create_fco()
         # Need to set first in (0,0,0) and after that set the real placement.
         # This enable to do rotations without any issue
-        self.fco.Placement.Base = FreeCAD.Vector(0,0,0) 
+        self.fco.Placement.Base = FreeCAD.Vector(0, 0, 0)
         self.fco.Placement.Base = self.position
 
         # save the arguments as attributes:
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes by CylHole
+            if not hasattr(self, i):  # so we keep the attributes by CylHole
                 setattr(self, i, values[i])

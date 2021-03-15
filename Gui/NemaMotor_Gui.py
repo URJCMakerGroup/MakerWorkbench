@@ -1,4 +1,3 @@
-import PySide2
 from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
 import os
 import FreeCAD
@@ -14,8 +13,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _NemaMotor_Cmd:
     def Activated(self):
@@ -32,8 +32,10 @@ class _NemaMotor_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_NemaMotor_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None
+
 
 class NemaMotor_TaskPanel:
     def __init__(self):
@@ -46,7 +48,7 @@ class NemaMotor_TaskPanel:
         # ---- Size ----
         self.Label_size = QtWidgets.QLabel("Size:")
         self.Size = QtWidgets.QComboBox()
-        self.Size.addItems(['8','11','14','17','23','34','42'])
+        self.Size.addItems(['8', '11', '14', '17', '23', '34', '42'])
         self.Size.setCurrentIndex(0)
 
         size_layout = QtWidgets.QHBoxLayout()
@@ -105,7 +107,6 @@ class NemaMotor_TaskPanel:
         shaft_layout.addLayout(shaft_layout_2)
         shaft_layout.addLayout(shaft_layout_3)
         
-
         # ---- Chamfer ----
         self.Label_chmf_r = QtWidgets.QLabel("Chamfer radius:") 
         self.chmf_r = QtWidgets.QDoubleSpinBox()
@@ -210,7 +211,7 @@ class NemaMotor_TaskPanel:
         # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
         self.pos_d = QtWidgets.QComboBox()
-        self.pos_d.addItems(['0','1','2','3','4'])
+        self.pos_d.addItems(['0', '1', '2', '3', '4'])
         self.pos_d.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_d)
@@ -219,7 +220,7 @@ class NemaMotor_TaskPanel:
         # w :
         self.Label_pos_w = QtWidgets.QLabel("in w:")
         self.pos_w = QtWidgets.QComboBox()
-        self.pos_w.addItems(['0','1','2','3','4'])
+        self.pos_w.addItems(['0', '1', '2', '3', '4'])
         self.pos_w.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_w)
@@ -228,7 +229,7 @@ class NemaMotor_TaskPanel:
         # h :
         self.Label_pos_h = QtWidgets.QLabel("in h:")
         self.pos_h = QtWidgets.QComboBox()
-        self.pos_h.addItems(['0','1','2','3','4','5'])
+        self.pos_h.addItems(['0', '1', '2', '3', '4', '5'])
         self.pos_h.setCurrentIndex(1)
 
         placement_layout_2.addWidget(self.Label_pos_h)
@@ -319,6 +320,7 @@ class NemaMotor_TaskPanel:
         main_layout.addLayout(placement_layout)
         main_layout.addLayout(axes_layout)
 
+
 class NemaMotor_Dialog:
     def __init__(self):
         self.placement = True
@@ -329,10 +331,10 @@ class NemaMotor_Dialog:
         self.form = [self.NemaMotor.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -351,55 +353,63 @@ class NemaMotor_Dialog:
         teeth = self.NemaMotor.pulley_teeth.value()
         top_flan = self.NemaMotor.pulley_top_flan.value()
         bot_flan = self.NemaMotor.pulley_bot_flan.value()
-        positions_d = [0,1,2,3,4]
-        positions_w = [0,1,2,3,4]
-        positions_h = [0,1,2,3,4,5]
+        positions_d = [0, 1, 2, 3, 4]
+        positions_w = [0, 1, 2, 3, 4]
+        positions_h = [0, 1, 2, 3, 4, 5]
         pos_d = positions_d[self.NemaMotor.pos_d.currentIndex()]
         pos_w = positions_w[self.NemaMotor.pos_w.currentIndex()]
         pos_h = positions_h[self.NemaMotor.pos_h.currentIndex()]
-        pos = FreeCAD.Vector(self.NemaMotor.pos_x.value(),self.NemaMotor.pos_y.value(),self.NemaMotor.pos_z.value())
-        axis_d = FreeCAD.Vector(self.NemaMotor.axis_d_x.value(),self.NemaMotor.axis_d_y.value(),self.NemaMotor.axis_d_z.value())
-        axis_w = FreeCAD.Vector(self.NemaMotor.axis_w_x.value(),self.NemaMotor.axis_w_y.value(),self.NemaMotor.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.NemaMotor.axis_h_x.value(),self.NemaMotor.axis_h_y.value(),self.NemaMotor.axis_h_z.value())
+        pos = FreeCAD.Vector(self.NemaMotor.pos_x.value(),
+                             self.NemaMotor.pos_y.value(),
+                             self.NemaMotor.pos_z.value())
+        axis_d = FreeCAD.Vector(self.NemaMotor.axis_d_x.value(),
+                                self.NemaMotor.axis_d_y.value(),
+                                self.NemaMotor.axis_d_z.value())
+        axis_w = FreeCAD.Vector(self.NemaMotor.axis_w_x.value(),
+                                self.NemaMotor.axis_w_y.value(),
+                                self.NemaMotor.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.NemaMotor.axis_h_x.value(),
+                                self.NemaMotor.axis_h_y.value(),
+                                self.NemaMotor.axis_h_z.value())
         
-        if ortonormal_axis(axis_d,axis_w,axis_h) == True:
-            NemaMotorPulleySet(nema_size = size,
-                                base_l = base_h,
-                                shaft_l = shaft_l,
-                                shaft_r = shaft_r,
-                                circle_r = shaft_br,
-                                circle_h = shaft_hr,
-                                chmf_r = chmf_r, 
-                                rear_shaft_l=0,
-                                bolt_depth = bolt_d,
-                                # pulley parameters
-                                pulley_pitch = pitch,
-                                pulley_n_teeth = teeth,
-                                pulley_toothed_h = 7.5,
-                                pulley_top_flange_h = top_flan,
-                                pulley_bot_flange_h = bot_flan,
-                                pulley_tot_h = 16.,
-                                pulley_flange_d = 15.,
-                                pulley_base_d = 15.,
-                                pulley_tol = 0,
-                                pulley_pos_h = -1,
-                                # general parameters
-                                axis_d = axis_d,
-                                axis_w = axis_w, #None
-                                axis_h = axis_h,
-                                pos_d = pos_d,
-                                pos_w = pos_w,
-                                pos_h = pos_h,
-                                pos = pos,
-                                group = 1,
-                                name = None)
+        if ortonormal_axis(axis_d, axis_w, axis_h) is True:
+            NemaMotorPulleySet(nema_size=size,
+                               base_l=base_h,
+                               shaft_l=shaft_l,
+                               shaft_r=shaft_r,
+                               circle_r=shaft_br,
+                               circle_h=shaft_hr,
+                               chmf_r=chmf_r,
+                               rear_shaft_l=0,
+                               bolt_depth=bolt_d,
+                               # pulley parameters
+                               pulley_pitch=pitch,
+                               pulley_n_teeth=teeth,
+                               pulley_toothed_h=7.5,
+                               pulley_top_flange_h=top_flan,
+                               pulley_bot_flange_h=bot_flan,
+                               pulley_tot_h=16.,
+                               pulley_flange_d=15.,
+                               pulley_base_d=15.,
+                               pulley_tol=0,
+                               pulley_pos_h=-1,
+                               # general parameters
+                               axis_d=axis_d,
+                               axis_w=axis_w,  # None
+                               axis_h=axis_h,
+                               pos_d=pos_d,
+                               pos_w=pos_w,
+                               pos_h=pos_h,
+                               pos=pos,
+                               group=1,
+                               name=None)
 
             FreeCADGui.activeDocument().activeView().viewAxonometric()
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.Control.closeDialog()  # close the dialog
             FreeCADGui.SendMsgToActiveView("ViewFit")
 
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -407,31 +417,39 @@ class NemaMotor_Dialog:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.NemaMotor, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.NemaMotor,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.NemaMotor,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.NemaMotor, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # command
-FreeCADGui.addCommand('Motor',_NemaMotor_Cmd())
+FreeCADGui.addCommand('Motor', _NemaMotor_Cmd())

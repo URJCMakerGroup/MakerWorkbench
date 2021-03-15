@@ -16,8 +16,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _Aluproft_Cmd:
     """
@@ -37,8 +38,10 @@ class _Aluproft_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_Aluproft_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None 
+
 
 class Aluproft_TaskPanel:
     def __init__(self):
@@ -51,7 +54,7 @@ class Aluproft_TaskPanel:
         self.prof_size = ["5", "10", "15", "20", "30", "40"]
         self.profile = QtWidgets.QComboBox()
         self.profile.addItems(self.prof_size)
-        self.profile.setCurrentIndex(3) #20
+        self.profile.setCurrentIndex(3)  # 20
 
         size_layout = QtWidgets.QHBoxLayout()
         size_layout.addWidget(self.Prof_Label)
@@ -108,7 +111,7 @@ class Aluproft_TaskPanel:
         # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
         self.pos_d = QtWidgets.QComboBox()
-        self.pos_d.addItems(['0','1','2','3','4','5'])
+        self.pos_d.addItems(['0', '1', '2', '3', '4', '5'])
         self.pos_d.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_d)
@@ -117,7 +120,7 @@ class Aluproft_TaskPanel:
         # w :
         self.Label_pos_w = QtWidgets.QLabel("in w:")
         self.pos_w = QtWidgets.QComboBox()
-        self.pos_w.addItems(['-3','-2','-1','0','1','2','3'])
+        self.pos_w.addItems(['-3', '-2', '-1', '0', '1', '2', '3'])
         self.pos_w.setCurrentIndex(3)
 
         placement_layout_2.addWidget(self.Label_pos_w)
@@ -126,7 +129,7 @@ class Aluproft_TaskPanel:
         # h :
         self.Label_pos_h = QtWidgets.QLabel("in h:")
         self.pos_h = QtWidgets.QComboBox()
-        self.pos_h.addItems(['-3','-2','-1','0','1','2','3'])
+        self.pos_h.addItems(['-3', '-2', '-1', '0', '1', '2', '3'])
         self.pos_h.setCurrentIndex(3)
 
         placement_layout_2.addWidget(self.Label_pos_h)
@@ -219,6 +222,7 @@ class Aluproft_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+
 class Aluproft_Dialog:
     def __init__(self):
         self.placement = True
@@ -229,10 +233,11 @@ class Aluproft_Dialog:
         self.form = [self.Aluproft.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
+
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
-        
+        self.v.removeEventCallback("SoEvent", self.track)
+
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
                 FreeCAD.ActiveDocument.removeObject('Point_d_w_h')
@@ -246,34 +251,40 @@ class Aluproft_Dialog:
         prof = prof_type[self.Aluproft.profile.currentIndex()]
         length = self.Aluproft.length_prof.value()
         pos = FreeCAD.Vector(self.Aluproft.pos_x.value(), self.Aluproft.pos_y.value(), self.Aluproft.pos_z.value())
-        positions_d = [0,1,2,3,4,5]
-        positions_w = [-3,-2,-1,0,1,2,3]
-        positions_h = [-3,-2,-1,0,1,2,3]
+        positions_d = [0, 1, 2, 3, 4, 5]
+        positions_w = [-3, -2, -1, 0, 1, 2, 3]
+        positions_h = [-3, -2, -1, 0, 1, 2, 3]
         pos_d = positions_d[self.Aluproft.pos_d.currentIndex()]
         pos_w = positions_w[self.Aluproft.pos_w.currentIndex()]
         pos_h = positions_h[self.Aluproft.pos_h.currentIndex()]
-        axis_d = FreeCAD.Vector(self.Aluproft.axis_d_x.value(),self.Aluproft.axis_d_y.value(),self.Aluproft.axis_d_z.value())
-        axis_w = FreeCAD.Vector(self.Aluproft.axis_w_x.value(),self.Aluproft.axis_w_y.value(),self.Aluproft.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.Aluproft.axis_h_x.value(),self.Aluproft.axis_h_y.value(),self.Aluproft.axis_h_z.value())
+        axis_d = FreeCAD.Vector(self.Aluproft.axis_d_x.value(),
+                                self.Aluproft.axis_d_y.value(),
+                                self.Aluproft.axis_d_z.value())
+        axis_w = FreeCAD.Vector(self.Aluproft.axis_w_x.value(),
+                                self.Aluproft.axis_w_y.value(),
+                                self.Aluproft.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.Aluproft.axis_h_x.value(),
+                                self.Aluproft.axis_h_y.value(),
+                                self.Aluproft.axis_h_z.value())
         
-        if ortonormal_axis(axis_d,axis_w,axis_h) == True:
-            AluProf(depth = length,
-                    aluprof_dict = kcomp.ALU_PROF[prof],
+        if ortonormal_axis(axis_d, axis_w, axis_h) is True:
+            AluProf(depth=length,
+                    aluprof_dict=kcomp.ALU_PROF[prof],
                     xtr_d=0, xtr_nd=0,
-                    axis_d = axis_d ,#VX, 
-                    axis_w = axis_w ,#VY, 
-                    axis_h = axis_h ,#V0,
-                    pos_d = pos_d, pos_w = pos_w, pos_h = pos_h,
-                    pos = pos,
-                    model_type = 1, # dimensional model
-                    name = 'aluprof_'+str(prof))
+                    axis_d=axis_d,  # VX,
+                    axis_w=axis_w,  # VY,
+                    axis_h=axis_h,  # V0,
+                    pos_d=pos_d, pos_w=pos_w, pos_h=pos_h,
+                    pos=pos,
+                    model_type=1,  # dimensional model
+                    name='aluprof_'+str(prof))
 
             FreeCADGui.activeDocument().activeView().viewAxonometric()
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.Control.closeDialog()  # close the dialog
             FreeCADGui.SendMsgToActiveView("ViewFit")
 
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -281,31 +292,39 @@ class Aluproft_Dialog:
 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.Aluproft, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.Aluproft,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.Aluproft,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.Aluproft, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('Aluproft',_Aluproft_Cmd()) 
+FreeCADGui.addCommand('Aluproft', _Aluproft_Cmd())

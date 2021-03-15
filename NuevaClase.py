@@ -17,6 +17,7 @@ from fcfun import VXN, VYN, VZN
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+
 class Obj3D (object):
     """ This is the the basic class, that provides reference axes and 
     methods to get positions
@@ -46,18 +47,18 @@ class Obj3D (object):
         if fco = 0 not FreeCAD Object
             
     """
-    def __init__(self, axis_d = None, axis_w = None, axis_h = None, name = None):
+    def __init__(self, axis_d=None, axis_w=None, axis_h=None, name=None):
         # the TopoShape has an origin, and distance vectors from it to 
         # the different points along the coordinate system  
         self.d_o = {}  # along axis_d
         self.w_o = {}  # along axis_w
         self.h_o = {}  # along axis_h
 
-        self.dict_child = {} # dict of child 
-        self.dict_child_sum = {} # dict of child add
-        self.dict_child_res = {} # dict of child remove
+        self.dict_child = {}  # dict of child
+        self.dict_child_sum = {}  # dict of child add
+        self.dict_child_res = {}  # dict of child remove
 
-        self.parts_lst = [] # list of all the parts
+        self.parts_lst = []  # list of all the parts
 
         self.rel_place = V0
         self.extra_mov = V0
@@ -67,7 +68,7 @@ class Obj3D (object):
         self.doc = FreeCAD.ActiveDocument
 
         if axis_h is not None:
-            axis_h = DraftVecUtils.scaleTo(axis_h,1)
+            axis_h = DraftVecUtils.scaleTo(axis_h, 1)
         else:
             self.h_o[0] = V0
             self.pos_h = 0
@@ -75,7 +76,7 @@ class Obj3D (object):
         self.axis_h = axis_h
 
         if axis_d is not None:
-            axis_d = DraftVecUtils.scaleTo(axis_d,1)
+            axis_d = DraftVecUtils.scaleTo(axis_d, 1)
         else:
             self.d_o[0] = V0
             self.pos_d = 0
@@ -83,7 +84,7 @@ class Obj3D (object):
         self.axis_d = axis_d
 
         if axis_w is not None:
-            axis_w = DraftVecUtils.scaleTo(axis_w,1)
+            axis_w = DraftVecUtils.scaleTo(axis_w, 1)
         else:
             self.w_o[0] = V0
             self.pos_w = 0
@@ -107,7 +108,6 @@ class Obj3D (object):
         vec_d = DraftVecUtils.scale(self.axis_d, d)
         return vec_d
 
-
     def vec_w(self, w):
         """ creates a vector along axis_w (width) with the length of argument w
 
@@ -122,7 +122,6 @@ class Obj3D (object):
         # self.axis_w is normalized, so no need to use DraftVecUtils.scaleTo
         vec_w = DraftVecUtils.scale(self.axis_w, w)
         return vec_w
-
 
     def vec_h(self, h):
         """ creates a vector along axis_h (height) with the length of argument h
@@ -166,13 +165,13 @@ class Obj3D (object):
                 and it was placed at pos, then the position will be adjusted
         """
 
-        vec_from_pos_o =  (  self.get_o_to_d(self.pos_d)
-                           + self.get_o_to_w(self.pos_w)
-                           + self.get_o_to_h(self.pos_h))
-        vec_to_pos_o =  vec_from_pos_o.negative()
+        vec_from_pos_o = (self.get_o_to_d(self.pos_d)
+                          + self.get_o_to_w(self.pos_w)
+                          + self.get_o_to_h(self.pos_h))
+        vec_to_pos_o = vec_from_pos_o.negative()
         self.pos_o = self.pos + vec_to_pos_o
         if adjust == 1:
-            self.pos_o_adjust = vec_to_pos_o # self.pos_o - self.pos
+            self.pos_o_adjust = vec_to_pos_o  # self.pos_o - self.pos
 
     def get_o_to_d(self, pos_d):
         """ returns the vector from origin pos_o to pos_d
@@ -215,13 +214,13 @@ class Obj3D (object):
                     return vec
             else:
                 try:
-                    vec_0_to_d = (self.d_o[0]).sub(self.d_o[pos_d]) # D= B-C
+                    vec_0_to_d = (self.d_o[0]).sub(self.d_o[pos_d])  # D= B-C
                 except KeyError:
                     logger.error('pos_d key not defined ' + str(pos_d))
                 else:
-                    vec_orig_to_d = self.d_o[0] + vec_0_to_d # A = B + D
+                    vec_orig_to_d = self.d_o[0] + vec_0_to_d  # A = B + D
                     return vec_orig_to_d
-        else: #pos_d == 0 is at the end, distances are calculated directly
+        else:  # pos_d == 0 is at the end, distances are calculated directly
             try:
                 vec = self.d_o[pos_d]
             except KeyError:
@@ -247,13 +246,13 @@ class Obj3D (object):
                     return vec
             else:
                 try:
-                    vec_0_to_w = (self.w_o[0]).sub(self.w_o[pos_w]) # D= B-C
+                    vec_0_to_w = (self.w_o[0]).sub(self.w_o[pos_w])  # D= B-C
                 except KeyError:
                     logger.error('pos_w key not defined ' + str(pos_w))
                 else:
-                    vec_orig_to_w = self.w_o[0] + vec_0_to_w # A = B + D
+                    vec_orig_to_w = self.w_o[0] + vec_0_to_w  # A = B + D
                     return vec_orig_to_w
-        else: #pos_w == 0 is at the end, distances are calculated directly
+        else:  # pos_w == 0 is at the end, distances are calculated directly
             try:
                 vec = self.w_o[pos_w]
             except KeyError:
@@ -279,13 +278,13 @@ class Obj3D (object):
                     return vec
             else:
                 try:
-                    vec_0_to_h = (self.h_o[0]).sub(self.h_o[pos_h]) # D= B-C
+                    vec_0_to_h = (self.h_o[0]).sub(self.h_o[pos_h])  # D= B-C
                 except KeyError:
                     logger.error('pos_h key not defined ' + str(pos_h))
                 else:
-                    vec_orig_to_h = self.h_o[0] + vec_0_to_h # A = B + D
+                    vec_orig_to_h = self.h_o[0] + vec_0_to_h  # A = B + D
                     return vec_orig_to_h
-        else: #pos_h == 0 is at the end, distances are calculated directly
+        else:  # pos_h == 0 is at the end, distances are calculated directly
             try:
                 vec = self.h_o[pos_h]
             except KeyError:
@@ -311,7 +310,6 @@ class Obj3D (object):
         vec = self.get_o_to_h(ptb).sub(self.get_o_to_h(pta))
         return vec
 
-
     def get_pos_d(self, pos_d):
         """ returns the absolute position of the pos_d point
         """
@@ -335,7 +333,7 @@ class Obj3D (object):
                           + self.get_o_to_h(pos_h))
         return pos
 
-    def set_name (self, name = '', default_name = '', change = 0):
+    def set_name(self, name='', default_name='', change=0):
         """ Sets the name attribute to the value of parameter name
         if name is empty, it will take default_name.
         if change == 1, it will change the self.name attribute to name, 
@@ -357,12 +355,12 @@ class Obj3D (object):
         if (not hasattr(self, 'name') or  # attribute name has not been created
             not self.name or              # attribute name is empty
             change == 1):                 # attribute has to be changed
-            if name == None:
+            if name is None:
                 self.name = default_name
             else:
                 self.name = name
     
-    def create_fco (self, name = None):
+    def create_fco(self, name=None):
         """ creates a FreeCAD object of the TopoShape in self.shp
 
         Parameters:
@@ -379,77 +377,91 @@ class Obj3D (object):
         # logger.info('Created the fco '+ name)
 
         try:
-            self.fco.addProperty("Part::PropertyPartShape","Shape",name, "Shape of the object",1)
+            self.fco.addProperty("Part::PropertyPartShape", "Shape",
+                                 name, "Shape of the object", 1)
             self.fco.Shape = self.shp
         except:
             logger.warning('No se puede asignar la propiedad shape')
 
         try:
-            self.fco.addProperty("App::PropertyVector","axis_d",name,"Internal axis d",4).axis_d = self.axis_d
+            self.fco.addProperty("App::PropertyVector", "axis_d",
+                                 name, "Internal axis d", 4).axis_d = self.axis_d
         except:
             logger.warning('Error al asignar la propiedad axis d')
 
         try: 
-            self.fco.addProperty("App::PropertyVector","axis_w",name,"Internal axis w",4).axis_w = self.axis_w
+            self.fco.addProperty("App::PropertyVector", "axis_w",
+                                 name, "Internal axis w", 4).axis_w = self.axis_w
         except:
             logger.warning('Error al asignar la propiedad axis w')
 
         try:
-            self.fco.addProperty("App::PropertyVector","axis_h",name,"Internal axis h",4).axis_h = self.axis_h
+            self.fco.addProperty("App::PropertyVector", "axis_h",
+                                 name, "Internal axis h", 4).axis_h = self.axis_h
         except:
             logger.warning('Error al asignar la propiedad axis h')
 
         try:
-            self.fco.addProperty("App::PropertyInteger","d0_cen",name,"Points d_o are symmetrics",4).d0_cen = self.d0_cen
+            self.fco.addProperty("App::PropertyInteger", "d0_cen",
+                                 name, "Points d_o are symmetrics", 4).d0_cen = self.d0_cen
         except:
             logger.warning('Error al asignar la propiedad d0_cen')
 
         try:
-            self.fco.addProperty("App::PropertyInteger","w0_cen",name,"Points w_o are symmetrics",4).w0_cen = self.w0_cen
+            self.fco.addProperty("App::PropertyInteger", "w0_cen",
+                                 name, "Points w_o are symmetrics", 4).w0_cen = self.w0_cen
         except:
             logger.warning('Error al asignar la propiedad w0_cen')
 
         try:
-            self.fco.addProperty("App::PropertyInteger","h0_cen",name,"Points h_o are symmetrics",4).h0_cen = self.h0_cen
+            self.fco.addProperty("App::PropertyInteger", "h0_cen",
+                                 name, "Points h_o are symmetrics", 4).h0_cen = self.h0_cen
         except:
             logger.warning('Error al asignar la propiedad h0_cen')
 
         try:
-            self.fco.addProperty("App::PropertyVectorList","d_o",name,"Points o to d",4).d_o = self.d_o
+            self.fco.addProperty("App::PropertyVectorList", "d_o",
+                                 name, "Points o to d", 4).d_o = self.d_o
         except:
             logger.warning('Error al asignar la propiedad d_o')
 
         try:
-            self.fco.addProperty("App::PropertyVectorList","w_o",name,"Points o to w",4).w_o = self.w_o
+            self.fco.addProperty("App::PropertyVectorList",  "w_o",
+                                 name, "Points o to w", 4).w_o = self.w_o
         except:
             logger.warning('Error al asignar la propiedad w_o')
 
         try:
-            self.fco.addProperty("App::PropertyVectorList","h_o",name,"Points o to h",4).h_o = self.h_o
+            self.fco.addProperty("App::PropertyVectorList", "h_o", name, "Points o to h", 4).h_o = self.h_o
         except:
             logger.warning('Error al asignar la propiedad h_o')
 
-        # try: #TODO: Future line of the project. Add childs properties to the parent. This doesn't make sense if the children don't have points to import
-        #     self.fco.addProperty("App::PropertyStringList","childs",name,"List of childs",4).childs = self.dict_child.keys()
+        # try: #TODO: Future line of the project.
+        #       Add childs properties to the parent. This doesn't make sense if the children don't have points to import
+        #     self.fco.addProperty("App::PropertyStringList", "childs",
+        #                          name, "List of childs",4).childs = self.dict_child.keys()
         #     try:
         #         for key in self.dict_child:
-        #             self.fco.addProperty("App::PropertyFloatList",key + "_d_o",name,"Points o to d of " + key,4)# = self.dict_child[key]['child_d_o']
+        #             self.fco.addProperty("App::PropertyFloatList", key + "_d_o",
+        #                                  name,"Points o to d of " + key,4) = self.dict_child[key]['child_d_o']
         #     except:
         #         logger.warning('Error al asignar la propiedad child_d_o')
         # except:
         #     logger.warning('Error al asignar la propiedad childs')
         # 
         # try:
-        #     self.fco.addProperty("App::PropertyStringList","childs_sum",name,"List of childs add",4).childs_sum = self.dict_child_sum.keys()
+        #     self.fco.addProperty("App::PropertyStringList", "childs_sum",
+        #                          name,"List of childs add", 4).childs_sum = self.dict_child_sum.keys()
         # except:
         #     logger.warning('Error al asignar la propiedad childs_sum')
         # 
         # try:
-        #     self.fco.addProperty("App::PropertyStringList","childs_res",name,"List of childs res",4).childs_res = self.dict_child_res.keys()
+        #     self.fco.addProperty("App::PropertyStringList", "childs_res",
+        #                          name,"List of childs res",4).childs_res = self.dict_child_res.keys()
         # except:
         #     logger.warning('Error al asignar la propiedad childs_res')
 
-    def add_child(self, child, child_sum = 1, child_name = None):
+    def add_child(self, child, child_sum=1, child_name=None):
         """ add child with their features
         child_sum:
             1: the child adds volume to the model
@@ -458,10 +470,13 @@ class Obj3D (object):
             
         # Create a dictionary for each child trhat is added with key data
 
-        try: # TODO: Future line of the project. Improve the child dictionary and usability 
-            self.dict_child[child_name] = dict(child_d_o = child.d_o, child_w_o = child.w_o, child_h_o = child.h_o, child_shp = child.shp)
+        try:  # TODO: Future line of the project. Improve the child dictionary and usability
+            self.dict_child[child_name] = dict(child_d_o=child.d_o,
+                                               child_w_o=child.w_o,
+                                               child_h_o=child.h_o,
+                                               child_shp=child.shp)
         except AttributeError:
-            self.dict_child[child_name] = dict(child_d_o = None, child_w_o = None, child_h_o = None, child_shp = child)
+            self.dict_child[child_name] = dict(child_d_o=None, child_w_o=None, child_h_o=None, child_shp=child)
             # logger.warning('Child has no points atributes')
 
         if child_sum == 1:
@@ -481,6 +496,7 @@ class Obj3D (object):
             if len(self.dict_child_sum) == 0 and len(self.dict_child_res) == 0:
                 pass
             else:
+
                 shp_sum_list = []
                 shp_res_list = []
                 for key in self.dict_child_sum:
@@ -496,19 +512,20 @@ class Obj3D (object):
                 shp_res = fcfun.fuseshplist(shp_res_list)
                 # restar a los volumenes a sumar los volumenes a restar
                 self.shp = shp_sum.cut(shp_res)
+                self.shp = self.shp.removeSplitter()
                 return self
 
-    def append_part (self, part):
+    def append_part(self, part):
         """ Appends a new part to the list of parts
         """
         self.parts_lst.append(part)
 
-    def get_parts (self):
+    def get_parts(self):
         """ get a list of the parts, 
         """
         return self.parts_lst
         
-    def make_group (self):
+    def make_group(self):
         self.fco = self.doc.addObject("Part::Compound", self.name)
         list_fco = []
         parts = []
@@ -525,7 +542,7 @@ class Obj3D (object):
         self.fco.Links = list_fco
         self.doc.recompute()
 
-    def set_part_place(self, child_part, vec_o_to_childpart = V0, add = 0):
+    def set_part_place(self, child_part, vec_o_to_childpart=V0, add=0):
         """ Modifies the attribute child_part.place, which defines the
         displacement of the child_part respect to self.pos_o
         Adds this displacement to the part's children
@@ -538,33 +555,33 @@ class Obj3D (object):
             child_part.rel_place = child_part.rel_place + rel_place
         child_part.fco.Placement.Base = child_part.rel_place
         
-    def place_fcos (self, displacement = V0):
+    def place_fcos(self, displacement=V0):
         """ Place the freecad objects
         
         """
-        #if type(place) is tuple:
+        # if type(place) is tuple:
         #   place = FreeCAD.Vector(place) # change to FreeCAD.Vector
         
-        tot_displ = (  self.pos_o_adjust + displacement
+        tot_displ = (self.pos_o_adjust + displacement
                      + self.rel_place + self.extra_mov)
         self.tot_displ = tot_displ
         for part in self.parts_lst:
-            if hasattr(part, 'fco') == True:
-                tot_displ = (  part.pos_o_adjust + displacement
+            if hasattr(part, 'fco'):
+                tot_displ = (part.pos_o_adjust + displacement
                              + part.rel_place + part.extra_mov)
                 part.tot_displ = tot_displ
                 part.fco.Placement.Base = part.tot_displ
-            elif hasattr(part, 'parts_lst') == True:
+            elif hasattr(part, 'parts_lst'):
                 for part_in_part in part.parts_lst:
-                    tot_displ = (  part_in_part.pos_o_adjust + displacement
+                    tot_displ = (part_in_part.pos_o_adjust + displacement
                                  + part_in_part.rel_place + part_in_part.extra_mov)
                     part_in_part.tot_displ = tot_displ
                     part_in_part.fco.Placement.Base = part_in_part.tot_displ
             else:
                 logger.warning('No attribute fco')
 
-                
         # self.fco.Placement.Base = tot_displ
+
 
 class ShpCylHole (Obj3D):
     """
@@ -713,13 +730,12 @@ class ShpCylHole (Obj3D):
     """
     def __init__(self,
                  r_out, r_in, h,
-                 axis_h = VZ, axis_d = None, axis_w = None,
-                 pos_h = 0, pos_d = 0, pos_w = 0,
+                 axis_h=VZ, axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
                  xtr_top=0, xtr_bot=0,
                  xtr_r_out=0, xtr_r_in=0,
-                 pos = V0,
-                 name = None):
-
+                 pos=V0,
+                 name=None):
 
         Obj3D.__init__(self, axis_d, axis_w, axis_h, name)
         
@@ -727,14 +743,14 @@ class ShpCylHole (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
         # THIS IS WORKING, but it seems that the signs are not right
         # vectors from o (orig) along axis_h, to the pos_h points
         # h_o is a dictionary created in Obj3D.__init__
-        self.h_o[0] =  self.vec_h(h/2. + xtr_bot)
-        self.h_o[1] =  self.vec_h(xtr_bot)
+        self.h_o[0] = self.vec_h(h/2. + xtr_bot)
+        self.h_o[1] = self.vec_h(xtr_bot)
         # pos_h = 0 is at the center
         self.h0_cen = 1
 
@@ -759,14 +775,15 @@ class ShpCylHole (Obj3D):
         # calculates the position of the origin, and keeps it in attribute pos_o
         self.set_pos_o()
 
-        shpcyl = fcfun.shp_cylholedir (r_out = r_out + xtr_r_out, #ext radius
-                                       r_in  = r_in + xtr_r_in, #internal radius
-                                       h     = h+xtr_bot+xtr_top, # height
-                                       normal= self.axis_h,       # direction
-                                       pos   = self.pos_o)        # Position
+        shpcyl = fcfun.shp_cylholedir(r_out=r_out + xtr_r_out,  # ext radius
+                                      r_in=r_in + xtr_r_in,  # internal radius
+                                      h=h+xtr_bot+xtr_top,  # height
+                                      normal=self.axis_h,       # direction
+                                      pos=self.pos_o)        # Position
 
         self.shp = shpcyl
         self.prnt_ax = self.axis_h
+
 
 class ShpBolt (Obj3D):
     """
@@ -890,17 +907,16 @@ class ShpBolt (Obj3D):
                  shank_l,
                  head_r,
                  head_l,
-                 thread_l = 0,
-                 head_type = 0, # cylindrical. 1: hexagonal
-                 socket_l = 0,
-                 socket_2ap = 0,
-                 shank_out = 0,
-                 head_out = 0,
-                 axis_h = VZ, axis_d = None, axis_w = None,
-                 pos_h = 0, pos_d = 0, pos_w = 0,
-                 pos = V0,
-                 name = None):
-
+                 thread_l=0,
+                 head_type=0,  # cylindrical. 1: hexagonal
+                 socket_l=0,
+                 socket_2ap=0,
+                 shank_out=0,
+                 head_out=0,
+                 axis_h=VZ, axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
+                 pos=V0,
+                 name=None):
 
         Obj3D.__init__(self, axis_d, axis_w, axis_h, name)
 
@@ -908,24 +924,24 @@ class ShpBolt (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
         self.h0_cen = 0
-        self.d0_cen = 1 # symmetrical
-        self.w0_cen = 1 # symmetrical
+        self.d0_cen = 1  # symmetrical
+        self.w0_cen = 1  # symmetrical
 
         self.tot_l = head_l + shank_l
 
         # vectors from o (orig) along axis_h, to the pos_h points
         # h_o is a dictionary created in Obj3D.__init__
-        self.h_o[0] =  V0 #origin
-        self.h_o[1] =  self.vec_h(head_out)
-        self.h_o[2] =  self.vec_h(socket_l)
-        self.h_o[3] =  self.vec_h(head_l)
-        self.h_o[4] =  self.vec_h(self.tot_l - thread_l)
-        self.h_o[5] =  self.vec_h(self.tot_l - shank_out)
-        self.h_o[6] =  self.vec_h(self.tot_l)
+        self.h_o[0] = V0  # origin
+        self.h_o[1] = self.vec_h(head_out)
+        self.h_o[2] = self.vec_h(socket_l)
+        self.h_o[3] = self.vec_h(head_l)
+        self.h_o[4] = self.vec_h(self.tot_l - thread_l)
+        self.h_o[5] = self.vec_h(self.tot_l - shank_out)
+        self.h_o[6] = self.vec_h(self.tot_l)
 
         self.d_o[0] = V0
         if not (self.axis_d is None or self.axis_d == V0):
@@ -948,30 +964,30 @@ class ShpBolt (Obj3D):
         # calculates the position of the origin, and keeps it in attribute pos_o
         self.set_pos_o()
 
-        if head_type == 0: # cylindrical
-            shp_head = fcfun.shp_cylcenxtr (r = head_r, h = head_l,
-                                  normal = self.axis_h,
-                                  ch=0, # not centered
-                                  # no extra on top, the shank will be there
-                                  xtr_top = 0,
-                                  xtr_bot = 0,
-                                  pos = self.pos_o)
+        if head_type == 0:  # cylindrical
+            shp_head = fcfun.shp_cylcenxtr(r=head_r, h=head_l,
+                                           normal=self.axis_h,
+                                           ch=0,  # not centered
+                                           # no extra on top, the shank will be there
+                                           xtr_top=0,
+                                           xtr_bot=0,
+                                           pos=self.pos_o)
 
-        else: # hexagonal
+        else:  # hexagonal
             if (self.axis_d is None) or (self.axis_d == V0):
                 logger.error('axis_d need to be defined')
             else:
-                shp_head = fcfun.shp_regprism_dirxtr (
-                                  n_sides = 6, radius = head_r,
-                                  length = head_l,
-                                  fc_normal = self.axis_h,
-                                  fc_verx1 = self.axis_d,
+                shp_head = fcfun.shp_regprism_dirxtr(
+                                  n_sides=6, radius=head_r,
+                                  length=head_l,
+                                  fc_normal=self.axis_h,
+                                  fc_verx1=self.axis_d,
                                   centered=0,
                                   # no extra on top, the shank will be there
-                                  xtr_top = 0, xtr_bot = 0,
-                                  pos = self.pos_o)
+                                  xtr_top=0, xtr_bot=0,
+                                  pos=self.pos_o)
 
-        if socket_l > 0 and socket_2ap > 0 : # there is socket
+        if socket_l > 0 and socket_2ap > 0:  # there is socket
             # diameter of the socket (circumdiameter)
             self.cos30 = 0.86603
             self.socket_dm = socket_2ap / self.cos30
@@ -980,45 +996,40 @@ class ShpBolt (Obj3D):
                 # just make an axis_d
                 self.axis_d = fcfun.get_fc_perpend1(self.axis_h)
 
-            shp_socket = fcfun.shp_regprism_dirxtr (
-                                  n_sides = 6, radius = self.socket_r,
-                                  length = socket_l,
-                                  fc_normal = self.axis_h,
-                                  fc_verx1 = self.axis_d,
+            shp_socket = fcfun.shp_regprism_dirxtr(
+                                  n_sides=6, radius=self.socket_r,
+                                  length=socket_l,
+                                  fc_normal=self.axis_h,
+                                  fc_verx1=self.axis_d,
                                   centered=0,
-                                  xtr_top = 0, xtr_bot = 1, #to cut
-                                  pos = self.pos_o)
+                                  xtr_top=0, xtr_bot=1,  # to cut
+                                  pos=self.pos_o)
             shp_head = shp_head.cut(shp_socket)
-            
 
-        if thread_l == 0 or thread_l >= shank_l: #all the shank is threaded
-            shp_shank = fcfun.shp_cylcenxtr (r = shank_r, h = shank_l,
-                                             normal = self.axis_h,
-                                             ch=0, # not centered
-                                             xtr_top = 0,
-                                             xtr_bot = head_l/2., #to make union
-                                             pos = self.get_pos_h(3))
-        else : # not threaded shank plus threaded, but just a little smaller
+        if thread_l == 0 or thread_l >= shank_l:  # all the shank is threaded
+            shp_shank = fcfun.shp_cylcenxtr(r=shank_r, h=shank_l,
+                                            normal=self.axis_h,
+                                            ch=0,  # not centered
+                                            xtr_top=0,
+                                            xtr_bot=head_l/2.,  # to make union
+                                            pos=self.get_pos_h(3))
+        else:  # not threaded shank plus threaded, but just a little smaller
             # to see the line
-            shp_shank = fcfun.shp_cylcenxtr (r = shank_r, h = shank_l-thread_l,
-                                             normal = self.axis_h,
-                                             ch=0, # not centered
-                                             xtr_top = 0,
-                                             xtr_bot = head_l/2., #to make union
-                                             pos = self.get_pos_h(3))
-            shp_thread = fcfun.shp_cylcenxtr (r = shank_r-0.1,
-                                              h = thread_l,
-                                              normal = self.axis_h,
-                                              ch=0, # not centered
-                                              xtr_top = 0,
-                                              xtr_bot = 1, #to make union
-                                              pos = self.get_pos_h(4))
+            shp_shank = fcfun.shp_cylcenxtr(r=shank_r, h=shank_l-thread_l,
+                                            normal=self.axis_h,
+                                            ch=0,  # not centered
+                                            xtr_top=0,
+                                            xtr_bot=head_l/2.,  # to make union
+                                            pos=self.get_pos_h(3))
+            shp_thread = fcfun.shp_cylcenxtr(r=shank_r-0.1,
+                                             h=thread_l,
+                                             normal=self.axis_h,
+                                             ch=0,  # not centered
+                                             xtr_top=0,
+                                             xtr_bot=1,  # to make union
+                                             pos=self.get_pos_h(4))
 
             shp_shank = shp_shank.fuse(shp_thread)
-
-
-
-
 
         shp_bolt = shp_head.fuse(shp_shank)
 
@@ -1026,6 +1037,7 @@ class ShpBolt (Obj3D):
         # no axis would be good to print, and it is not a piece to print
         # however, this would be the best
         self.prnt_ax = self.axis_h 
+
 
 class ShpPrismHole (Obj3D):
     """
@@ -1154,15 +1166,14 @@ class ShpPrismHole (Obj3D):
     """
     def __init__(self, n_sides,
                  r_out, h, r_in,
-                 h_offset = 0,
-                 xtr_r_in = 0,
-                 xtr_r_out = 0,
-                 axis_d_apo = 0,
-                 axis_h = VZ, axis_d = None, axis_w = None,
-                 pos_h = 0, pos_d = 0, pos_w = 0,
-                 pos = V0,
-                 name = None):
-
+                 h_offset=0,
+                 xtr_r_in=0,
+                 xtr_r_out=0,
+                 axis_d_apo=0,
+                 axis_h=VZ, axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
+                 pos=V0,
+                 name=None):
 
         Obj3D.__init__(self, axis_d, axis_w, axis_h, name)
 
@@ -1170,15 +1181,15 @@ class ShpPrismHole (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
-        self.h0_cen = 1 # symmetric
+        self.h0_cen = 1  # symmetric
         # vectors from o (orig) along axis_h, to the pos_h points
         # h_o is a dictionary created in Obj3D.__init__
-        self.h_o[0] =  V0
-        self.h_o[1] =  self.vec_h(-h/2.)
-        self.h_o[2] =  self.vec_h(-h/2. + h_offset)
+        self.h_o[0] = V0
+        self.h_o[1] = self.vec_h(-h/2.)
+        self.h_o[2] = self.vec_h(-h/2. + h_offset)
 
         # apotheme
         self.apo = r_out * math.cos(math.pi/n_sides)
@@ -1210,36 +1221,36 @@ class ShpPrismHole (Obj3D):
 
         if axis_d_apo == 0:
             self.axis_apo = self.axis_d
-        else: # rotate 360/(2*nsides)
+        else:  # rotate 360/(2*nsides)
             self.axis_apo = DraftVecUtils.rotate(self.axis_d, math.pi/n_sides,
                                                  self.axis_h)
 
-        shp_prism = fcfun.shp_regprism_dirxtr(n_sides = n_sides,
-                                              radius = r_out + xtr_r_out,
-                                              length = h,
-                                              fc_normal = self.axis_h,
-                                              fc_verx1 = self.axis_apo,
-                                              centered = 0,
+        shp_prism = fcfun.shp_regprism_dirxtr(n_sides=n_sides,
+                                              radius=r_out + xtr_r_out,
+                                              length=h,
+                                              fc_normal=self.axis_h,
+                                              fc_verx1=self.axis_apo,
+                                              centered=0,
                                               pos=self.get_pos_h(-1))
         if r_in > 0:
-            shp_cyl = fcfun.shp_cylcenxtr (r       = r_in + xtr_r_in,
-                                           h       = h,
-                                           normal  = self.axis_h,
-                                           ch      = 0,
-                                           xtr_top = 1, # to cut
-                                           xtr_bot = 1, # to cut
-                                           pos     = self.get_pos_h(-1))
+            shp_cyl = fcfun.shp_cylcenxtr(r=r_in + xtr_r_in,
+                                          h=h,
+                                          normal=self.axis_h,
+                                          ch=0,
+                                          xtr_top=1,  # to cut
+                                          xtr_bot=1,  # to cut
+                                          pos=self.get_pos_h(-1))
             self.shp = shp_prism.cut(shp_cyl)
-        else :
+        else:
             self.shp = shp_prism
         self.prnt_ax = self.axis_h
 
 ####################################################################################
 # Ejemplo de funcionamiento
 
-class placa(Obj3D):
 
-    def __init__(self, L_d = 10, L_w = 10, L_h = 2, axis_d = VX, axis_w = VY, axis_h = VZ, name = 'placa base'):
+class placa(Obj3D):
+    def __init__(self, l_d=10, l_w=10, l_h=2, axis_d=VX, axis_w=VY, axis_h=VZ, name='placa base'):
         """
             d_o[0] d_o[1]  d_o[2]
             :      :       :
@@ -1254,36 +1265,38 @@ class placa(Obj3D):
             |____________|... w_o[0]
            o
         """
-        self.shp = fcfun.shp_boxcen(L_d, L_w, L_h, cx= False, cy=False, cz=False, pos=V0)
+        self.shp = fcfun.shp_boxcen(l_d, l_w, l_h, cx=False, cy=False, cz=False, pos=V0)
         self.name = name
         self.axis_d = axis_d
         self.axis_h = axis_h
         self.axis_w = axis_w
 
-        Obj3D.__init__(self, self.axis_d , self.axis_w , self.axis_h, self.name)
+        Obj3D.__init__(self, self.axis_d, self.axis_w, self.axis_h, self.name)
 
         self.d_o[0] = 0
-        self.d_o[1] = L_d/2
-        self.d_o[2] = L_d
+        self.d_o[1] = l_d/2
+        self.d_o[2] = l_d
         
         self.w_o[0] = 0
-        self.w_o[1] = L_w/2
-        self.w_o[2] = L_w
+        self.w_o[1] = l_w/2
+        self.w_o[2] = l_w
         
         self.h_o[0] = 0
-        self.h_o[1] = L_h/2
-        self.h_o[2] = L_h
+        self.h_o[1] = l_h/2
+        self.h_o[2] = l_h
 
-        #Obj3D.create_fco(self, name)
+        # Obj3D.create_fco(self, name)
+
+
 class hole(Obj3D):
-    def __init__(self, r = None, h = None, axis_d = VX, axis_w = VY, axis_h = VZ, pos = V0, name = None):
+    def __init__(self, r=None, h=None, axis_d=VX, axis_w=VY, axis_h=VZ, pos=V0, name=None):
         self.shp = fcfun.shp_cyl(r, h, axis_h, pos)
         self.name = name
         self.axis_d = axis_d
         self.axis_h = axis_h
         self.axis_w = axis_w
 
-        Obj3D.__init__(self, self.axis_d , self.axis_w , self.axis_h, self.name)
+        Obj3D.__init__(self, self.axis_d, self.axis_w, self.axis_h, self.name)
 
         self.d_o[0] = 0
         self.d_o[1] = r/2
@@ -1296,6 +1309,7 @@ class hole(Obj3D):
         self.h_o[0] = 0
         self.h_o[1] = h/2
         self.h_o[2] = h
+
 
 class placa_perforada(Obj3D):
     """
@@ -1312,14 +1326,14 @@ class placa_perforada(Obj3D):
         |____________|... w_o[0]
         o
     """
-    def __init__(self, d, w, h, r, name = 'placa perforada'):
+    def __init__(self, d, w, h, r, name='placa perforada'):
         
         self.axis_d = VX
         self.axis_w = VY
         self.axis_h = VZ
         self.name = name
         
-        Obj3D.__init__(self, self.axis_d , self.axis_w , self.axis_h , self.name)
+        Obj3D.__init__(self, self.axis_d, self.axis_w, self.axis_h, self.name)
         
         self.d_o[0] = 0
         self.d_o[1] = d/2
@@ -1334,16 +1348,18 @@ class placa_perforada(Obj3D):
         self.h_o[2] = h
         
         # añadimos el hijo 1, añadiendo volumen
-        placa_ = placa(d,w,h)
+        placa_ = placa(d, w, h)
         Obj3D.add_child(self, placa_, 1, 'placa') 
         
         # añadimos el hijo 2, quitando volumen
-        hole_ = hole(r, h+0.1, axis_d = VX, axis_w = VY, axis_h = VZ, pos = FreeCAD.Vector(self.d_o[1],self.w_o[1],self.h_o[0]))
+        hole_ = hole(r, h+0.1, axis_d=VX, axis_w=VY, axis_h=VZ,
+                     pos=FreeCAD.Vector(self.d_o[1], self.w_o[1], self.h_o[0]))
         Obj3D.add_child(self, hole_, 0, 'hole')
         # creamos al padre
         Obj3D.make_parent(self, name)
         # creamos el fco
         Obj3D.create_fco(self, name)
+
 
 class placa_tornillos(Obj3D):
     """
@@ -1360,12 +1376,12 @@ class placa_tornillos(Obj3D):
         |_o________o_|... w_o[0]
         o
     """
-    def __init__(self, d, w, h, r, name = 'placa tornillos'):
+    def __init__(self, d, w, h, r, name='placa tornillos'):
         axis_d = VX
         axis_w = VY
         axis_h = VZ
 
-        Obj3D.__init__(self, axis_d , axis_w , axis_h , name)
+        Obj3D.__init__(self, axis_d, axis_w, axis_h, name)
         
         self.d_o[0] = 0
         self.d_o[1] = 2*r
@@ -1384,15 +1400,19 @@ class placa_tornillos(Obj3D):
         self.h_o[2] = h
         
         # añadimos el hijo 1, añadiendo volumen
-        Obj3D.add_child(self, placa(d,w,h),1, 'placa') 
+        Obj3D.add_child(self, placa(d, w, h), 1, 'placa')
         # añadimos el hijo 2, quitando volumen
-        Obj3D.add_child(self, hole(r, h+0.1, axis_d = VX, axis_w = VY, axis_h = VZ, pos = FreeCAD.Vector(self.d_o[1],self.w_o[1],self.h_o[0])), 0, 'tornillo1')
+        Obj3D.add_child(self, hole(r, h+0.1, axis_d=VX, axis_w=VY, axis_h=VZ,
+                                   pos=FreeCAD.Vector(self.d_o[1], self.w_o[1], self.h_o[0])), 0, 'tornillo1')
         # añadimos el hijo 3, quitando volumen
-        Obj3D.add_child(self, hole(r, h+0.1, axis_d = VX, axis_w = VY, axis_h = VZ, pos = FreeCAD.Vector(self.d_o[1],self.w_o[3],self.h_o[0])), 0, 'tornillo2')
+        Obj3D.add_child(self, hole(r, h+0.1, axis_d=VX, axis_w=VY, axis_h=VZ,
+                                   pos=FreeCAD.Vector(self.d_o[1], self.w_o[3], self.h_o[0])), 0, 'tornillo2')
         # añadimos el hijo 4, quitando volumen
-        Obj3D.add_child(self, hole(r, h+0.1, axis_d = VX, axis_w = VY, axis_h = VZ, pos = FreeCAD.Vector(self.d_o[3],self.w_o[3],self.h_o[0])), 0, 'tornillo3')
+        Obj3D.add_child(self, hole(r, h+0.1, axis_d=VX, axis_w=VY, axis_h=VZ,
+                                   pos=FreeCAD.Vector(self.d_o[3], self.w_o[3], self.h_o[0])), 0, 'tornillo3')
         # añadimos el hijo 5, quitando volumen
-        Obj3D.add_child(self, hole(r, h+0.1, axis_d = VX, axis_w = VY, axis_h = VZ, pos = FreeCAD.Vector(self.d_o[3],self.w_o[1],self.h_o[0])), 0, 'tornillo4')
+        Obj3D.add_child(self, hole(r, h+0.1, axis_d=VX, axis_w=VY, axis_h=VZ,
+                                   pos=FreeCAD.Vector(self.d_o[3], self.w_o[1], self.h_o[0])), 0, 'tornillo4')
         # creamos al padre
         Obj3D.make_parent(self, name)
         # creamos el fco

@@ -26,19 +26,17 @@ import MeshPart
 filepath = os.getcwd()
 # to get the components
 # In FreeCAD can be added: Preferences->General->Macro->Macro path
-sys.path.append(filepath) 
-#sys.path.append(filepath + '/' + 'comps')
+sys.path.append(filepath)
+# sys.path.append(filepath + '/' + 'comps')
 sys.path.append(filepath + '/../../' + 'comps')
 
-
-import kcomp   # import material constants and other constants
-import fcfun   # import my functions for freecad. FreeCad Functions
+import kcomp  # import material constants and other constants
+import fcfun  # import my functions for freecad. FreeCad Functions
 import shp_clss
 import kparts
 
 from fcfun import V0, VX, VY, VZ, V0ROT
 from fcfun import VXN, VYN, VZN
-
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -71,7 +69,7 @@ logger = logging.getLogger(__name__)
 # rough
 
 
-class SinglePart (object):
+class SinglePart(object):
     """
     This is a 3D model that only has one part.
     It can be either a part that forms a whole object with other parts, 
@@ -105,19 +103,20 @@ class SinglePart (object):
         1.: full intensity on that channel
 
     """
+
     def __init__(self):
         # bring the active document
         self.doc = FreeCAD.ActiveDocument
 
         # placement of the piece at V0, although pos can set it anywhere
-        self.place = V0   #check this and rel_place
-        #self.displacement = V0
+        self.place = V0  # check this and rel_place
+        # self.displacement = V0
         self.rel_place = V0
         self.extra_mov = V0
 
         self.create_fco(self.name)
-        #self.tol = tol
-        #self.model_type = model_type
+        # self.tol = tol
+        # self.model_type = model_type
 
     def get_parts(self):
         """ returns an empty list, because it is a SinglePart.
@@ -125,7 +124,7 @@ class SinglePart (object):
         """
         return []
 
-    def set_color (self, color = (1.,1.,1.)):
+    def set_color(self, color=(1., 1., 1.)):
         """ Sets a new color for the piece
 
         Parameters
@@ -135,10 +134,10 @@ class SinglePart (object):
 
         """
         # just in case the value is 0 or 1, and it is an int
-        self.color = (float(color[0]),float(color[1]), float(color[2]))
+        self.color = (float(color[0]), float(color[1]), float(color[2]))
         self.fco.ViewObject.ShapeColor = self.color
 
-    def set_line_color (self, color = (1.,1.,1.)):
+    def set_line_color(self, color=(1., 1., 1.)):
         """ Sets a new color for the vertex lines of the piece
 
         Parameters
@@ -148,11 +147,10 @@ class SinglePart (object):
 
         """
         # just in case the value is 0 or 1, and it is an int
-        self.line_color = (float(color[0]),float(color[1]), float(color[2]))
+        self.line_color = (float(color[0]), float(color[1]), float(color[2]))
         self.fco.ViewObject.LineColor = self.line_color
 
-
-    def set_line_width (self, width = 1.):
+    def set_line_width(self, width=1.):
         """ Sets the line width of the vertexes
 
         Parameters
@@ -164,8 +162,7 @@ class SinglePart (object):
         self.line_width = float(width)
         self.fco.ViewObject.LineWidth = self.line_width
 
-
-    def set_point_size (self, size = 1.):
+    def set_point_size(self, size=1.):
         """ Sets the point size
 
         Parameters
@@ -177,8 +174,7 @@ class SinglePart (object):
         self.point_size = size
         self.fco.ViewObject.PointSize = self.point_size
 
-
-    def set_name (self, name = '', default_name = '', change = 0):
+    def set_name(self, name='', default_name='', change=0):
         """ Sets the name attribute to the value of parameter name
         if name is empty, it will take default_name.
         if change == 1, it will change the self.name attribute to name, 
@@ -198,14 +194,14 @@ class SinglePart (object):
         """
         # attribute name has not been created
         if (not hasattr(self, 'name') or  # attribute name has not been created
-            not self.name or              # attribute name is empty
-            change == 1):                 # attribute has to be changed
+                not self.name or  # attribute name is empty
+                change == 1):  # attribute has to be changed
             if not name:
                 self.name = default_name
             else:
                 self.name = name
 
-    def create_fco (self, name = ''):
+    def create_fco(self, name=''):
         """ creates a FreeCAD object of the TopoShape in self.shp
 
         Parameters
@@ -219,21 +215,20 @@ class SinglePart (object):
         fco = fcfun.add_fcobj(self.shp, name, self.doc)
         self.fco = fco
 
-
-    # ----- 
-    def place_fcos (self, displacement = V0):
+    # -----
+    def place_fcos(self, displacement=V0):
         """ Place the freecad objects
         
         """
-        #if type(place) is tuple:
+        # if type(place) is tuple:
         #   place = FreeCAD.Vector(place) # change to FreeCAD.Vector
-        
-        tot_displ = (  self.pos_o_adjust + displacement
+
+        tot_displ = (self.pos_o_adjust + displacement
                      + self.rel_place + self.extra_mov)
         self.tot_displ = tot_displ
         self.fco.Placement.Base = tot_displ
-    
-    def set_place (self, place = V0):
+
+    def set_place(self, place=V0):
         """ Sets a new placement for the piece
 
         Parameters
@@ -242,13 +237,13 @@ class SinglePart (object):
             new position of the pieces
         """
         if type(place) is tuple:
-            place = FreeCAD.Vector(place) # change to FreeCAD.Vector
+            place = FreeCAD.Vector(place)  # change to FreeCAD.Vector
         if type(place) is FreeCAD.Vector:
             self.fco.Placement.Base = place
             self.place = place
 
     # ----- Export to STL method
-    def export_stl(self, prefix = "", name = "", stl_path = ""):
+    def export_stl(self, prefix="", name="", stl_path=""):
         """ exports to stl the piece to print 
 
         Parameters
@@ -270,7 +265,7 @@ class SinglePart (object):
             stl_filename = filename + '.stl'
         else:
             stl_filename = stl_path + filename + '.stl'
-        
+
         # I think this is a bug, before it may be called pos0, but
         # now should be pos_o
         pos_o = self.pos_o
@@ -278,29 +273,29 @@ class SinglePart (object):
         shp = self.shp
         # ----------- moving the shape doesn't work:
         # I think that is because it is bound to a FreeCAD object
-        #shp.Placement.Base = self.pos.negative() + self.place.negative()
-        #shp.translate (self.pos.negative() + self.place.negative())
-        #shp.rotate (V0, rotation.Axis, math.degrees(rotation.Angle))
-        #shp.Placement.Base = self.place
-        #shp.Placement.Rotation = fcfun.V0ROT
+        # shp.Placement.Base = self.pos.negative() + self.place.negative()
+        # shp.translate (self.pos.negative() + self.place.negative())
+        # shp.rotate (V0, rotation.Axis, math.degrees(rotation.Angle))
+        # shp.Placement.Base = self.place
+        # shp.Placement.Rotation = fcfun.V0ROT
         # ----------- option 1. making a copy of the shape
         # and then deleting it (nullify)
-        #shp_cpy = shp.copy()
-        #shp_cpy.translate (pos_o.negative() + self.place.negative())
-        #shp_cpy.rotate (V0, rotation.Axis, math.degrees(rotation.Angle))
-        #shp_cpy.exportStl(stl_path + filename + 'stl')
-        #shp_cpy.nullify()
+        # shp_cpy = shp.copy()
+        # shp_cpy.translate (pos_o.negative() + self.place.negative())
+        # shp_cpy.rotate (V0, rotation.Axis, math.degrees(rotation.Angle))
+        # shp_cpy.exportStl(stl_path + filename + 'stl')
+        # shp_cpy.nullify()
         # ----------- option 2. moving the freecad object
-        
+
         # place is no longer used, it should be rel_place or abs_place
         self.fco.Placement.Base = pos_o.negative() + self.place.negative()
         self.fco.Placement.Rotation = rotation
         self.doc.recompute()
 
         # exportStl is not working well with FreeCAD 0.17
-        #self.fco.Shape.exportStl(self.stl_path + filename + '.stl')
+        # self.fco.Shape.exportStl(self.stl_path + filename + '.stl')
         mesh_shp = MeshPart.meshFromShape(self.fco.Shape,
-                                          LinearDeflection=kparts.LIN_DEFL, 
+                                          LinearDeflection=kparts.LIN_DEFL,
                                           AngularDeflection=kparts.ANG_DEFL)
         mesh_shp.write(stl_filename)
         del mesh_shp
@@ -309,7 +304,7 @@ class SinglePart (object):
         self.fco.Placement.Rotation = V0ROT
         self.doc.recompute()
 
-    def save_fcad(self, prefix = "", name = ""):
+    def save_fcad(self, prefix="", name=""):
         """ Save the FreeCAD document, actually, it may not be a class method
         only for the name
 
@@ -327,12 +322,12 @@ class SinglePart (object):
 
         fcad_filename = self.fcad_path + name + '.FCStd'
         print(fcad_filename)
-        self.doc.saveAs (fcad_filename)
+        self.doc.saveAs(fcad_filename)
 
 
 # Possible names: Parts     , Pieces,         Elements,
 #                      Group        Ensemble,         Set, 
-class PartsSet (shp_clss.Obj3D):
+class PartsSet(shp_clss.Obj3D):
     """
     This is a 3D model that has a set of parts (SinglePart or others)
     
@@ -356,13 +351,13 @@ class PartsSet (shp_clss.Obj3D):
     """
 
     def __init__(self, axis_d, axis_w, axis_h):
-        
+
         # bring the active document
         self.doc = FreeCAD.ActiveDocument
 
         shp_clss.Obj3D.__init__(self, axis_d, axis_w, axis_h)
 
-        self.parts_lst = [] # list of all the parts (SinglePart, ...)
+        self.parts_lst = []  # list of all the parts (SinglePart, ...)
 
         self.place = V0  # check these places, unify them
         self.abs_place = V0
@@ -370,17 +365,17 @@ class PartsSet (shp_clss.Obj3D):
         self.extra_mov = V0
         self.displacement = V0
 
-    def append_part (self, part):
+    def append_part(self, part):
         """ Appends a new part to the list of parts
         """
         self.parts_lst.append(part)
 
-    def get_parts (self):
+    def get_parts(self):
         """ get a list of the parts, 
         """
         return self.parts_lst
-        
-    def make_group (self):
+
+    def make_group(self):
         self.fco = self.doc.addObject("Part::Compound", self.name)
         list_fco = []
         part_list = self.get_parts()
@@ -393,64 +388,62 @@ class PartsSet (shp_clss.Obj3D):
                 list_fco.append(fco_i)
         self.fco.Links = list_fco
         self.doc.recompute()
-        
-    def get_abs_place (self):
+
+    def get_abs_place(self):
         """ gets the placement of the object, with any adjustment
         So the shape has been created at pos, and this is any movement done
         after this movement of the freecadobject
         """
-        
+
         return self.abs_place
 
-    def get_rel_place (self):
+    def get_rel_place(self):
         """ gets the placement of the object, with any adjustment
         So the shape has been created at pos, and this is any movement done
         after this movement of the freecadobject
         """
-        
+
         return self.rel_place
 
-        
-    def set_part_place(self, child_part, vec_o_to_childpart = V0, add = 0):
+    def set_part_place(self, child_part, vec_o_to_childpart=V0, add=0):
         """ Modifies the attribute child_part.place, which defines the
         displacement of the child_part respect to self.pos_o
         Adds this displacement to the part's children
         """
-        
+
         rel_place = self.pos_o_adjust + vec_o_to_childpart
         if add == 0:
             child_part.rel_place = rel_place
         else:
             child_part.rel_place = child_part.rel_place + rel_place
-        #child_part.abs_place = self.get_abs_place() + child_part.rel_place
-        #try:
+        # child_part.abs_place = self.get_abs_place() + child_part.rel_place
+        # try:
         #    child_part.fco.Placement.Base = child_part.abs_place
-        #except AttributeError: # only SimpleParts objects have fco,not PartsSet
+        # except AttributeError: # only SimpleParts objects have fco,not PartsSet
         #    pass
         # add this displacement to all the children
-        #part_list = child_part.get_parts()
-        #for grandchild_i in part_list:
-            #child_part.set_part_place(grandchild_i, add = 1)
-        
-        
-    def mov_place(self, child_part, vec_o_to_childpart = V0):
+        # part_list = child_part.get_parts()
+        # for grandchild_i in part_list:
+        # child_part.set_part_place(grandchild_i, add = 1)
+
+    def mov_place(self, child_part, vec_o_to_childpart=V0):
         """ Modifies the attribute child_part.place, which defines the
         displacement of the child_part respect to self.pos_o
         Adds this displacement to the part's children
         """
-        
+
         displacement = (self.pos_o - self.pos) + vec_o_to_childpart + self.place
         child_part.place = child_part.place + displacement
         try:
             child_part.fco.Placement.Base = child_part.place
-        except AttributeError: # only SimpleParts objects have fco, not PartsSet
+        except AttributeError:  # only SimpleParts objects have fco, not PartsSet
             pass
         # add this displacement to all the children
         part_list = child_part.get_parts()
         for grandchild_i in part_list:
             child_part.add_part_place(grandchild_i)
-        
-    def set_color (self, color = (1.,1.,1.), part_i = 0):
+
+    def set_color(self, color=(1., 1., 1.), part_i=0):
         """ Sets a new color for the whole set of parts or for the selected
         parts
 
@@ -465,27 +458,27 @@ class PartsSet (shp_clss.Obj3D):
 
         """
         # just in case the value is 0 or 1, and it is an int
-        color = (float(color[0]),float(color[1]), float(color[2]))
+        color = (float(color[0]), float(color[1]), float(color[2]))
         if part_i == 0:
-            self.color = color #only if all the parts have the same color
+            self.color = color  # only if all the parts have the same color
             for part in self.parts_lst:  # list of SinglePart objects
                 part.set_color(color)
         else:
-            self.parts_lst[part_i-1].set_color(color)
+            self.parts_lst[part_i - 1].set_color(color)
 
     # ----- 
-    def place_fcos (self, displacement = V0):
+    def place_fcos(self, displacement=V0):
         """ Place the freecad objects
         """
-        #if type(place) is tuple:
+        # if type(place) is tuple:
         #   place = FreeCAD.Vector(place) # change to FreeCAD.Vector
-        
+
         # having pos_o_adjust and rel_place made the sum twice
-        #tot_displ = (  self.pos_o_adjust + displacement 
-        tot_displ = (  displacement 
+        # tot_displ = (  self.pos_o_adjust + displacement
+        tot_displ = (displacement
                      + self.rel_place + self.extra_mov)
         self.tot_displ = tot_displ
-        #if this set has been grouped, we don't have to go to its children
+        # if this set has been grouped, we don't have to go to its children
         try:
             self.fco.Placement.Base = tot_displ
         except AttributeError:
@@ -493,9 +486,8 @@ class PartsSet (shp_clss.Obj3D):
             for part in self.parts_lst:
                 part.place_fcos(tot_displ)
 
-
     # ----- Export to STL method
-    def export_stl(self, part_i = 0, prefix = ""):
+    def export_stl(self, part_i=0, prefix=""):
         """ exports to stl the part or the parts to print
         Save them in a STL file
 
@@ -509,15 +501,14 @@ class PartsSet (shp_clss.Obj3D):
         prefix : str
             Prefix to all the parts
         """
-        
-        if part_i == 0: # export all the parts
+
+        if part_i == 0:  # export all the parts
             for part in self.parts_lst:
-                part.export_stl(prefix = prefix)
+                part.export_stl(prefix=prefix)
         else:
-            self.parts_lst[part_i-1].export_stl(prefix = prefix)
+            self.parts_lst[part_i - 1].export_stl(prefix=prefix)
 
-
-    def save_fcad(self, prefix = "", name = ""):
+    def save_fcad(self, prefix="", name=""):
         """ Save the FreeCAD document, actually, it may not be a class method
         only for the name
 
@@ -535,9 +526,9 @@ class PartsSet (shp_clss.Obj3D):
 
         fcad_filename = self.fcad_path + name + '.FCStd'
         print(fcad_filename)
-        self.doc.saveAs (fcad_filename)
+        self.doc.saveAs(fcad_filename)
 
-    def set_name (self, name = '', default_name = '', change = 0):
+    def set_name(self, name='', default_name='', change=0):
         """ Sets the name attribute to the value of parameter name
         if name is empty, it will take default_name.
         if change == 1, it will change the self.name attribute to name, 
@@ -557,15 +548,15 @@ class PartsSet (shp_clss.Obj3D):
         """
         # attribute name has not been created
         if (not hasattr(self, 'name') or  # attribute name has not been created
-            not self.name or              # attribute name is empty
-            change == 1):                 # attribute has to be changed
+                not self.name or  # attribute name is empty
+                change == 1):  # attribute has to be changed
             if not name:
                 self.name = default_name
             else:
                 self.name = name
 
 
-class Washer (SinglePart, shp_clss.ShpCylHole):
+class Washer(SinglePart, shp_clss.ShpCylHole):
     """ Washer, that is, a cylinder with a inner hole
 
     Parameters
@@ -604,27 +595,28 @@ class Washer (SinglePart, shp_clss.ShpCylHole):
         Metric of the washer
 
     """
-    def __init__(self, r_out, r_in, h, axis_h, pos_h, tol = 0, pos = V0,
-                 model_type = 0, # exact
-                 name = ''):
+
+    def __init__(self, r_out, r_in, h, axis_h, pos_h, tol=0, pos=V0,
+                 model_type=0,  # exact
+                 name=''):
 
         # sets the object name if not already set by a child class
         if not hasattr(self, 'metric'):
             self.metric = int(2 * r_in)
         default_name = 'washer' + str(self.metric)
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
 
         tol_r = tol / 2.
 
         # First the shape is created
-        shp_clss.ShpCylHole.__init__(self, r_out = r_out, r_in = r_in,
-                                     h = h, axis_h = axis_h,
-                                     pos_h = pos_h,
+        shp_clss.ShpCylHole.__init__(self, r_out=r_out, r_in=r_in,
+                                     h=h, axis_h=axis_h,
+                                     pos_h=pos_h,
                                      # inside tolerance is more
-                                     xtr_r_in = tol_r,
+                                     xtr_r_in=tol_r,
                                      # outside tolerance is less
-                                     xtr_r_out = - tol_r,
-                                     pos = pos)
+                                     xtr_r_out=- tol_r,
+                                     pos=pos)
 
         # Then the Part
         SinglePart.__init__(self)
@@ -633,12 +625,11 @@ class Washer (SinglePart, shp_clss.ShpCylHole):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes by CylHole
+            if not hasattr(self, i):  # so we keep the attributes by CylHole
                 setattr(self, i, values[i])
 
 
-
-class Din125Washer (Washer):
+class Din125Washer(Washer):
     """ Din 125 Washer, this is the regular washer
 
     Parameters
@@ -681,27 +672,27 @@ class Din125Washer (Washer):
 
     model_type : int
     """
-    def __init__(self, metric, axis_h, pos_h, tol = 0, pos = V0,
-                 model_type = 0, # exact
-                 name = ''):
 
+    def __init__(self, metric, axis_h, pos_h, tol=0, pos=V0,
+                 model_type=0,  # exact
+                 name=''):
         # sets the object name if not already set by a child class
         self.metric = metric
         default_name = 'din125_washer_m' + str(self.metric)
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
 
         washer_dict = kcomp.D125[metric]
         Washer.__init__(self,
-                        r_out = washer_dict['do']/2.,
-                        r_in = washer_dict['di']/2.,
-                        h = washer_dict['t'],
-                        axis_h = axis_h,
-                        pos_h = pos_h,
-                        tol = tol, pos = pos,
-                        model_type = model_type)
+                        r_out=washer_dict['do'] / 2.,
+                        r_in=washer_dict['di'] / 2.,
+                        h=washer_dict['t'],
+                        axis_h=axis_h,
+                        pos_h=pos_h,
+                        tol=tol, pos=pos,
+                        model_type=model_type)
 
 
-class Din9021Washer (Washer):
+class Din9021Washer(Washer):
     """ Din 9021 Washer, this is the larger washer
 
     Parameters
@@ -744,41 +735,39 @@ class Din9021Washer (Washer):
 
     model_type : int
     """
-    def __init__(self, metric, axis_h, pos_h, tol = 0, pos = V0,
-                 model_type = 0, # exact
-                 name = ''):
 
+    def __init__(self, metric, axis_h, pos_h, tol=0, pos=V0,
+                 model_type=0,  # exact
+                 name=''):
         # sets the object name if not already set by a child class
         self.metric = metric
         default_name = 'din9021_washer_m' + str(self.metric)
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
 
         washer_dict = kcomp.D9021[metric]
         Washer.__init__(self,
-                        r_out = washer_dict['do']/2.,
-                        r_in = washer_dict['di']/2.,
-                        h = washer_dict['t'],
-                        axis_h = axis_h,
-                        pos_h = pos_h,
-                        tol = tol, pos = pos,
-                        model_type = model_type)
+                        r_out=washer_dict['do'] / 2.,
+                        r_in=washer_dict['di'] / 2.,
+                        h=washer_dict['t'],
+                        axis_h=axis_h,
+                        pos_h=pos_h,
+                        tol=tol, pos=pos,
+                        model_type=model_type)
 
 
-
-
-#doc = FreeCAD.newDocument()
-#washer = Din125Washer( metric = 5,
+# doc = FreeCAD.newDocument()
+# washer = Din125Washer( metric = 5,
 #                    axis_h = VZ, pos_h = 1, tol = 0, pos = V0,
 #                    model_type = 0, # exact
 #                    name = '')
-#wash = Din9021Washer( metric = 5,
+# wash = Din9021Washer( metric = 5,
 #                    axis_h = VZ, pos_h = 1, tol = 0,
 #                    pos = washer.pos + DraftVecUtils.scale(VZ,washer.h),
 #                    model_type = 0, # exact
 #                    name = '')
 
 
-class BearingOutl (SinglePart, shp_clss.ShpCylHole):
+class BearingOutl(SinglePart, shp_clss.ShpCylHole):
     """ Bearing outline , that is, a cylinder with a inner hole.
     It does not include the balls and parts
 
@@ -840,15 +829,16 @@ class BearingOutl (SinglePart, shp_clss.ShpCylHole):
         dictionary with the dimensions of the bearing
 
     """
-    def __init__(self, bearing_nb, axis_h, pos_h,
-                 axis_d = None, axis_w = None,
-                 pos_d = 0, pos_w = 0, tol = 0, pos = V0,
-                 name = ''):
 
-        self.model_type = 1 # outline
+    def __init__(self, bearing_nb, axis_h, pos_h,
+                 axis_d=None, axis_w=None,
+                 pos_d=0, pos_w=0, tol=0, pos=V0,
+                 name=''):
+
+        self.model_type = 1  # outline
         # sets the object name if not already set by a child class
-        default_name = 'bearing_' + str(bearing_nb) 
-        self.set_name (name, default_name, change = 0)
+        default_name = 'bearing_' + str(bearing_nb)
+        self.set_name(name, default_name, change=0)
         self.bearing_nb = bearing_nb
 
         print(bearing_nb)
@@ -859,38 +849,38 @@ class BearingOutl (SinglePart, shp_clss.ShpCylHole):
             self.bear_d = bear_d
         except KeyError:
             logger.error('Bearing key not found: ' + str(bearing_nb))
-        else: # no exception:
+        else:  # no exception:
             if tol == 0:
                 tol_r = 0
             else:
-                tol_r = tol / 2. #just in case there is tolerance
+                tol_r = tol / 2.  # just in case there is tolerance
             # First the shape is created
             shp_clss.ShpCylHole.__init__(self,
-                                         r_out = bear_d['do']/2.,
-                                         r_in = bear_d['di']/2.,
-                                         h = bear_d['t'],
-                                         axis_h = axis_h,
-                                         axis_d = axis_d,
-                                         axis_w = axis_w,
-                                         pos_d = pos_d,
-                                         pos_w = pos_w,
-                                         pos_h = pos_h,
+                                         r_out=bear_d['do'] / 2.,
+                                         r_in=bear_d['di'] / 2.,
+                                         h=bear_d['t'],
+                                         axis_h=axis_h,
+                                         axis_d=axis_d,
+                                         axis_w=axis_w,
+                                         pos_d=pos_d,
+                                         pos_w=pos_w,
+                                         pos_h=pos_h,
                                          # inside tolerance is more
-                                         xtr_r_in = tol_r,
+                                         xtr_r_in=tol_r,
                                          # outside tolerance is less
-                                         xtr_r_out = - tol_r,
-                                         pos = pos)
+                                         xtr_r_out=- tol_r,
+                                         pos=pos)
 
             # Then the Part
             SinglePart.__init__(self)
 
 
-#bear = BearingOutl( bearing_nb = 608,
+# bear = BearingOutl( bearing_nb = 608,
 #                    axis_h = VZN, pos_h = 1, tol = 0,
 #                    pos = washer.pos + DraftVecUtils.scale(VZN,washer.h),
 #                    name = '')
 
-class Nut (SinglePart, shp_clss.ShpPrismHole):
+class Nut(SinglePart, shp_clss.ShpPrismHole):
     """
     Creates a Nut, using shp_clss.ShpPrismHole
     See comments of ShpPrismHole
@@ -950,32 +940,31 @@ class Nut (SinglePart, shp_clss.ShpPrismHole):
 
     """
 
-    def __init__(self, r_out, h, r_in, 
-                axis_d_apo = 0, h_offset = 0,
-                axis_h = VZ, axis_d = None, axis_w = None,
-                pos_h = 0, pos_d = 0, pos_w = 0, pos = V0,
-                model_type = 0, name = ''):
+    def __init__(self, r_out, h, r_in,
+                 axis_d_apo=0, h_offset=0,
+                 axis_h=VZ, axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0, pos=V0,
+                 model_type=0, name=''):
 
         # sets the object name if not already set by a child class
         if not hasattr(self, 'metric'):
             self.metric = int(2 * r_in)
         default_name = 'nut_m' + str(self.metric)
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
 
         # First the shape is created
-        shp_clss.ShpPrismHole.__init__(self, n_sides = 6,
-                                       r_out = r_out, h = h,
-                                       r_in = r_in,
-                                       axis_d_apo = axis_d_apo,
-                                       h_offset = h_offset,
-                                       axis_h = axis_h,
-                                       axis_d = axis_d,
-                                       axis_w = axis_w,
-                                       pos_h = pos_h,
-                                       pos_d = pos_d,
-                                       pos_w = pos_w,
-                                       pos   = pos)
-
+        shp_clss.ShpPrismHole.__init__(self, n_sides=6,
+                                       r_out=r_out, h=h,
+                                       r_in=r_in,
+                                       axis_d_apo=axis_d_apo,
+                                       h_offset=h_offset,
+                                       axis_h=axis_h,
+                                       axis_d=axis_d,
+                                       axis_w=axis_w,
+                                       pos_h=pos_h,
+                                       pos_d=pos_d,
+                                       pos_w=pos_w,
+                                       pos=pos)
 
         # Then the Part
         SinglePart.__init__(self)
@@ -984,12 +973,12 @@ class Nut (SinglePart, shp_clss.ShpPrismHole):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes by CylHole
+            if not hasattr(self, i):  # so we keep the attributes by CylHole
                 setattr(self, i, values[i])
 
 
-#doc = FreeCAD.newDocument()
-#nut = Nut ( r_out   = 10,
+# doc = FreeCAD.newDocument()
+# nut = Nut ( r_out   = 10,
 #            h       = 4,
 #            r_in   = 5,
 #            h_offset = 1,
@@ -999,8 +988,7 @@ class Nut (SinglePart, shp_clss.ShpPrismHole):
 #            pos = V0)
 
 
-
-class Din934Nut (Nut):
+class Din934Nut(Nut):
     """ Din 934 Nut
 
     Parameters
@@ -1067,38 +1055,39 @@ class Din934Nut (Nut):
     """
 
     def __init__(self, metric,
-                axis_d_apo = 0, h_offset = 0,
-                axis_h = VZ, axis_d = None, axis_w = None,
-                pos_h = 0, pos_d = 0, pos_w = 0, pos = V0,
-                model_type = 0, name = ''):
+                 axis_d_apo=0, h_offset=0,
+                 axis_h=VZ, axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0, pos=V0,
+                 model_type=0, name=''):
 
         if metric >= 3:
             str_metric = str(int(metric))
         else:
             str_metric = str(metric)
         default_name = 'd934nut_m' + str_metric
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
 
         try:
             nut_dict = kcomp.D934[metric]
             self.nut_dict = nut_dict
         except KeyError:
             logger.error('nut key not found: ' + str(metric))
-        else: #no exception
-            Nut.__init__(self, 
-                         r_out   = nut_dict['circ_r'],
-                         h       = nut_dict['l'],
-                         r_in    = metric/2.,
-                         h_offset = h_offset,
-                         axis_d_apo = axis_d_apo,
-                         axis_h = axis_h, axis_d = axis_d, axis_w = axis_w,
-                         pos_h = pos_h, pos_d = pos_d, pos_w = pos_w,
-                         pos = pos,
-                         model_type = model_type,
-                         name = name)
+        else:  # no exception
+            Nut.__init__(self,
+                         r_out=nut_dict['circ_r'],
+                         h=nut_dict['l'],
+                         r_in=metric / 2.,
+                         h_offset=h_offset,
+                         axis_d_apo=axis_d_apo,
+                         axis_h=axis_h, axis_d=axis_d, axis_w=axis_w,
+                         pos_h=pos_h, pos_d=pos_d, pos_w=pos_w,
+                         pos=pos,
+                         model_type=model_type,
+                         name=name)
 
-#doc = FreeCAD.newDocument()
-#nut = Din934Nut ( metric   = 3,
+
+# doc = FreeCAD.newDocument()
+# nut = Din934Nut ( metric   = 3,
 #                  h_offset = 0,
 #                  axis_d_apo = 0,
 #                  axis_h = VZ, axis_d = VX, axis_w = VY,
@@ -1106,10 +1095,7 @@ class Din934Nut (Nut):
 #                  pos = V0)
 
 
-
-
-
-class Bolt (SinglePart, shp_clss.ShpBolt):
+class Bolt(SinglePart, shp_clss.ShpBolt):
     """ Creates a FreeCAD object of a bolt, from ShpBolt.
         different from fcfun.shp_bolt_dir (which is a function)
 
@@ -1230,24 +1216,24 @@ class Bolt (SinglePart, shp_clss.ShpBolt):
 
 
     """
- 
+
     def __init__(self,
                  shank_r,
                  shank_l,
                  head_r,
                  head_l,
-                 thread_l = 0,
-                 head_type = 0, # cylindrical. 1: hexagonal
-                 socket_l = 0,
-                 socket_2ap = 0,
-                 shank_out = 0,
-                 head_out = 0,
-                 axis_h = VZ, axis_d = None, axis_w = None,
-                 pos_h = 0, pos_d = 0, pos_w = 0,
-                 pos = V0,
-                 model_type = 0,
-                 name = ''):
-    
+                 thread_l=0,
+                 head_type=0,  # cylindrical. 1: hexagonal
+                 socket_l=0,
+                 socket_2ap=0,
+                 shank_out=0,
+                 head_out=0,
+                 axis_h=VZ, axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
+                 pos=V0,
+                 model_type=0,
+                 name=''):
+
         if not hasattr(self, 'metric'):
             metric = 2 * shank_r
             if metric >= 3:
@@ -1255,25 +1241,25 @@ class Bolt (SinglePart, shp_clss.ShpBolt):
             else:
                 self.metric = metric
         default_name = 'bolt_m' + str(self.metric) + 'l' + str(int(shank_l))
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
 
         # First the shape is created
         shp_clss.ShpBolt.__init__(self,
-                                  shank_r = shank_r,
-                                  shank_l = shank_l,
-                                  head_r  = head_r,
-                                  head_l  = head_l,
-                                  thread_l = thread_l,
-                                  head_type = head_type,
-                                  socket_l = socket_l,
-                                  socket_2ap = socket_2ap,
-                                  shank_out = shank_out,
-                                  head_out = head_out,
-                                  axis_h = axis_h,
-                                  axis_d = axis_d,
-                                  axis_w = axis_w,
-                                  pos_h = pos_h, pos_d = pos_d, pos_w = pos_w,
-                                  pos = pos)
+                                  shank_r=shank_r,
+                                  shank_l=shank_l,
+                                  head_r=head_r,
+                                  head_l=head_l,
+                                  thread_l=thread_l,
+                                  head_type=head_type,
+                                  socket_l=socket_l,
+                                  socket_2ap=socket_2ap,
+                                  shank_out=shank_out,
+                                  head_out=head_out,
+                                  axis_h=axis_h,
+                                  axis_d=axis_d,
+                                  axis_w=axis_w,
+                                  pos_h=pos_h, pos_d=pos_d, pos_w=pos_w,
+                                  pos=pos)
 
         # Then the Part
         SinglePart.__init__(self)
@@ -1282,17 +1268,15 @@ class Bolt (SinglePart, shp_clss.ShpBolt):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes by CylHole
+            if not hasattr(self, i):  # so we keep the attributes by CylHole
                 setattr(self, i, values[i])
-                                  
 
 
-
-#metric = 3
-#bolt_dict = kcomp.D912[metric]
-#thread_l = 18
-#shank_l = 30
-#bolt = Bolt (
+# metric = 3
+# bolt_dict = kcomp.D912[metric]
+# thread_l = 18
+# shank_l = 30
+# bolt = Bolt (
 #                 shank_r = bolt_dict['d']/2.,
 #                 shank_l = shank_l,
 #                 head_r  = bolt_dict['head_r'],
@@ -1310,7 +1294,7 @@ class Bolt (SinglePart, shp_clss.ShpBolt):
 #                 pos = FreeCAD.Vector(0,0,0))
 
 
-class Din912Bolt (Bolt):
+class Din912Bolt(Bolt):
     """ Din 912 bolt. hex socket bolt
 
     Parameters
@@ -1396,71 +1380,68 @@ class Din912Bolt (Bolt):
     """
 
     def __init__(self, metric, shank_l,
-                 shank_l_adjust = 0,
-                 shank_out = 0,
-                 head_out = 0,
-                 axis_h = VZ, axis_d = None, axis_w = None,
-                 pos_h = 0, pos_d = 0, pos_w = 0,
-                 pos = V0,
-                 model_type = 0,
-                 name = ''):
+                 shank_l_adjust=0,
+                 shank_out=0,
+                 head_out=0,
+                 axis_h=VZ, axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
+                 pos=V0,
+                 model_type=0,
+                 name=''):
 
         if metric >= 3:
             str_metric = str(int(metric))
         else:
             str_metric = str(metric)
 
-
         try:
             bolt_dict = kcomp.D912[metric]
             self.bolt_dict = bolt_dict
         except KeyError:
             logger.error('bolt key not found: ' + str(metric))
-        else: # no exception
+        else:  # no exception
 
             if shank_l_adjust == 0:
                 self.shank_l = shank_l
             else:
                 sh_l_list = self.bolt_dict['shank_l_list']
-                if shank_l_adjust == -1: # smaller closest to shank_l
+                if shank_l_adjust == -1:  # smaller closest to shank_l
                     self.shank_l = [sh_l for sh_l in sh_l_list
-                                    if sh_l<=shank_l][-1]
-                elif shank_l_adjust == 1: # larger closest to shank_l
+                                    if sh_l <= shank_l][-1]
+                elif shank_l_adjust == 1:  # larger closest to shank_l
                     self.shank_l = [sh_l for sh_l in sh_l_list
-                                    if sh_l>=shank_l][0]
+                                    if sh_l >= shank_l][0]
                 else:
                     logger.error('wrong value for parameter shank_l_adjust')
                     self.shank_l = shank_l
 
-            default_name = (  'd912bolt_m' + str_metric + '_l'
+            default_name = ('d912bolt_m' + str_metric + '_l'
                             + str(int(self.shank_l)))
-            self.set_name (name, default_name, change = 0)
-
+            self.set_name(name, default_name, change=0)
 
             if bolt_dict['thread'] > self.shank_l:
-                thread_l = 0 # all threaded
+                thread_l = 0  # all threaded
             else:
                 thread_l = bolt_dict['thread']
 
             Bolt.__init__(self,
-                     shank_r = bolt_dict['d']/2.,
-                     shank_l = self.shank_l,
-                     head_r  = bolt_dict['head_r'],
-                     head_l  = bolt_dict['head_l'],
-                     thread_l = thread_l,
-                     head_type = 0, # cylindrical
-                     socket_l = bolt_dict['head_l']/2., # not sure
-                     socket_2ap = bolt_dict['ap2'],
-                     shank_out = shank_out,
-                     head_out = head_out,
-                     axis_h = axis_h, axis_d = axis_d, axis_w = axis_w,
-                     pos_h = pos_h, pos_d = pos_d, pos_w = pos_w,
-                     pos = pos,
-                     model_type = model_type)
+                          shank_r=bolt_dict['d'] / 2.,
+                          shank_l=self.shank_l,
+                          head_r=bolt_dict['head_r'],
+                          head_l=bolt_dict['head_l'],
+                          thread_l=thread_l,
+                          head_type=0,  # cylindrical
+                          socket_l=bolt_dict['head_l'] / 2.,  # not sure
+                          socket_2ap=bolt_dict['ap2'],
+                          shank_out=shank_out,
+                          head_out=head_out,
+                          axis_h=axis_h, axis_d=axis_d, axis_w=axis_w,
+                          pos_h=pos_h, pos_d=pos_d, pos_w=pos_w,
+                          pos=pos,
+                          model_type=model_type)
 
-
-#doc = FreeCAD.newDocument()
-#bolt = Din912Bolt ( metric = 3, shank_l = 24,
+# doc = FreeCAD.newDocument()
+# bolt = Din912Bolt ( metric = 3, shank_l = 24,
 #                    shank_out = 0, head_out = 0,
 #                    axis_h = VY,
 #                    axis_d = VX,

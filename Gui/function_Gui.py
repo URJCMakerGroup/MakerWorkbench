@@ -1,7 +1,8 @@
 from PySide2 import QtWidgets
 from fcfun import fc_isperp
 
-def set_place(self,x,y,z):
+
+def set_place(self, x, y, z):
     self.pos_x.setValue(x)
     self.pos_y.setValue(y)
     self.pos_z.setValue(z)
@@ -10,13 +11,16 @@ def set_place(self,x,y,z):
 # |                                                                 |
 # |                         Ortonormal Axis                         |
 # |_________________________________________________________________|
+
+
 def ortonormal_axis(axis_1, axis_2, axis_3):
-    if ((fc_isperp(axis_1,axis_2)==0) or (fc_isperp(axis_2,axis_3)==0) or (fc_isperp(axis_1,axis_3)==0)):
+    if (fc_isperp(axis_1, axis_2) == 0) or (fc_isperp(axis_2, axis_3) == 0) or (fc_isperp(axis_1, axis_3) == 0):
         axis_message()
         return False
     else:
         return True
-    
+
+
 def axis_message():
     axis_message = QtWidgets.QMessageBox()
     axis_message.setText("Please, check the input axes")

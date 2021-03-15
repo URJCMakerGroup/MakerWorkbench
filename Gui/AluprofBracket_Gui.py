@@ -13,10 +13,12 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
 
+
 class _AluprofBracket_Cmd:
+
     def Activated(self):
         FreeCADGui.Control.showDialog(AluprofBracket_Dialog())
     
@@ -35,6 +37,7 @@ class _AluprofBracket_Cmd:
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None
 
+
 class AluprofBracket_TaskPanel:
     def __init__(self):
         self.widget = QtWidgets.QWidget()
@@ -43,9 +46,9 @@ class AluprofBracket_TaskPanel:
 
         # ---- Type ----
         self.Type_Label = QtWidgets.QLabel("Select Type:")
-        self.Type_Aluprof = ["2 profiles","2 profiles with flap","3 profiles"]
+        self.Type_Aluprof = ["2 profiles", "2 profiles with flap", "3 profiles"]
         self.Type_ComboBox = QtWidgets.QComboBox()
-        self.Type_Aluprof = ["2 profiles","2 profiles with flap","3 profiles"]
+        self.Type_Aluprof = ["2 profiles", "2 profiles with flap", "3 profiles"]
         self.Type_ComboBox.addItems(self.Type_Aluprof)
         self.Type_ComboBox.setCurrentIndex(0)
         self.Type_ComboBox.currentTextChanged.connect(self.change_layout)
@@ -57,7 +60,7 @@ class AluprofBracket_TaskPanel:
         # ---- Size profile line 1 ----
         self.Size_1_Label = QtWidgets.QLabel("Size first profile:")
         self.Size_1_ComboBox = QtWidgets.QComboBox()
-        self.Size_text = ["10mm","15mm","20mm","30mm","40mm"]         ##Select profiles kcomp
+        self.Size_text = ["10mm", "15mm", "20mm", "30mm", "40mm"]  # Select profiles kcomp
         self.Size_1_ComboBox.addItems(self.Size_text)
         self.Size_1_ComboBox.setCurrentIndex(self.Size_text.index('20mm'))
 
@@ -89,7 +92,7 @@ class AluprofBracket_TaskPanel:
         # ---- Nut profile line 1 ----
         self.Nut_Profile_1_Label = QtWidgets.QLabel("Size of Nut first profile :")
         self.Nut_Profile_1_ComboBox = QtWidgets.QComboBox()
-        self.NUT_text = ["M3","M4","M5","M6"]    #D912
+        self.NUT_text = ["M3", "M4", "M5", "M6"]  # D912
         self.Nut_Profile_1_ComboBox.addItems(self.NUT_text)
         self.Nut_Profile_1_ComboBox.setCurrentIndex(0)
 
@@ -110,7 +113,7 @@ class AluprofBracket_TaskPanel:
         # ---- Nº Nut ----
         self.N_Nut_Label = QtWidgets.QLabel("Number of Nuts:")
         self.N_Nut_ComboBox = QtWidgets.QComboBox()
-        self.N_Nut_text = ["1","2"]
+        self.N_Nut_text = ["1", "2"]
         self.N_Nut_ComboBox.addItems(self.N_Nut_text)
         self.N_Nut_ComboBox.setCurrentIndex(0)
 
@@ -139,7 +142,7 @@ class AluprofBracket_TaskPanel:
         # ---- Sunk ----
         self.Sunk_Label = QtWidgets.QLabel("Sunk:")
         self.Sunk_ComboBox = QtWidgets.QComboBox()
-        Sunk_Text = ["Hole for Nut","Without center","Without reinforce"]
+        Sunk_Text = ["Hole for Nut", "Without center", "Without reinforce"]
         self.Sunk_ComboBox.addItems(Sunk_Text)
         self.Sunk_ComboBox.setCurrentIndex(0)
         
@@ -150,7 +153,7 @@ class AluprofBracket_TaskPanel:
         # ---- Reinforce ----
         self.Reinforce_Label = QtWidgets.QLabel("Reinforce:")
         self.Reinforce_ComboBox = QtWidgets.QComboBox()
-        self.Reinforce_text = ["No","Yes"]
+        self.Reinforce_text = ["No", "Yes"]
         self.Reinforce_ComboBox.addItems(self.Reinforce_text)
         self.Reinforce_ComboBox.setCurrentIndex(0)
         
@@ -161,7 +164,7 @@ class AluprofBracket_TaskPanel:
         # ---- Flap ----
         self.Flap_Label = QtWidgets.QLabel("Flap:")
         self.Flap_ComboBox = QtWidgets.QComboBox()
-        self.Flap_text = ["No","Yes"]
+        self.Flap_text = ["No", "Yes"]
         self.Flap_ComboBox.addItems(self.Flap_text)
         self.Flap_ComboBox.setCurrentIndex(1)
 
@@ -300,6 +303,7 @@ class AluprofBracket_TaskPanel:
         main_layout.addLayout(thickness_layout)
         main_layout.addLayout(nut_layout_1)
         main_layout.addLayout(nut_layout_2)
+        main_layout.addLayout(n_nut_layout)
         main_layout.addLayout(dist_nut_layout)
         main_layout.addLayout(sunk_layout)
         main_layout.addLayout(reinforce_layout)
@@ -327,6 +331,7 @@ class AluprofBracket_TaskPanel:
             self.Flap_ComboBox.setEnabled(False)
             self.Dist_Prof_Value.setEnabled(True)
 
+
 class AluprofBracket_Dialog:
     def __init__(self):
         self.placement = True
@@ -337,18 +342,18 @@ class AluprofBracket_Dialog:
         self.form = [self.AluprofBracket.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
                 FreeCAD.ActiveDocument.removeObject('Point_d_w_h')
 
-        NUT = {0:3, 1:4, 2:5, 3:6}
+        NUT = {0: 3, 1: 4, 2: 5, 3: 6}
         Size = {0: 10, 1: 15, 2: 20, 3: 30, 4: 40}
-        Sunk_values = {0:0, 1:1, 2:2}
+        Sunk_values = {0: 0, 1: 1, 2: 2}
         Size_1 = Size[self.AluprofBracket.Size_1_ComboBox.currentIndex()]
         Size_2 = Size[self.AluprofBracket.Size_2_ComboBox.currentIndex()]
         Thickness = self.AluprofBracket.Thickness_Value.value()
@@ -358,75 +363,83 @@ class AluprofBracket_Dialog:
         Dist_Nut = self.AluprofBracket.Dist_Nut_Value.value()
         Sunk = Sunk_values[self.AluprofBracket.Sunk_ComboBox.currentIndex()]
         self.Type = self.AluprofBracket.Type_ComboBox.currentIndex()
-        pos = FreeCAD.Vector(self.AluprofBracket.pos_x.value(), self.AluprofBracket.pos_y.value(), self.AluprofBracket.pos_z.value())
-        axis_d = FreeCAD.Vector(self.AluprofBracket.axis_d_x.value(),self.AluprofBracket.axis_d_y.value(),self.AluprofBracket.axis_d_z.value())
-        axis_w = FreeCAD.Vector(self.AluprofBracket.axis_w_x.value(),self.AluprofBracket.axis_w_y.value(),self.AluprofBracket.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.AluprofBracket.axis_h_x.value(),self.AluprofBracket.axis_h_y.value(),self.AluprofBracket.axis_h_z.value())
+        pos = FreeCAD.Vector(self.AluprofBracket.pos_x.value(),
+                             self.AluprofBracket.pos_y.value(),
+                             self.AluprofBracket.pos_z.value())
+        axis_d = FreeCAD.Vector(self.AluprofBracket.axis_d_x.value(),
+                                self.AluprofBracket.axis_d_y.value(),
+                                self.AluprofBracket.axis_d_z.value())
+        axis_w = FreeCAD.Vector(self.AluprofBracket.axis_w_x.value(),
+                                self.AluprofBracket.axis_w_y.value(),
+                                self.AluprofBracket.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.AluprofBracket.axis_h_x.value(),
+                                self.AluprofBracket.axis_h_y.value(),
+                                self.AluprofBracket.axis_h_z.value())
         
-        if ortonormal_axis(axis_d,axis_w,axis_h) == True:
+        if ortonormal_axis(axis_d, axis_w, axis_h) is True:
             if self.Type == 0:
                 Reinforce = self.AluprofBracket.Reinforce_ComboBox.currentIndex()
-                AluProfBracketPerp(alusize_lin = Size_1, alusize_perp = Size_2, #cambiar a combobox
-                                    br_perp_thick = Thickness,
-                                    br_lin_thick = Thickness,
-                                    bolt_lin_d = Nut_Prof_1,
-                                    bolt_perp_d = Nut_Prof_2,
-                                    nbolts_lin = NumberNut,
-                                    bolts_lin_dist = Dist_Nut,
-                                    bolts_lin_rail = Dist_Nut,
-                                    xtr_bolt_head = 0,
-                                    xtr_bolt_head_d = 0, # space for the nut
-                                    reinforce = Reinforce,
-                                    fc_perp_ax = axis_h,
-                                    fc_lin_ax = axis_d,
-                                    pos = pos,
-                                    wfco=1,
-                                    name = 'bracket2_perp')
+                AluProfBracketPerp(alusize_lin=Size_1, alusize_perp=Size_2,  # cambiar a combobox
+                                   br_perp_thick=Thickness,
+                                   br_lin_thick=Thickness,
+                                   bolt_lin_d=Nut_Prof_1,
+                                   bolt_perp_d=Nut_Prof_2,
+                                   nbolts_lin=NumberNut,
+                                   bolts_lin_dist=Dist_Nut,
+                                   bolts_lin_rail=Dist_Nut,
+                                   xtr_bolt_head=0,
+                                   xtr_bolt_head_d=0,  # space for the nut
+                                   reinforce=Reinforce,
+                                   fc_perp_ax=axis_h,
+                                   fc_lin_ax=axis_d,
+                                   pos=pos,
+                                   wfco=1,
+                                   name='bracket2_perp')
             elif self.Type == 1:
                 Flap = self.AluprofBracket.Flap_ComboBox.currentIndex()
-                AluProfBracketPerpFlap(alusize_lin = Size_1, alusize_perp = Size_2,
-                                        br_perp_thick = Thickness,
-                                        br_lin_thick = Thickness,
-                                        bolt_lin_d = Nut_Prof_1,
-                                        bolt_perp_d = Nut_Prof_2,
-                                        nbolts_lin = NumberNut,
-                                        bolts_lin_dist = Dist_Nut,
-                                        bolts_lin_rail = Dist_Nut,
-                                        xtr_bolt_head = 1,
-                                        sunk = Sunk,
-                                        flap = Flap, 
-                                        fc_perp_ax = axis_h,
-                                        fc_lin_ax = axis_d,
-                                        pos = pos,
-                                        wfco=1,
-                                        name = 'bracket3_flap')
-            elif self.Type ==2:
+                AluProfBracketPerpFlap(alusize_lin=Size_1, alusize_perp=Size_2,
+                                       br_perp_thick=Thickness,
+                                       br_lin_thick=Thickness,
+                                       bolt_lin_d=Nut_Prof_1,
+                                       bolt_perp_d=Nut_Prof_2,
+                                       nbolts_lin=NumberNut,
+                                       bolts_lin_dist=Dist_Nut,
+                                       bolts_lin_rail=Dist_Nut,
+                                       xtr_bolt_head=1,
+                                       sunk=Sunk,
+                                       flap=Flap,
+                                       fc_perp_ax=axis_h,
+                                       fc_lin_ax=axis_d,
+                                       pos=pos,
+                                       wfco=1,
+                                       name='bracket3_flap')
+            elif self.Type == 2:
                 Dis_Prof = self.AluprofBracket.Dist_Prof_Value.value()
-                AluProfBracketPerpTwin(alusize_lin = Size_1, alusize_perp = Size_2,
-                                        alu_sep = Dis_Prof,
-                                        br_perp_thick = Thickness,
-                                        br_lin_thick = Thickness,
-                                        bolt_lin_d = Nut_Prof_1,
-                                        bolt_perp_d = Nut_Prof_2,
-                                        nbolts_lin = NumberNut,
-                                        bolts_lin_dist = Dist_Nut,
-                                        bolts_lin_rail = Dist_Nut,
-                                        bolt_perp_line = 0,
-                                        xtr_bolt_head = 2, 
-                                        sunk = Sunk,
-                                        fc_perp_ax = axis_h,
-                                        fc_lin_ax = axis_d,
-                                        fc_wide_ax = axis_w,
-                                        pos = pos,
-                                        wfco=1,
-                                        name = 'bracket_twin')
+                AluProfBracketPerpTwin(alusize_lin=Size_1, alusize_perp=Size_2,
+                                       alu_sep=Dis_Prof,
+                                       br_perp_thick=Thickness,
+                                       br_lin_thick=Thickness,
+                                       bolt_lin_d=Nut_Prof_1,
+                                       bolt_perp_d=Nut_Prof_2,
+                                       nbolts_lin=NumberNut,
+                                       bolts_lin_dist=Dist_Nut,
+                                       bolts_lin_rail=Dist_Nut,
+                                       bolt_perp_line=0,
+                                       xtr_bolt_head=2,
+                                       sunk=Sunk,
+                                       fc_perp_ax=axis_h,
+                                       fc_lin_ax=axis_d,
+                                       fc_wide_ax=axis_w,
+                                       pos=pos,
+                                       wfco=1,
+                                       name='bracket_twin')
 
-            FreeCADGui.activeDocument().activeView().viewAxonometric() #Axonometric view
-            FreeCADGui.SendMsgToActiveView("ViewFit") #Fit the view to the object
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.activeDocument().activeView().viewAxonometric()  # Axonometric view
+            FreeCADGui.SendMsgToActiveView("ViewFit")  # Fit the view to the object
+            FreeCADGui.Control.closeDialog()  # close the dialog
 
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -434,31 +447,39 @@ class AluprofBracket_Dialog:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.AluprofBracket, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.AluprofBracket,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.AluprofBracket,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.AluprofBracket, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('Aluprof_Bracket',_AluprofBracket_Cmd())
+FreeCADGui.addCommand('Aluprof_Bracket', _AluprofBracket_Cmd())

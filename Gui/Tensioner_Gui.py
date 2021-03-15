@@ -16,8 +16,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _Tensioner_Cmd:
     def Activated(self):
@@ -34,8 +35,10 @@ class _Tensioner_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_Tensioner_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None
+
 
 class Tensioner_TaskPanel:
     def __init__(self):
@@ -54,9 +57,9 @@ class Tensioner_TaskPanel:
         BeltHight_layout.addWidget(self.belt_h_Value)
 
         # ---- Base width ----
-        self.base_w_Label = QtWidgets.QLabel("Base width:")  #10/15/20/30/40
+        self.base_w_Label = QtWidgets.QLabel("Base width:")  # 10/15/20/30/40
         self.ComboBox_base_w = QtWidgets.QComboBox()
-        self.TextBase_W = ["10mm","15mm","20mm","30mm","40mm"] 
+        self.TextBase_W = ["10mm", "15mm", "20mm", "30mm", "40mm"]
         self.ComboBox_base_w.addItems(self.TextBase_W)
         self.ComboBox_base_w.setCurrentIndex(self.TextBase_W.index('20mm'))
         
@@ -87,7 +90,7 @@ class Tensioner_TaskPanel:
         # ---- Nut Type ----
         self.nut_hole_Label = QtWidgets.QLabel("Nut Type:")   
         self.ComboBox_Nut_Hole = QtWidgets.QComboBox()
-        self.TextNutType = ["M3","M4","M5","M6"]
+        self.TextNutType = ["M3", "M4", "M5", "M6"]
         self.ComboBox_Nut_Hole.addItems(self.TextNutType)
         self.ComboBox_Nut_Hole.setCurrentIndex(self.TextNutType.index('M3'))
 
@@ -136,7 +139,7 @@ class Tensioner_TaskPanel:
         # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
         self.pos_d = QtWidgets.QComboBox()
-        self.pos_d.addItems(['0','1','2','3','4','5','6'])
+        self.pos_d.addItems(['0', '1', '2', '3', '4', '5', '6'])
         self.pos_d.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_d)
@@ -145,7 +148,7 @@ class Tensioner_TaskPanel:
         # w :
         self.Label_pos_w = QtWidgets.QLabel("in w:")
         self.pos_w = QtWidgets.QComboBox()
-        self.pos_w.addItems(['0','1','2'])
+        self.pos_w.addItems(['0', '1', '2'])
         self.pos_w.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_w)
@@ -154,7 +157,7 @@ class Tensioner_TaskPanel:
         # h :
         self.Label_pos_h = QtWidgets.QLabel("in h:")
         self.pos_h = QtWidgets.QComboBox()
-        self.pos_h.addItems(['0','1','2'])
+        self.pos_h.addItems(['0', '1', '2'])
         self.pos_h.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_h)
@@ -249,6 +252,7 @@ class Tensioner_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+
 class Tensioner_Dialog:
     def __init__(self):
         self.placement = True
@@ -259,16 +263,16 @@ class Tensioner_Dialog:
         self.form = [self.Tensioner.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
                 FreeCAD.ActiveDocument.removeObject('Point_d_w_h')
 
-        IndexNut = {0:3,1:4,2:5,3:6}
+        IndexNut = {0: 3, 1: 4, 2: 5, 3: 6}
         IndexBase = {0: 10, 1: 15, 2: 20, 3: 30, 4: 40}
         tensioner_belt_h = self.Tensioner.belt_h_Value.value()
         nut_hole = IndexNut[self.Tensioner.ComboBox_Nut_Hole.currentIndex()]
@@ -276,47 +280,53 @@ class Tensioner_Dialog:
         base_w = IndexBase[self.Tensioner.ComboBox_base_w.currentIndex()]
         wall_thick = self.Tensioner.wall_th_Value.value()
         pos = FreeCAD.Vector(self.Tensioner.pos_x.value(), self.Tensioner.pos_y.value(), self.Tensioner.pos_z.value())
-        positions_d = [0,1,2,3,4,5,6]
-        positions_w = [0,1,2]
-        positions_h = [0,1,2]
+        positions_d = [0, 1, 2, 3, 4, 5, 6]
+        positions_w = [0, 1, 2]
+        positions_h = [0, 1, 2]
         pos_d = positions_d[self.Tensioner.pos_d.currentIndex()]
         pos_w = positions_w[self.Tensioner.pos_w.currentIndex()]
         pos_h = positions_h[self.Tensioner.pos_h.currentIndex()]
-        axis_d = FreeCAD.Vector(self.Tensioner.axis_d_x.value(),self.Tensioner.axis_d_y.value(),self.Tensioner.axis_d_z.value())
-        axis_w = FreeCAD.Vector(self.Tensioner.axis_w_x.value(),self.Tensioner.axis_w_y.value(),self.Tensioner.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.Tensioner.axis_h_x.value(),self.Tensioner.axis_h_y.value(),self.Tensioner.axis_h_z.value())
+        axis_d = FreeCAD.Vector(self.Tensioner.axis_d_x.value(),
+                                self.Tensioner.axis_d_y.value(),
+                                self.Tensioner.axis_d_z.value())
+        axis_w = FreeCAD.Vector(self.Tensioner.axis_w_x.value(),
+                                self.Tensioner.axis_w_y.value(),
+                                self.Tensioner.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.Tensioner.axis_h_x.value(),
+                                self.Tensioner.axis_h_y.value(),
+                                self.Tensioner.axis_h_z.value())
         
-        if ortonormal_axis(axis_d,axis_w,axis_h) == True:
-            TensionerSet(aluprof_w = base_w,#20.,
-                        belt_pos_h = tensioner_belt_h, 
-                        hold_bas_h = 0,
-                        hold_hole_2sides = 1,
-                        boltidler_mtr = 3,
-                        bolttens_mtr = nut_hole,   #métrica del tensor
-                        boltaluprof_mtr = nut_hole,
-                        tens_stroke = tens_stroke ,
-                        wall_thick = wall_thick,
-                        in_fillet = 2.,
-                        pulley_stroke_dist = 0,
-                        nut_holder_thick = nut_hole ,   
-                        opt_tens_chmf = 0,
-                        min_width = 0,
-                        tol = kcomp.TOL,
-                        axis_d = axis_d,#VY.negative(),
-                        axis_w = axis_w,#VX.negative(),
-                        axis_h = axis_h,#VZ,
-                        pos_d = pos_d,
-                        pos_w = pos_w,
-                        pos_h = pos_h,
-                        pos = pos,
-                        name = 'tensioner_set')
+        if ortonormal_axis(axis_d, axis_w, axis_h) is True:
+            TensionerSet(aluprof_w=base_w,  # 20.,
+                         belt_pos_h=tensioner_belt_h,
+                         hold_bas_h=0,
+                         hold_hole_2sides=1,
+                         boltidler_mtr=3,
+                         bolttens_mtr=nut_hole,   # métrica del tensor
+                         boltaluprof_mtr=nut_hole,
+                         tens_stroke=tens_stroke,
+                         wall_thick=wall_thick,
+                         in_fillet=2.,
+                         pulley_stroke_dist=0,
+                         nut_holder_thick=nut_hole,
+                         opt_tens_chmf=0,
+                         min_width=0,
+                         tol=kcomp.TOL,
+                         axis_d=axis_d,  # VY.negative(),
+                         axis_w=axis_w,  # VX.negative(),
+                         axis_h=axis_h,  # VZ,
+                         pos_d=pos_d,
+                         pos_w=pos_w,
+                         pos_h=pos_h,
+                         pos=pos,
+                         name='tensioner_set')
 
             FreeCADGui.activeDocument().activeView().viewAxonometric()
             FreeCADGui.SendMsgToActiveView("ViewFit")
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.Control.closeDialog()  # close the dialog
     
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -324,31 +334,39 @@ class Tensioner_Dialog:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.Tensioner, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.Tensioner,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.Tensioner,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.Tensioner, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('Tensioner',_Tensioner_Cmd())
+FreeCADGui.addCommand('Tensioner', _Tensioner_Cmd())

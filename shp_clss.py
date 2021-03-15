@@ -21,6 +21,7 @@ import logging
 # directory this file is
 filepath = os.getcwd()
 import sys
+
 # to get the components
 # In FreeCAD can be added: Preferences->General->Macro->Macro path
 sys.path.append(filepath)
@@ -35,7 +36,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-class Obj3D (object):
+class Obj3D(object):
     """ This is the the basic class, that provides reference axes and 
     methods to get positions
 
@@ -59,14 +60,15 @@ class Obj3D (object):
         will need to be placed at pos_o_adjust
             
     """
-    def __init__(self, axis_d = None, axis_w = None, axis_h = None):
+
+    def __init__(self, axis_d=None, axis_w=None, axis_h=None):
         # the TopoShape has an origin, and distance vectors from it to 
         # the different points along the coordinate system  
         self.d_o = {}  # along axis_d
         self.w_o = {}  # along axis_w
         self.h_o = {}  # along axis_h
         if axis_h is not None:
-            axis_h = DraftVecUtils.scaleTo(axis_h,1)
+            axis_h = DraftVecUtils.scaleTo(axis_h, 1)
         else:
             self.h_o[0] = V0
             self.pos_h = 0
@@ -74,7 +76,7 @@ class Obj3D (object):
         self.axis_h = axis_h
 
         if axis_d is not None:
-            axis_d = DraftVecUtils.scaleTo(axis_d,1)
+            axis_d = DraftVecUtils.scaleTo(axis_d, 1)
         else:
             self.d_o[0] = V0
             self.pos_d = 0
@@ -82,17 +84,14 @@ class Obj3D (object):
         self.axis_d = axis_d
 
         if axis_w is not None:
-            axis_w = DraftVecUtils.scaleTo(axis_w,1)
+            axis_w = DraftVecUtils.scaleTo(axis_w, 1)
         else:
             self.w_o[0] = V0
             self.pos_w = 0
             axis_w = V0
         self.axis_w = axis_w
 
-        
         self.pos_o_adjust = V0
-
-
 
     def vec_d(self, d):
         """ creates a vector along axis_d (depth) with the length of argument d
@@ -109,7 +108,6 @@ class Obj3D (object):
         vec_d = DraftVecUtils.scale(self.axis_d, d)
         return vec_d
 
-
     def vec_w(self, w):
         """ creates a vector along axis_w (width) with the length of argument w
 
@@ -124,7 +122,6 @@ class Obj3D (object):
         # self.axis_w is normalized, so no need to use DraftVecUtils.scaleTo
         vec_w = DraftVecUtils.scale(self.axis_w, w)
         return vec_w
-
 
     def vec_h(self, h):
         """ creates a vector along axis_h (height) with the length of argument h
@@ -169,13 +166,13 @@ class Obj3D (object):
             
         """
 
-        vec_from_pos_o =  (  self.get_o_to_d(self.pos_d)
-                           + self.get_o_to_w(self.pos_w)
-                           + self.get_o_to_h(self.pos_h))
-        vec_to_pos_o =  vec_from_pos_o.negative()
+        vec_from_pos_o = (self.get_o_to_d(self.pos_d)
+                          + self.get_o_to_w(self.pos_w)
+                          + self.get_o_to_h(self.pos_h))
+        vec_to_pos_o = vec_from_pos_o.negative()
         self.pos_o = self.pos + vec_to_pos_o
         if adjust == 1:
-            self.pos_o_adjust = vec_to_pos_o # self.pos_o - self.pos
+            self.pos_o_adjust = vec_to_pos_o  # self.pos_o - self.pos
 
     def get_o_to_d(self, pos_d):
         """ returns the vector from origin pos_o to pos_d
@@ -219,20 +216,19 @@ class Obj3D (object):
                     return vec
             else:
                 try:
-                    vec_0_to_d = (self.d_o[0]).sub(self.d_o[pos_d]) # D= B-C
+                    vec_0_to_d = (self.d_o[0]).sub(self.d_o[pos_d])  # D= B-C
                 except KeyError:
                     logger.error('pos_d key not defined ' + str(pos_d))
                 else:
-                    vec_orig_to_d = self.d_o[0] + vec_0_to_d # A = B + D
+                    vec_orig_to_d = self.d_o[0] + vec_0_to_d  # A = B + D
                     return vec_orig_to_d
-        else: #pos_d == 0 is at the end, distances are calculated directly
+        else:  # pos_d == 0 is at the end, distances are calculated directly
             try:
                 vec = self.d_o[pos_d]
             except KeyError:
                 logger.error('pos_d key not defined' + str(pos_d))
             else:
                 return vec
-
 
     def get_o_to_w(self, pos_w):
         """ returns the vector from origin pos_o to pos_w
@@ -252,13 +248,13 @@ class Obj3D (object):
                     return vec
             else:
                 try:
-                    vec_0_to_w = (self.w_o[0]).sub(self.w_o[pos_w]) # D= B-C
+                    vec_0_to_w = (self.w_o[0]).sub(self.w_o[pos_w])  # D= B-C
                 except KeyError:
                     logger.error('pos_w key not defined ' + str(pos_w))
                 else:
-                    vec_orig_to_w = self.w_o[0] + vec_0_to_w # A = B + D
+                    vec_orig_to_w = self.w_o[0] + vec_0_to_w  # A = B + D
                     return vec_orig_to_w
-        else: #pos_w == 0 is at the end, distances are calculated directly
+        else:  # pos_w == 0 is at the end, distances are calculated directly
             try:
                 vec = self.w_o[pos_w]
             except KeyError:
@@ -284,13 +280,13 @@ class Obj3D (object):
                     return vec
             else:
                 try:
-                    vec_0_to_h = (self.h_o[0]).sub(self.h_o[pos_h]) # D= B-C
+                    vec_0_to_h = (self.h_o[0]).sub(self.h_o[pos_h])  # D= B-C
                 except KeyError:
                     logger.error('pos_h key not defined ' + str(pos_h))
                 else:
-                    vec_orig_to_h = self.h_o[0] + vec_0_to_h # A = B + D
+                    vec_orig_to_h = self.h_o[0] + vec_0_to_h  # A = B + D
                     return vec_orig_to_h
-        else: #pos_h == 0 is at the end, distances are calculated directly
+        else:  # pos_h == 0 is at the end, distances are calculated directly
             try:
                 vec = self.h_o[pos_h]
             except KeyError:
@@ -316,7 +312,6 @@ class Obj3D (object):
         vec = self.get_o_to_h(ptb).sub(self.get_o_to_h(pta))
         return vec
 
-
     def get_pos_d(self, pos_d):
         """ returns the absolute position of the pos_d point
         """
@@ -336,13 +331,12 @@ class Obj3D (object):
         """ returns the absolute position of the pos_d, pos_w, pos_h point
         """
         pos = (self.pos_o + self.get_o_to_d(pos_d)
-                          + self.get_o_to_w(pos_w)
-                          + self.get_o_to_h(pos_h))
+               + self.get_o_to_w(pos_w)
+               + self.get_o_to_h(pos_h))
         return pos
 
 
-
-class ShpCyl (Obj3D):
+class ShpCyl(Obj3D):
     """
     Creates a shape of a cylinder
     Makes a cylinder in any position and direction, with optional extra
@@ -499,11 +493,12 @@ class ShpCyl (Obj3D):
         xtr_r
 
     """
-    def __init__(self, 
-                 r, h, axis_h = VZ, 
-                 axis_d = None, axis_w = None,
-                 pos_h = 0, pos_d = 0, pos_w = 0,
-                 xtr_top=0, xtr_bot=0, xtr_r=0, pos = V0):
+
+    def __init__(self,
+                 r, h, axis_h=VZ,
+                 axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
+                 xtr_top=0, xtr_bot=0, xtr_r=0, pos=V0):
 
         Obj3D.__init__(self, axis_d, axis_w, axis_h)
 
@@ -511,13 +506,13 @@ class ShpCyl (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes already set
+            if not hasattr(self, i):  # so we keep the attributes already set
                 setattr(self, i, values[i])
 
         # vectors from o (orig) along axis_h, to the pos_h points
         # h_o is a dictionary created in Obj3D.__init__
-        self.h_o[0] =  self.vec_h(h/2. + xtr_bot)
-        self.h_o[1] =  self.vec_h(xtr_bot)
+        self.h_o[0] = self.vec_h(h / 2. + xtr_bot)
+        self.h_o[1] = self.vec_h(xtr_bot)
         # pos_h = 0 is at the center
         self.h0_cen = 1
 
@@ -540,24 +535,24 @@ class ShpCyl (Obj3D):
         # calculates the position of the origin, and keeps it in attribute pos_o
         self.set_pos_o()
 
-        shpcyl = fcfun.shp_cyl (r      = r + xtr_r,         # radius
-                                h      = h+xtr_bot+xtr_top, # height
-                                normal = self.axis_h,       # direction
-                                pos    = self.pos_o)        # Position
+        shpcyl = fcfun.shp_cyl(r=r + xtr_r,  # radius
+                               h=h + xtr_bot + xtr_top,  # height
+                               normal=self.axis_h,  # direction
+                               pos=self.pos_o)  # Position
 
         self.shp = shpcyl
 
-#cyl = ShpCyl (r=2, h=2, axis_h = VZ, 
+
+# cyl = ShpCyl (r=2, h=2, axis_h = VZ,
 #              axis_d = VX, axis_w = VY,
 #              pos_h = 1, pos_d = 1, pos_w = 0,
 #              xtr_top=0, xtr_bot=1, xtr_r=2,
 #              pos = V0)
 #              #pos = FreeCAD.Vector(1,2,0))
-#Part.show(cyl.shp)
+# Part.show(cyl.shp)
 
 
-
-class ShpCylHole (Obj3D):
+class ShpCylHole(Obj3D):
     """
     Creates a shape of a hollow cylinder
     Similar to fcfun shp_cylhole_gen, but creates the object with the useful
@@ -702,14 +697,14 @@ class ShpCylHole (Obj3D):
           r_out
 
     """
+
     def __init__(self,
                  r_out, r_in, h,
-                 axis_h = VZ, axis_d = None, axis_w = None,
-                 pos_h = 0, pos_d = 0, pos_w = 0,
+                 axis_h=VZ, axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
                  xtr_top=0, xtr_bot=0,
                  xtr_r_out=0, xtr_r_in=0,
-                 pos = V0):
-
+                 pos=V0):
 
         Obj3D.__init__(self, axis_d, axis_w, axis_h)
 
@@ -717,14 +712,14 @@ class ShpCylHole (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
         # THIS IS WORKING, but it seems that the signs are not right
         # vectors from o (orig) along axis_h, to the pos_h points
         # h_o is a dictionary created in Obj3D.__init__
-        self.h_o[0] =  self.vec_h(h/2. + xtr_bot)
-        self.h_o[1] =  self.vec_h(xtr_bot)
+        self.h_o[0] = self.vec_h(h / 2. + xtr_bot)
+        self.h_o[1] = self.vec_h(xtr_bot)
         # pos_h = 0 is at the center
         self.h0_cen = 1
 
@@ -749,17 +744,17 @@ class ShpCylHole (Obj3D):
         # calculates the position of the origin, and keeps it in attribute pos_o
         self.set_pos_o()
 
-        shpcyl = fcfun.shp_cylholedir (r_out = r_out + xtr_r_out, #ext radius
-                                       r_in  = r_in + xtr_r_in, #internal radius
-                                       h     = h+xtr_bot+xtr_top, # height
-                                       normal= self.axis_h,       # direction
-                                       pos   = self.pos_o)        # Position
+        shpcyl = fcfun.shp_cylholedir(r_out=r_out + xtr_r_out,  # ext radius
+                                      r_in=r_in + xtr_r_in,  # internal radius
+                                      h=h + xtr_bot + xtr_top,  # height
+                                      normal=self.axis_h,  # direction
+                                      pos=self.pos_o)  # Position
 
         self.shp = shpcyl
         self.prnt_ax = self.axis_h
 
 
-#cyl = ShpCylHole (r_in=2, r_out=6, h=4,
+# cyl = ShpCylHole (r_in=2, r_out=6, h=4,
 #                       #axis_h = FreeCAD.Vector(1,1,0), 
 #                       axis_h = VZ,
 #                       #axis_d = VX, axis_w = VYN,
@@ -769,12 +764,10 @@ class ShpCylHole (Obj3D):
 #                       xtr_r_in=0, xtr_r_out=0,
 #                       pos = V0)
 #                       #pos = FreeCAD.Vector(1,2,3))
-#Part.show(cyl.shp)
+# Part.show(cyl.shp)
 
 
-
-
-class ShpPrismHole (Obj3D):
+class ShpPrismHole(Obj3D):
     """
     Creates a shape of a hollow prism
     Similar to fcfun shp_regprism_dirxtr, but creates the object with the useful
@@ -899,16 +892,16 @@ class ShpPrismHole (Obj3D):
 
 
     """
+
     def __init__(self, n_sides,
                  r_out, h, r_in,
-                 h_offset = 0,
-                 xtr_r_in = 0,
-                 xtr_r_out = 0,
-                 axis_d_apo = 0,
-                 axis_h = VZ, axis_d = None, axis_w = None,
-                 pos_h = 0, pos_d = 0, pos_w = 0,
-                 pos = V0):
-
+                 h_offset=0,
+                 xtr_r_in=0,
+                 xtr_r_out=0,
+                 axis_d_apo=0,
+                 axis_h=VZ, axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
+                 pos=V0):
 
         Obj3D.__init__(self, axis_d, axis_w, axis_h)
 
@@ -916,18 +909,18 @@ class ShpPrismHole (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
-        self.h0_cen = 1 # symmetric
+        self.h0_cen = 1  # symmetric
         # vectors from o (orig) along axis_h, to the pos_h points
         # h_o is a dictionary created in Obj3D.__init__
-        self.h_o[0] =  V0
-        self.h_o[1] =  self.vec_h(-h/2.)
-        self.h_o[2] =  self.vec_h(-h/2. + h_offset)
+        self.h_o[0] = V0
+        self.h_o[1] = self.vec_h(-h / 2.)
+        self.h_o[2] = self.vec_h(-h / 2. + h_offset)
 
         # apotheme
-        self.apo = r_out * math.cos(math.pi/n_sides)
+        self.apo = r_out * math.cos(math.pi / n_sides)
         self.d_o[0] = V0
         if self.axis_d != V0:
             # not considering the extra radius (usually tolerances)
@@ -956,32 +949,32 @@ class ShpPrismHole (Obj3D):
 
         if axis_d_apo == 0:
             self.axis_apo = self.axis_d
-        else: # rotate 360/(2*nsides)
-            self.axis_apo = DraftVecUtils.rotate(self.axis_d, math.pi/n_sides,
+        else:  # rotate 360/(2*nsides)
+            self.axis_apo = DraftVecUtils.rotate(self.axis_d, math.pi / n_sides,
                                                  self.axis_h)
 
-        shp_prism = fcfun.shp_regprism_dirxtr(n_sides = n_sides,
-                                              radius = r_out + xtr_r_out,
-                                              length = h,
-                                              fc_normal = self.axis_h,
-                                              fc_verx1 = self.axis_apo,
-                                              centered = 0,
+        shp_prism = fcfun.shp_regprism_dirxtr(n_sides=n_sides,
+                                              radius=r_out + xtr_r_out,
+                                              length=h,
+                                              fc_normal=self.axis_h,
+                                              fc_verx1=self.axis_apo,
+                                              centered=0,
                                               pos=self.get_pos_h(-1))
         if r_in > 0:
-            shp_cyl = fcfun.shp_cylcenxtr (r       = r_in + xtr_r_in,
-                                           h       = h,
-                                           normal  = self.axis_h,
-                                           ch      = 0,
-                                           xtr_top = 1, # to cut
-                                           xtr_bot = 1, # to cut
-                                           pos     = self.get_pos_h(-1))
+            shp_cyl = fcfun.shp_cylcenxtr(r=r_in + xtr_r_in,
+                                          h=h,
+                                          normal=self.axis_h,
+                                          ch=0,
+                                          xtr_top=1,  # to cut
+                                          xtr_bot=1,  # to cut
+                                          pos=self.get_pos_h(-1))
             self.shp = shp_prism.cut(shp_cyl)
-        else :
+        else:
             self.shp = shp_prism
         self.prnt_ax = self.axis_h
 
 
-#prism = ShpPrismHole (n_sides = 4,
+# prism = ShpPrismHole (n_sides = 4,
 #                      r_out   = 20,
 #                      h       = 4,
 #                      r_in   = 1,
@@ -993,15 +986,10 @@ class ShpPrismHole (Obj3D):
 #                      pos_h = -2, pos_d = 0, pos_w = 0,
 #                      pos = V0)
 
-#Part.show(prism.shp)
+# Part.show(prism.shp)
 
 
-
-
-
-
-
-class ShpBolt (Obj3D):
+class ShpBolt(Obj3D):
     """
     Creates a shape of a Bolt
     Similar to fcfun.shp_bolt_dir, but creates the object with the useful
@@ -1118,21 +1106,21 @@ class ShpBolt (Obj3D):
 
 
     """
+
     def __init__(self,
                  shank_r,
                  shank_l,
                  head_r,
                  head_l,
-                 thread_l = 0,
-                 head_type = 0, # cylindrical. 1: hexagonal
-                 socket_l = 0,
-                 socket_2ap = 0,
-                 shank_out = 0,
-                 head_out = 0,
-                 axis_h = VZ, axis_d = None, axis_w = None,
-                 pos_h = 0, pos_d = 0, pos_w = 0,
-                 pos = V0):
-
+                 thread_l=0,
+                 head_type=0,  # cylindrical. 1: hexagonal
+                 socket_l=0,
+                 socket_2ap=0,
+                 shank_out=0,
+                 head_out=0,
+                 axis_h=VZ, axis_d=None, axis_w=None,
+                 pos_h=0, pos_d=0, pos_w=0,
+                 pos=V0):
 
         Obj3D.__init__(self, axis_d, axis_w, axis_h)
 
@@ -1140,24 +1128,24 @@ class ShpBolt (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
         self.h0_cen = 0
-        self.d0_cen = 1 # symmetrical
-        self.w0_cen = 1 # symmetrical
+        self.d0_cen = 1  # symmetrical
+        self.w0_cen = 1  # symmetrical
 
         self.tot_l = head_l + shank_l
 
         # vectors from o (orig) along axis_h, to the pos_h points
         # h_o is a dictionary created in Obj3D.__init__
-        self.h_o[0] =  V0 #origin
-        self.h_o[1] =  self.vec_h(head_out)
-        self.h_o[2] =  self.vec_h(socket_l)
-        self.h_o[3] =  self.vec_h(head_l)
-        self.h_o[4] =  self.vec_h(self.tot_l - thread_l)
-        self.h_o[5] =  self.vec_h(self.tot_l - shank_out)
-        self.h_o[6] =  self.vec_h(self.tot_l)
+        self.h_o[0] = V0  # origin
+        self.h_o[1] = self.vec_h(head_out)
+        self.h_o[2] = self.vec_h(socket_l)
+        self.h_o[3] = self.vec_h(head_l)
+        self.h_o[4] = self.vec_h(self.tot_l - thread_l)
+        self.h_o[5] = self.vec_h(self.tot_l - shank_out)
+        self.h_o[6] = self.vec_h(self.tot_l)
 
         self.d_o[0] = V0
         if not (self.axis_d is None or self.axis_d == V0):
@@ -1180,30 +1168,30 @@ class ShpBolt (Obj3D):
         # calculates the position of the origin, and keeps it in attribute pos_o
         self.set_pos_o()
 
-        if head_type == 0: # cylindrical
-            shp_head = fcfun.shp_cylcenxtr (r = head_r, h = head_l,
-                                  normal = self.axis_h,
-                                  ch=0, # not centered
-                                  # no extra on top, the shank will be there
-                                  xtr_top = 0,
-                                  xtr_bot = 0,
-                                  pos = self.pos_o)
+        if head_type == 0:  # cylindrical
+            shp_head = fcfun.shp_cylcenxtr(r=head_r, h=head_l,
+                                           normal=self.axis_h,
+                                           ch=0,  # not centered
+                                           # no extra on top, the shank will be there
+                                           xtr_top=0,
+                                           xtr_bot=0,
+                                           pos=self.pos_o)
 
-        else: # hexagonal
+        else:  # hexagonal
             if (self.axis_d is None) or (self.axis_d == V0):
                 logger.error('axis_d need to be defined')
             else:
-                shp_head = fcfun.shp_regprism_dirxtr (
-                                  n_sides = 6, radius = head_r,
-                                  length = head_l,
-                                  fc_normal = self.axis_h,
-                                  fc_verx1 = self.axis_d,
-                                  centered=0,
-                                  # no extra on top, the shank will be there
-                                  xtr_top = 0, xtr_bot = 0,
-                                  pos = self.pos_o)
+                shp_head = fcfun.shp_regprism_dirxtr(
+                    n_sides=6, radius=head_r,
+                    length=head_l,
+                    fc_normal=self.axis_h,
+                    fc_verx1=self.axis_d,
+                    centered=0,
+                    # no extra on top, the shank will be there
+                    xtr_top=0, xtr_bot=0,
+                    pos=self.pos_o)
 
-        if socket_l > 0 and socket_2ap > 0 : # there is socket
+        if socket_l > 0 and socket_2ap > 0:  # there is socket
             # diameter of the socket (circumdiameter)
             self.cos30 = 0.86603
             self.socket_dm = socket_2ap / self.cos30
@@ -1212,59 +1200,55 @@ class ShpBolt (Obj3D):
                 # just make an axis_d
                 self.axis_d = fcfun.get_fc_perpend1(self.axis_h)
 
-            shp_socket = fcfun.shp_regprism_dirxtr (
-                                  n_sides = 6, radius = self.socket_r,
-                                  length = socket_l,
-                                  fc_normal = self.axis_h,
-                                  fc_verx1 = self.axis_d,
-                                  centered=0,
-                                  xtr_top = 0, xtr_bot = 1, #to cut
-                                  pos = self.pos_o)
+            shp_socket = fcfun.shp_regprism_dirxtr(
+                n_sides=6, radius=self.socket_r,
+                length=socket_l,
+                fc_normal=self.axis_h,
+                fc_verx1=self.axis_d,
+                centered=0,
+                xtr_top=0, xtr_bot=1,  # to cut
+                pos=self.pos_o)
             shp_head = shp_head.cut(shp_socket)
-            
 
-        if thread_l == 0 or thread_l >= shank_l: #all the shank is threaded
-            shp_shank = fcfun.shp_cylcenxtr (r = shank_r, h = shank_l,
-                                             normal = self.axis_h,
-                                             ch=0, # not centered
-                                             xtr_top = 0,
-                                             xtr_bot = head_l/2., #to make union
-                                             pos = self.get_pos_h(3))
-        else : # not threaded shank plus threaded, but just a little smaller
+        if thread_l == 0 or thread_l >= shank_l:  # all the shank is threaded
+            shp_shank = fcfun.shp_cylcenxtr(r=shank_r, h=shank_l,
+                                            normal=self.axis_h,
+                                            ch=0,  # not centered
+                                            xtr_top=0,
+                                            xtr_bot=head_l / 2.,  # to make union
+                                            pos=self.get_pos_h(3))
+        else:  # not threaded shank plus threaded, but just a little smaller
             # to see the line
-            shp_shank = fcfun.shp_cylcenxtr (r = shank_r, h = shank_l-thread_l,
-                                             normal = self.axis_h,
-                                             ch=0, # not centered
-                                             xtr_top = 0,
-                                             xtr_bot = head_l/2., #to make union
-                                             pos = self.get_pos_h(3))
-            shp_thread = fcfun.shp_cylcenxtr (r = shank_r-0.1,
-                                              h = thread_l,
-                                              normal = self.axis_h,
-                                              ch=0, # not centered
-                                              xtr_top = 0,
-                                              xtr_bot = 1, #to make union
-                                              pos = self.get_pos_h(4))
+            shp_shank = fcfun.shp_cylcenxtr(r=shank_r, h=shank_l - thread_l,
+                                            normal=self.axis_h,
+                                            ch=0,  # not centered
+                                            xtr_top=0,
+                                            xtr_bot=head_l / 2.,  # to make union
+                                            pos=self.get_pos_h(3))
+            shp_thread = fcfun.shp_cylcenxtr(r=shank_r - 0.1,
+                                             h=thread_l,
+                                             normal=self.axis_h,
+                                             ch=0,  # not centered
+                                             xtr_top=0,
+                                             xtr_bot=1,  # to make union
+                                             pos=self.get_pos_h(4))
 
             shp_shank = shp_shank.fuse(shp_thread)
-
-
-
-
 
         shp_bolt = shp_head.fuse(shp_shank)
 
         self.shp = shp_bolt
         # no axis would be good to print, and it is not a piece to print
         # however, this would be the best
-        self.prnt_ax = self.axis_h 
-                                  
+        self.prnt_ax = self.axis_h
 
-#metric = 3
-#bolt_dict = kcomp.D912[metric]
-#thread_l = 18
-#shank_l = 30
-#shp_bolt = ShpBolt (
+    # metric = 3
+
+
+# bolt_dict = kcomp.D912[metric]
+# thread_l = 18
+# shank_l = 30
+# shp_bolt = ShpBolt (
 #                 shank_r = bolt_dict['d']/2.,
 #                 shank_l = shank_l,
 #                 head_r  = bolt_dict['head_r'],
@@ -1282,17 +1266,10 @@ class ShpBolt (Obj3D):
 #                 pos = FreeCAD.Vector(0,0,0))
 
 
-
-
-
-
-
-
 # ------------------- def wire_beltclamp
 # Not sure if a wire should be an Obj3D class
 
-class WireBeltClamped (Obj3D):
-
+class WireBeltClamped(Obj3D):
     """
     Creates a wire following 2 pulleys and ending in a belt clamp
     But it is a wire in FreeCAD, has no volumen
@@ -1447,14 +1424,14 @@ class WireBeltClamped (Obj3D):
                  clamp_w,
                  clamp_cyl_sep,
                  cyl_r,
-                 axis_d = VY,
-                 axis_w = VX,
-                 pos_d = 0,
-                 pos_w = 0,
+                 axis_d=VY,
+                 axis_w=VX,
+                 pos_d=0,
+                 pos_w=0,
                  pos=V0):
 
         axis_h = axis_d.cross(axis_w)
-        Obj3D.__init__(self, axis_d = axis_d, axis_w = axis_w, axis_h = None)
+        Obj3D.__init__(self, axis_d=axis_d, axis_w=axis_w, axis_h=None)
 
         self.axis_wn = self.axis_w.negative()
 
@@ -1462,19 +1439,18 @@ class WireBeltClamped (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
-        self.pull1_r = pull1_dm/2.
-        self.pull2_r = pull2_dm/2.
+        self.pull1_r = pull1_dm / 2.
+        self.pull2_r = pull2_dm / 2.
 
-        self.clamp_sep = (pull_sep_d - ( clamp_pull1_d + 2*clamp_d +
+        self.clamp_sep = (pull_sep_d - (clamp_pull1_d + 2 * clamp_d +
                                         clamp_pull2_d))
 
-        self.d0_cen = 0 # non symmetrical
+        self.d0_cen = 0  # non symmetrical
         self.w0_cen = 0
         self.h0_cen = 0
-
 
         # vectors from the origin to the points along axis_d:
         self.d_o[0] = V0
@@ -1482,15 +1458,15 @@ class WireBeltClamped (Obj3D):
         self.d_o[2] = self.vec_d(clamp_pull1_d)
         self.d_o[3] = self.vec_d(clamp_pull1_d + clamp_d)
         self.d_o[4] = self.vec_d(clamp_pull1_d + clamp_d + clamp_cyl_sep)
-                    # get_o_to_d (could be used)
+        # get_o_to_d (could be used)
         self.d_o[5] = self.d_o[4] + self.vec_d(cyl_r)
 
         self.d_o[8] = self.d_o[3] + self.vec_d(self.clamp_sep)
         self.d_o[7] = self.d_o[8] + self.vec_d(-clamp_cyl_sep)
         self.d_o[6] = self.d_o[7] + self.vec_d(-cyl_r)
 
-        self.d_o[9]  = self.d_o[8]  + self.vec_d(clamp_d)
-        self.d_o[10] = self.d_o[9]  + self.vec_d(clamp_pull2_d)
+        self.d_o[9] = self.d_o[8] + self.vec_d(clamp_d)
+        self.d_o[10] = self.d_o[9] + self.vec_d(clamp_pull2_d)
         self.d_o[11] = self.d_o[10] + self.vec_d(self.pull2_r)
 
         # vectors from the origin to the points along axis_w:
@@ -1501,7 +1477,7 @@ class WireBeltClamped (Obj3D):
         self.w_o[4] = self.vec_w(-self.pull1_r)
         self.w_o[5] = self.vec_w(pull_sep_w - self.pull2_r)
         self.w_o[6] = self.vec_w(-clamp_pull1_w)
-        self.w_o[7] = self.vec_w(-(clamp_pull1_w + clamp_w/2.))
+        self.w_o[7] = self.vec_w(-(clamp_pull1_w + clamp_w / 2.))
         self.w_o[8] = self.vec_w(-(clamp_pull1_w + clamp_w))
 
         # there is no axis_h, there for, always 0
@@ -1510,12 +1486,12 @@ class WireBeltClamped (Obj3D):
         # calculates the position of the origin, and keeps it in attribute pos_o
         self.set_pos_o()
 
-        #axis_w
+        # axis_w
         #  :                                    pull2
         #  :
         #  2_                                   I3-
         #   H                                   ( 1 )   
-        #(  0  )                                 5J 
+        # (  0  )                                 5J
         # G      6 ___     C        N     ___
         #  4-    7 A B   < )        ( >   P Q
         #        8 F_E     D        M     L_K
@@ -1523,105 +1499,98 @@ class WireBeltClamped (Obj3D):
         #        clamp1                  clamp2
 
         # at clamp 1, touching the clamp (w=6)
-        A_pt = self.get_pos_dwh(2,6,0)
-        B_pt = self.get_pos_dwh(3,6,0)
-        E_pt = self.get_pos_dwh(3,8,0)
-        F_pt = self.get_pos_dwh(2,8,0)
+        A_pt = self.get_pos_dwh(2, 6, 0)
+        B_pt = self.get_pos_dwh(3, 6, 0)
+        E_pt = self.get_pos_dwh(3, 8, 0)
+        F_pt = self.get_pos_dwh(2, 8, 0)
 
-        Q_pt = self.get_pos_dwh(9,6,0)
-        P_pt = self.get_pos_dwh(8,6,0)
-        L_pt = self.get_pos_dwh(8,8,0)
-        K_pt = self.get_pos_dwh(9,8,0)
+        Q_pt = self.get_pos_dwh(9, 6, 0)
+        P_pt = self.get_pos_dwh(8, 6, 0)
+        L_pt = self.get_pos_dwh(8, 8, 0)
+        K_pt = self.get_pos_dwh(9, 8, 0)
 
         line_AB = Part.LineSegment(A_pt, B_pt).toShape()
         line_EF = Part.LineSegment(E_pt, F_pt).toShape()
         # from B tangent point to the cylinder
-        cyl1_center_pt = self.get_pos_dwh(4,7,0)
+        cyl1_center_pt = self.get_pos_dwh(4, 7, 0)
         C_pt = fcfun.get_tangent_circle_pt(ext_pt=B_pt,
-                                       center_pt= cyl1_center_pt,
-                                       rad = cyl_r,
-                                       axis_n = axis_h,
-                                       axis_side = self.axis_w)
+                                           center_pt=cyl1_center_pt,
+                                           rad=cyl_r,
+                                           axis_n=axis_h,
+                                           axis_side=self.axis_w)
         line_BC = Part.LineSegment(B_pt, C_pt).toShape()
 
         D_pt = fcfun.get_tangent_circle_pt(ext_pt=E_pt,
-                                       center_pt= cyl1_center_pt,
-                                       rad = cyl_r,
-                                       axis_n = axis_h,
-                                       axis_side = self.axis_wn)
+                                           center_pt=cyl1_center_pt,
+                                           rad=cyl_r,
+                                           axis_n=axis_h,
+                                           axis_side=self.axis_wn)
         line_DE = Part.LineSegment(D_pt, E_pt).toShape()
 
-        arc_CD = Part.Arc(C_pt, self.get_pos_dwh(5,7,0),D_pt).toShape()
+        arc_CD = Part.Arc(C_pt, self.get_pos_dwh(5, 7, 0), D_pt).toShape()
 
-        pull1_center_pt = self.get_pos_dwh(0,0,0)
+        pull1_center_pt = self.get_pos_dwh(0, 0, 0)
         G_pt = fcfun.get_tangent_circle_pt(ext_pt=F_pt,
-                                       center_pt= pull1_center_pt,
-                                       rad = self.pull1_r,
-                                       axis_n = axis_h,
-                                       axis_side = self.axis_wn)
+                                           center_pt=pull1_center_pt,
+                                           rad=self.pull1_r,
+                                           axis_n=axis_h,
+                                           axis_side=self.axis_wn)
 
         line_FG = Part.LineSegment(F_pt, G_pt).toShape()
 
-        pull2_center_pt = self.get_pos_dwh(10,1,0)
+        pull2_center_pt = self.get_pos_dwh(10, 1, 0)
         HI_list = fcfun.get_tangent_2circles(
-                                       center1_pt = pull1_center_pt,
-                                       center2_pt = pull2_center_pt,
-                                       rad1 = self.pull1_r,
-                                       rad2 = self.pull2_r,
-                                       axis_n = axis_h,
-                                       axis_side = self.axis_w)
+            center1_pt=pull1_center_pt,
+            center2_pt=pull2_center_pt,
+            rad1=self.pull1_r,
+            rad2=self.pull2_r,
+            axis_n=axis_h,
+            axis_side=self.axis_w)
 
         H_pt = HI_list[0][0]
         I_pt = HI_list[0][1]
 
-        arc_GH = Part.Arc(G_pt, self.get_pos_dwh(1,0,0),H_pt).toShape()
+        arc_GH = Part.Arc(G_pt, self.get_pos_dwh(1, 0, 0), H_pt).toShape()
         line_HI = Part.LineSegment(H_pt, I_pt).toShape()
 
-
         J_pt = fcfun.get_tangent_circle_pt(ext_pt=K_pt,
-                                       center_pt= pull2_center_pt,
-                                       rad = self.pull2_r,
-                                       axis_n = axis_h,
-                                       axis_side = self.axis_wn)
-        arc_IJ = Part.Arc(I_pt, self.get_pos_dwh(11,1,0),J_pt).toShape()
+                                           center_pt=pull2_center_pt,
+                                           rad=self.pull2_r,
+                                           axis_n=axis_h,
+                                           axis_side=self.axis_wn)
+        arc_IJ = Part.Arc(I_pt, self.get_pos_dwh(11, 1, 0), J_pt).toShape()
 
         line_JK = Part.LineSegment(J_pt, K_pt).toShape()
         line_KL = Part.LineSegment(K_pt, L_pt).toShape()
 
-
-        cyl2_center_pt = self.get_pos_dwh(7,7,0)
+        cyl2_center_pt = self.get_pos_dwh(7, 7, 0)
         M_pt = fcfun.get_tangent_circle_pt(ext_pt=L_pt,
-                                       center_pt= cyl2_center_pt,
-                                       rad = cyl_r,
-                                       axis_n = axis_h,
-                                       axis_side = self.axis_wn)
+                                           center_pt=cyl2_center_pt,
+                                           rad=cyl_r,
+                                           axis_n=axis_h,
+                                           axis_side=self.axis_wn)
         line_LM = Part.LineSegment(L_pt, M_pt).toShape()
 
         N_pt = fcfun.get_tangent_circle_pt(ext_pt=P_pt,
-                                       center_pt= cyl2_center_pt,
-                                       rad = cyl_r,
-                                       axis_n = axis_h,
-                                       axis_side = self.axis_w)
+                                           center_pt=cyl2_center_pt,
+                                           rad=cyl_r,
+                                           axis_n=axis_h,
+                                           axis_side=self.axis_w)
 
-        arc_MN = Part.Arc(M_pt, self.get_pos_dwh(6,7,0),N_pt).toShape()
+        arc_MN = Part.Arc(M_pt, self.get_pos_dwh(6, 7, 0), N_pt).toShape()
 
         line_NP = Part.LineSegment(N_pt, P_pt).toShape()
         line_PQ = Part.LineSegment(P_pt, Q_pt).toShape()
-        
 
-        
         belt_wire = Part.Wire([line_AB, line_BC, arc_CD,
-                          line_DE, line_EF, line_FG, arc_GH, line_HI,
-                          arc_IJ, line_JK, line_KL, line_LM, arc_MN,
-                          line_NP, line_PQ])
+                               line_DE, line_EF, line_FG, arc_GH, line_HI,
+                               arc_IJ, line_JK, line_KL, line_LM, arc_MN,
+                               line_NP, line_PQ])
 
-
-
-        #Part.show(belt_wire)
+        # Part.show(belt_wire)
         self.belt_wire = belt_wire
 
-
-#belt_wire = WireBeltClamped (
+# belt_wire = WireBeltClamped (
 #                 pull1_dm = 5,
 #                 pull2_dm = 6,
 #                 pull_sep_d = 80,
@@ -1638,9 +1607,3 @@ class WireBeltClamped (Obj3D):
 #                 pos_d = 0,
 #                 pos_w = 0,
 #                 pos=V0)
-
-
-
-
-
-
