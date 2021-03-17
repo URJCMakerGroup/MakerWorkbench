@@ -1,4 +1,3 @@
-import PySide2
 from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
 import os
 import FreeCAD
@@ -14,8 +13,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _TubeLense_Cmd:
     """
@@ -35,8 +35,10 @@ class _TubeLense_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_TubeLense_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None 
+
 
 class TubeLense_TaskPanel:
     def __init__(self):
@@ -47,8 +49,8 @@ class TubeLense_TaskPanel:
         # ---- Length ----
         self.Label_Length = QtWidgets.QLabel("Length")
         self.Length = QtWidgets.QComboBox()
-        self.Length.addItems(["3","5","10","15","20","30"])
-        self.Length.setCurrentIndex(2) #10
+        self.Length.addItems(["3", "5", "10", "15", "20", "30"])
+        self.Length.setCurrentIndex(2)  # 10
 
         length_layout = QtWidgets.QHBoxLayout()
         length_layout.addWidget(self.Label_Length)
@@ -140,6 +142,7 @@ class TubeLense_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+
 class TubeLense_Dialog:
     def __init__(self):
         self.placement = True
@@ -150,10 +153,10 @@ class TubeLense_Dialog:
         self.form = [self.TubeLense.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -161,22 +164,26 @@ class TubeLense_Dialog:
 
         size = {0: 3, 1: 5, 2: 10, 3: 15, 4: 20, 5: 30}
         sm1l_size = size[self.TubeLense.Length.currentIndex()]
-        pos = FreeCAD.Vector(self.TubeLense.pos_x.value(), self.TubeLense.pos_y.value(), self.TubeLense.pos_z.value())
-        axis_h = FreeCAD.Vector(self.TubeLense.axis_h_x.value(),self.TubeLense.axis_h_y.value(),self.TubeLense.axis_h_z.value())
+        pos = FreeCAD.Vector(self.TubeLense.pos_x.value(),
+                             self.TubeLense.pos_y.value(),
+                             self.TubeLense.pos_z.value())
+        axis_h = FreeCAD.Vector(self.TubeLense.axis_h_x.value(),
+                                self.TubeLense.axis_h_y.value(),
+                                self.TubeLense.axis_h_z.value())
         
         SM1TubelensSm2(sm1l_size,
-                        fc_axis = axis_h,#VX,
-                        ref_sm1 = 1,
-                        pos = pos,
-                        ring = 1,
-                        name = 'tubelens_sm1_sm2')
+                       fc_axis=axis_h,  # VX,
+                       ref_sm1=1,
+                       pos=pos,
+                       ring=1,
+                       name='tubelens_sm1_sm2')
 
         FreeCADGui.activeDocument().activeView().viewAxonometric()
-        FreeCADGui.Control.closeDialog() #close the dialog
+        FreeCADGui.Control.closeDialog()  # close the dialog
         FreeCADGui.SendMsgToActiveView("ViewFit")
 
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -184,31 +191,39 @@ class TubeLense_Dialog:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.TubeLense, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.TubeLense,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.TubeLense,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.TubeLense, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('TubeLense',_TubeLense_Cmd())
+FreeCADGui.addCommand('TubeLense', _TubeLense_Cmd())

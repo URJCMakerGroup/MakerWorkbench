@@ -1,4 +1,3 @@
-import PySide2
 from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
 import os
 import FreeCAD
@@ -16,8 +15,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _Plate_Cmd:
     def Activated(self):
@@ -34,8 +34,10 @@ class _Plate_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_Plate_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None 
+
 
 class Plate_TaskPanel:
     def __init__(self):
@@ -46,7 +48,7 @@ class Plate_TaskPanel:
         # ---- Plate ----
         self.Label_plate = QtWidgets.QLabel('Dictionary:')
         self.type = QtWidgets.QComboBox()
-        self.type.addItems(["Lb1cm_Plate","Lb2c_Plate","Lcp01m_plate"])
+        self.type.addItems(["Lb1cm_Plate", "Lb2c_Plate", "Lcp01m_plate"])
         self.type.setCurrentIndex(0)
 
         type_layout = QtWidgets.QHBoxLayout()
@@ -175,6 +177,7 @@ class Plate_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+
 class Plate_Dialog:
     def __init__(self):
         self.placement = True
@@ -185,52 +188,60 @@ class Plate_Dialog:
         self.form = [self.Plate.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
                 FreeCAD.ActiveDocument.removeObject('Point_d_w_h')
 
-        pos = FreeCAD.Vector(self.Plate.pos_x.value(), self.Plate.pos_y.value(), self.Plate.pos_z.value())
-        axis_d = FreeCAD.Vector(self.Plate.axis_d_x.value(),self.Plate.axis_d_y.value(),self.Plate.axis_d_z.value())
-        axis_w = FreeCAD.Vector(self.Plate.axis_w_x.value(),self.Plate.axis_w_y.value(),self.Plate.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.Plate.axis_h_x.value(),self.Plate.axis_h_y.value(),self.Plate.axis_h_z.value())
+        pos = FreeCAD.Vector(self.Plate.pos_x.value(),
+                             self.Plate.pos_y.value(),
+                             self.Plate.pos_z.value())
+        axis_d = FreeCAD.Vector(self.Plate.axis_d_x.value(),
+                                self.Plate.axis_d_y.value(),
+                                self.Plate.axis_d_z.value())
+        axis_w = FreeCAD.Vector(self.Plate.axis_w_x.value(),
+                                self.Plate.axis_w_y.value(),
+                                self.Plate.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.Plate.axis_h_x.value(),
+                                self.Plate.axis_h_y.value(),
+                                self.Plate.axis_h_z.value())
 
-        if ortonormal_axis(axis_d,axis_w,axis_h) == True:
+        if ortonormal_axis(axis_d, axis_w, axis_h) is True:
             if self.Plate.type.currentIndex() == 0:
                 Lb1cPlate(kcomp_optic.LB1CM_PLATE,
-                                    fc_axis_h = axis_h ,#VZ,
-                                    fc_axis_l = axis_d ,#VX,
-                                    ref_in = 1,
-                                    pos = pos,
-                                    name = 'lb1c_plate')
+                          fc_axis_h=axis_h,  # VZ,
+                          fc_axis_l=axis_d,  # VX,
+                          ref_in=1,
+                          pos=pos,
+                          name='lb1c_plate')
 
             if self.Plate.type.currentIndex() == 1:
-                Lb2cPlate(fc_axis_h = axis_h ,#VZ,
-                                    fc_axis_l = axis_d ,#VX,
-                                    cl=1, cw=1, ch=0,
-                                    pos = pos,
-                                    name = 'lb2c_plate')
+                Lb2cPlate(fc_axis_h=axis_h,  # VZ,
+                          fc_axis_l=axis_d,  # VX,
+                          cl=1, cw=1, ch=0,
+                          pos=pos,
+                          name='lb2c_plate')
 
             if self.Plate.type.currentIndex() == 2:
-                lcp01m_plate(d_lcp01m_plate = kcomp_optic.LCP01M_PLATE,
-                                        fc_axis_h = axis_h ,#VZ,
-                                        fc_axis_m = axis_d ,#VX,
-                                        fc_axis_p = axis_w ,#V0,
-                                        cm=1, cp=1, ch=1,
-                                        pos = pos,
-                                        wfco= 1,
-                                        name = 'LCP01M_PLATE')
+                lcp01m_plate(d_lcp01m_plate=kcomp_optic.LCP01M_PLATE,
+                             fc_axis_h=axis_h,  # VZ,
+                             fc_axis_m=axis_d,  # VX,
+                             fc_axis_p=axis_w,  # V0,
+                             cm=1, cp=1, ch=1,
+                             pos=pos,
+                             wfco=1,
+                             name='LCP01M_PLATE')
 
             FreeCADGui.activeDocument().activeView().viewAxonometric()
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.Control.closeDialog()  # close the dialog
             FreeCADGui.SendMsgToActiveView("ViewFit")
 
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -238,31 +249,39 @@ class Plate_Dialog:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.Plate, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.Plate,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.Plate,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.Plate, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('Plate',_Plate_Cmd())
+FreeCADGui.addCommand('Plate', _Plate_Cmd())

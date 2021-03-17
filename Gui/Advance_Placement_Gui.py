@@ -7,8 +7,9 @@ import Draft
 from Gui.function_Gui import set_place, ortonormal_axis
 from NuevaClase import Obj3D
 
+
 class Advance_Placement_TaskPanel:
-    def __init__(self,obj_task):
+    def __init__(self, obj_task):
         self.obj_task = obj_task
         self.obj_list = []
 
@@ -21,11 +22,10 @@ class Advance_Placement_TaskPanel:
         obj_label = QtWidgets.QLabel()
         obj_label.setText("Select Object")
         self.obj_combo = QtWidgets.QComboBox()
-        self.obj_combo.addItem('') #add initial null value
+        self.obj_combo.addItem('')  # add initial null value
 
         obj_layout.addWidget(obj_label)
         obj_layout.addWidget(self.obj_combo)
-
 
         points_layout = QtWidgets.QHBoxLayout()
         points_layout_1 = QtWidgets.QVBoxLayout()
@@ -61,11 +61,12 @@ class Advance_Placement_TaskPanel:
         btn_setpos.clicked.connect(self.button_clicked) 
         btn_point.clicked.connect(self.show_point) 
 
-        for obj in FreeCAD.ActiveDocument.Objects: # Save the objects name
+        for obj in FreeCAD.ActiveDocument.Objects:  # Save the objects name
             if hasattr(obj, 'd_o'):
                 self.obj_list.append(obj)
                 self.obj_combo.addItem(obj.Name)
-            else: pass
+            else:
+                pass
         self.obj_combo.currentTextChanged.connect(self.set_points)
 
         main_layout.addLayout(obj_layout)
@@ -80,28 +81,31 @@ class Advance_Placement_TaskPanel:
         
         if hasattr(obj, "d_o"):
             if obj.d0_cen == 0:
-                for p in range(0,len(obj.d_o)):
+                for p in range(0, len(obj.d_o)):
                     self.obj_d.addItem(str(p))
             elif obj.d0_cen == 1:
-                for p in range(-len(obj.d_o)+1,len(obj.d_o)): # +1 is necessary to eliminate the 0 value duplicate
+                for p in range(-len(obj.d_o)+1, len(obj.d_o)):  # +1 is necessary to eliminate the 0 value duplicate
                     self.obj_d.addItem(str(p)) 
-        else: pass
+        else:
+            pass
         if hasattr(obj, "w_o"):
             if obj.w0_cen == 0:
-                for p in range(0,len(obj.w_o)):
+                for p in range(0, len(obj.w_o)):
                     self.obj_w.addItem(str(p))
             elif obj.w0_cen == 1:
-                for p in range(-len(obj.w_o)+1,len(obj.w_o)):
+                for p in range(-len(obj.w_o)+1, len(obj.w_o)):
                     self.obj_w.addItem(str(p))
-        else: pass
+        else:
+            pass
         if hasattr(obj, "h_o"):
             if obj.h0_cen == 0:
-                for p in range(0,len(obj.h_o)):
+                for p in range(0, len(obj.h_o)):
                     self.obj_h.addItem(str(p))
             elif obj.h0_cen == 1:
-                for p in range(-len(obj.h_o)+1,len(obj.h_o)):
+                for p in range(-len(obj.h_o)+1, len(obj.h_o)):
                     self.obj_h.addItem(str(p))
-        else: pass
+        else:
+            pass
 
     def button_clicked(self):
         obj_selected = self.obj_list[self.obj_combo.currentIndex()-1]
@@ -123,12 +127,12 @@ class Advance_Placement_TaskPanel:
             if 'Point_d_w_h' == obj.Name:
                 FreeCAD.ActiveDocument.removeObject('Point_d_w_h')
 
-        Draft.makePoint(X=point.x, Y=point.y, Z=point.z, name='Point_d_w_h', point_size=10, color=(0,1,0))
+        Draft.makePoint(X=point.x, Y=point.y, Z=point.z, name='Point_d_w_h', point_size=10, color=(0, 1, 0))
         FreeCAD.ActiveDocument.recompute()
 
     def get_point(self, obj, d, w, h):
         if obj.d0_cen == 1:
-            if d <= 0: # pos_d is negative 
+            if d <= 0:  # pos_d is negative
                 point_d = -obj.d_o[abs(d)]
             else:
                 point_d = obj.d_o[d]
@@ -143,7 +147,6 @@ class Advance_Placement_TaskPanel:
         else:
             point_w = obj.w_o[w]
 
-        
         if obj.h0_cen == 1:
             if h <= 0:
                 point_h = -obj.h_o[abs(h)]
@@ -154,4 +157,3 @@ class Advance_Placement_TaskPanel:
         
         point = point_d + point_w + point_h
         return point
-

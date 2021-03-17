@@ -1,32 +1,32 @@
 # -*- coding: utf-8 -*-
 # FreeCAD init script of the Filter Stage module,
 
-#***************************************************************************
-#*   (c) David Muñoz Bernal                                                *
-#*                                                                         *
-#*   This file is part of the FreeCAD CAx development system.              *
-#*                                                                         *
-#*   This program is free software; you can redistribute it and/or modify  *
-#*   it under the terms of the GNU Lesser General Public License (LGPL)    *
-#*   as published by the Free Software Foundation; either version 2 of     *
-#*   the License, or (at your option) any later version.                   *
-#*   for detail see the LICENCE text file.                                 *
-#*                                                                         *
-#*   FreeCAD is distributed in the hope that it will be useful,            *
-#*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-#*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-#*   GNU Lesser General Public License for more details.                   *
-#*                                                                         *
-#*   You should have received a copy of the GNU Library General Public     *
-#*   License along with FreeCAD; if not, write to the Free Software        *
-#*   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
-#*   USA                                                                   *
-#*                                                                         *
-#***************************************************************************/
+# ***************************************************************************
+# *   (c) David Muñoz Bernal                                                *
+# *                                                                         *
+# *   This file is part of the FreeCAD CAx development system.              *
+# *                                                                         *
+# *   This program is free software; you can redistribute it and/or modify  *
+# *   it under the terms of the GNU Lesser General Public License (LGPL)    *
+# *   as published by the Free Software Foundation; either version 2 of     *
+# *   the License, or (at your option) any later version.                   *
+# *   for detail see the LICENCE text file.                                 *
+# *                                                                         *
+# *   FreeCAD is distributed in the hope that it will be useful,            *
+# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+# *   GNU Lesser General Public License for more details.                   *
+# *                                                                         *
+# *   You should have received a copy of the GNU Library General Public     *
+# *   License along with FreeCAD; if not, write to the Free Software        *
+# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
+# *   USA                                                                   *
+# *                                                                         *
+# ***************************************************************************/
 
 class MakerWorkbench (Workbench):
     """Maker Wokbench to create objects"""
-    #Icon in XPM 16x16
+    #  Icon in XPM 16x16
     Icon = "/Resources/icons/Maker_workbench_icon.svg"
     
     # """
@@ -59,7 +59,7 @@ class MakerWorkbench (Workbench):
     ToolTip = "Maker Workbench"
 
     def Initialize(self):
-        from PySide import QtCore, QtGui
+        from PySide2 import QtCore, QtGui
         # import MechatronicGui
         import Gui.Sk_Gui
         import Gui.IdlePulleyHolder_Gui
@@ -109,7 +109,7 @@ class MakerWorkbench (Workbench):
                      "Stop_Holder",
                      "Filter_Holder",
                      "Belt_Clamp",
-                    #  "Belt_Clamped", # Not working properly
+                     #  "Belt_Clamped", # Not working properly
                      "Sensor_Holder",
                      "Aluproft",
                      "Linear_Guide_Block",
@@ -146,8 +146,8 @@ class MakerWorkbench (Workbench):
 
         modList = ["ChangePosExport",
                    "Assembly",
-                   "New_Internal_Point"]#,
-                   #"test"]
+                   "New_Internal_Point"]  # ,
+        #          "test"]
 
         # +-------------------------------+
         # |                               |
@@ -170,7 +170,6 @@ class MakerWorkbench (Workbench):
         # |                               |
         # +-------------------------------+
 
-
         self.appendMenu(
             str(QtCore.QT_TRANSLATE_NOOP("Maker", "Parts")), partsList)
         self.appendMenu(
@@ -180,10 +179,11 @@ class MakerWorkbench (Workbench):
         self.appendMenu(
             str(QtCore.QT_TRANSLATE_NOOP("Maker", "Functions")), modList)
         
-        Log ('Loalding Maker Workbench... done! \n')
+        Log('Loalding Maker Workbench... done! \n')
     
     def GetClassName(self):
         return "Gui::PythonWorkbench"
-    
-#Add workbench
+
+
+# Add workbench
 Gui.addWorkbench(MakerWorkbench())

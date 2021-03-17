@@ -1,4 +1,3 @@
-import PySide2
 from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
 import os
 import FreeCAD
@@ -15,8 +14,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _FilterHolder_Cmd:
     def Activated(self):
@@ -33,8 +33,10 @@ class _FilterHolder_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_FilterHolder_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None
+
 
 class FilterHolder_TaskPanel:
     def __init__(self):
@@ -52,7 +54,6 @@ class FilterHolder_TaskPanel:
         Length_layout.addWidget(self.Filter_Length_Label)
         Length_layout.addWidget(self.Filter_Length_Value)
 
-        
         # ---- row 1: Filter Width ----
         self.Filter_Width_Label = QtWidgets.QLabel("Filter Width")
         self.Filter_Width_Value = QtWidgets.QDoubleSpinBox()
@@ -102,7 +103,7 @@ class FilterHolder_TaskPanel:
         # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
         self.pos_d = QtWidgets.QComboBox()
-        self.pos_d.addItems(['0','1','2','3','4','5','6','7','8','9','10','11','12'])
+        self.pos_d.addItems(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'])
         self.pos_d.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_d)
@@ -111,7 +112,7 @@ class FilterHolder_TaskPanel:
         # w :
         self.Label_pos_w = QtWidgets.QLabel("in w:")
         self.pos_w = QtWidgets.QComboBox()
-        self.pos_w.addItems(['0','1','2','3','4','5','6','7'])
+        self.pos_w.addItems(['0', '1', '2', '3', '4', '5', '6', '7'])
         self.pos_w.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_w)
@@ -120,7 +121,7 @@ class FilterHolder_TaskPanel:
         # h :
         self.Label_pos_h = QtWidgets.QLabel("in h:")
         self.pos_h = QtWidgets.QComboBox()
-        self.pos_h.addItems(['0','1','2','3','4','5','6','7','8','9'])
+        self.pos_h.addItems(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
         self.pos_h.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_h)
@@ -213,6 +214,7 @@ class FilterHolder_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+
 class FilterHolder_Dialog:
     def __init__(self):
         self.placement = True
@@ -223,10 +225,10 @@ class FilterHolder_Dialog:
         self.form = [self.FilterHolder.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -234,64 +236,69 @@ class FilterHolder_Dialog:
 
         Filter_Length = self.FilterHolder.Filter_Length_Value.value()
         Filter_Width = self.FilterHolder.Filter_Width_Value.value()
-        pos = FreeCAD.Vector(self.FilterHolder.pos_x.value(), self.FilterHolder.pos_y.value(), self.FilterHolder.pos_z.value())
-        positions_d = [0,1,2,3,4,5,6,7,8,9,10,11,12]
-        positions_w = [0,1,2,3,4,5,6,7]
-        positions_h = [0,1,2,3,4,5,6,7,8,9]
+        pos = FreeCAD.Vector(self.FilterHolder.pos_x.value(),
+                             self.FilterHolder.pos_y.value(),
+                             self.FilterHolder.pos_z.value())
+        positions_d = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        positions_w = [0, 1, 2, 3, 4, 5, 6, 7]
+        positions_h = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         pos_d = positions_d[self.FilterHolder.pos_d.currentIndex()]
         pos_w = positions_w[self.FilterHolder.pos_w.currentIndex()]
         pos_h = positions_h[self.FilterHolder.pos_h.currentIndex()]
-        axis_d = FreeCAD.Vector(self.FilterHolder.axis_d_x.value(),self.FilterHolder.axis_d_y.value(),self.FilterHolder.axis_d_z.value())
-        axis_w = FreeCAD.Vector(self.FilterHolder.axis_w_x.value(),self.FilterHolder.axis_w_y.value(),self.FilterHolder.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.FilterHolder.axis_h_x.value(),self.FilterHolder.axis_h_y.value(),self.FilterHolder.axis_h_z.value())
+        axis_d = FreeCAD.Vector(self.FilterHolder.axis_d_x.value(),
+                                self.FilterHolder.axis_d_y.value(),
+                                self.FilterHolder.axis_d_z.value())
+        axis_w = FreeCAD.Vector(self.FilterHolder.axis_w_x.value(),
+                                self.FilterHolder.axis_w_y.value(),
+                                self.FilterHolder.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.FilterHolder.axis_h_x.value(),
+                                self.FilterHolder.axis_h_y.value(),
+                                self.FilterHolder.axis_h_z.value())
 
-        if ortonormal_axis(axis_d,axis_w,axis_h) == True:
-            PartFilterHolder(filter_l = Filter_Length, #60     
-                            filter_w = Filter_Width, #25
-                            filter_t = 2.5,
-                            base_h = 6.,
-                            hold_d = 10.,
-                            filt_supp_in = 2.,
-                            filt_rim = 3.,
-                            filt_cen_d = 30,
-                            fillet_r = 1.,
-                            # linear guides SEBLV16 y SEBS15, y MGN12H:
-                            boltcol1_dist = 20/2.,
-                            boltcol2_dist = 12.5, #thorlabs breadboard distance
-                            boltcol3_dist = 25,
-                            boltrow1_h = 0,
-                            boltrow1_2_dist = 12.5,
-                            # linear guide MGN12H
-                            boltrow1_3_dist = 20.,
-                            # linear guide SEBLV16 and SEBS15
-                            boltrow1_4_dist = 25.,
-
-                            bolt_cen_mtr = 4, 
-                            bolt_linguide_mtr = 3, # linear guide bolts 
-
-                            beltclamp_t = 3.,
-                            beltclamp_l = 12.,
-                            beltclamp_h = 8.,
-                            clamp_post_dist = 4.,
-                            sm_beltpost_r = 1.,
-
-                            tol = kcomp.TOL,
-                            axis_d = axis_d,#VX,
-                            axis_w = axis_w,#VY,
-                            axis_h = axis_h,#VZ,
-                            pos_d = pos_d,
-                            pos_w = pos_w,
-                            pos_h = pos_h,
-                            pos = pos,
-                            model_type = 0, # exact
-                            name = 'filter_holder')
+        if ortonormal_axis(axis_d, axis_w, axis_h) is True:
+            PartFilterHolder(filter_l=Filter_Length,  # 60
+                             filter_w=Filter_Width,  # 25
+                             filter_t=2.5,
+                             base_h=6.,
+                             hold_d=10.,
+                             filt_supp_in=2.,
+                             filt_rim=3.,
+                             filt_cen_d=30,
+                             fillet_r=1.,
+                             # linear guides SEBLV16 y SEBS15, y MGN12H:
+                             boltcol1_dist=20/2.,
+                             boltcol2_dist=12.5,  # thorlabs breadboard distance
+                             boltcol3_dist=25,
+                             boltrow1_h=0,
+                             boltrow1_2_dist=12.5,
+                             # linear guide MGN12H
+                             boltrow1_3_dist=20.,
+                             # linear guide SEBLV16 and SEBS15
+                             boltrow1_4_dist=25.,
+                             bolt_cen_mtr=4,
+                             bolt_linguide_mtr=3,  # linear guide bolts
+                             beltclamp_t=3.,
+                             beltclamp_l=12.,
+                             beltclamp_h=8.,
+                             clamp_post_dist=4.,
+                             sm_beltpost_r=1.,
+                             tol=kcomp.TOL,
+                             axis_d=axis_d,  # VX,
+                             axis_w=axis_w,  # VY,
+                             axis_h=axis_h,  # VZ,
+                             pos_d=pos_d,
+                             pos_w=pos_w,
+                             pos_h=pos_h,
+                             pos=pos,
+                             model_type=0,  # exact
+                             name='filter_holder')
             
             FreeCADGui.activeDocument().activeView().viewAxonometric()
             FreeCADGui.SendMsgToActiveView("ViewFit")
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.Control.closeDialog()  # close the dialog
     
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -299,31 +306,39 @@ class FilterHolder_Dialog:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.FilterHolder, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.FilterHolder,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.FilterHolder,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.FilterHolder, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('Filter_Holder',_FilterHolder_Cmd())
+FreeCADGui.addCommand('Filter_Holder', _FilterHolder_Cmd())

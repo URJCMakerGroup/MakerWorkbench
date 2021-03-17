@@ -1,4 +1,3 @@
-import PySide2
 from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
 import os
 import FreeCAD
@@ -6,16 +5,16 @@ import FreeCADGui
 import logging
 
 from filter_stage_fun import filter_stage_fun
-from Gui.Advance_Placement_Gui import Advance_Placement_TaskPanel
-from Gui.function_Gui import set_place, ortonormal_axis
 
 __dir__ = os.path.dirname(__file__)
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
+
 class _FilterStage_Cmd:
     def Activated(self):
         baseWidget = QtWidgets.QWidget()
@@ -38,7 +37,8 @@ class _FilterStage_Cmd:
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None
 
-class FilterStage_TaskPanel:                                    
+
+class FilterStage_TaskPanel:
     def __init__(self, widget):
         self.form = widget
 
@@ -77,9 +77,9 @@ class FilterStage_TaskPanel:
         width_layout.addWidget(self.Filter_Width_Value)
 
         # ---- Base width ----
-        self.base_w_Label = QtWidgets.QLabel("Base width:")  #10/15/20/30/40
+        self.base_w_Label = QtWidgets.QLabel("Base width:")  # 10/15/20/30/40
         self.ComboBox_base_w = QtWidgets.QComboBox()
-        self.TextBase_W = ["10mm","15mm","20mm","30mm","40mm"] 
+        self.TextBase_W = ["10mm", "15mm", "20mm", "30mm", "40mm"]
         self.ComboBox_base_w.addItems(self.TextBase_W)
         self.ComboBox_base_w.setCurrentIndex(self.TextBase_W.index('20mm'))
 
@@ -107,11 +107,10 @@ class FilterStage_TaskPanel:
         wall_layout.addWidget(self.wall_th_Label)
         wall_layout.addWidget(self.wall_th_Value)
 
-
         # ---- Nut Type ----
         self.nut_hole_Label = QtWidgets.QLabel("Nut Type:")   
         self.ComboBox_Nut_Hole = QtWidgets.QComboBox()
-        self.TextNutType = ["M3","M4","M5","M6"]
+        self.TextNutType = ["M3", "M4", "M5", "M6"]
         self.ComboBox_Nut_Hole.addItems(self.TextNutType)
         self.ComboBox_Nut_Hole.setCurrentIndex(self.TextNutType.index('M3'))
 
@@ -122,7 +121,7 @@ class FilterStage_TaskPanel:
         # ---- Size Holder ----
         self.Size_Holder_Label = QtWidgets.QLabel("Motor size")
         self.ComboBox_Size_Holder = QtWidgets.QComboBox()
-        self.TextSizeHolder = ["8","11","14","17","23","34","42"]
+        self.TextSizeHolder = ["8", "11", "14", "17", "23", "34", "42"]
         self.ComboBox_Size_Holder.addItems(self.TextSizeHolder)
         self.ComboBox_Size_Holder.setCurrentIndex(self.TextSizeHolder.index('14'))
 
@@ -133,7 +132,7 @@ class FilterStage_TaskPanel:
         # ---- Rail Max High  ----
         self.motor_high_Label = QtWidgets.QLabel("Rail high Motor holder")
         self.motor_high_Value = QtWidgets.QDoubleSpinBox()
-        self.motor_high_Value.setValue(25) #Value printed
+        self.motor_high_Value.setValue(25)  # Value printed
         self.motor_high_Value.setSuffix(' mm')
 
         rail_layout = QtWidgets.QHBoxLayout()
@@ -186,7 +185,6 @@ class FilterStage_TaskPanel:
         placement_layout_3.addWidget(self.pos_y)
         placement_layout_3.addWidget(self.pos_z)
 
-
         main_layout.addLayout(move_layout)
         main_layout.addLayout(length_layout)
         main_layout.addLayout(width_layout)
@@ -199,45 +197,47 @@ class FilterStage_TaskPanel:
         main_layout.addLayout(thickness_layout)
         main_layout.addLayout(placement_layout)
 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
                 FreeCAD.ActiveDocument.removeObject('Point_d_w_h')
 
-        self.selec_base = {0: 5, 1: 10, 2: 15, 3: 20, 4: 30, 5: 40}
+        selec_base = {0: 5, 1: 10, 2: 15, 3: 20, 4: 30, 5: 40}
         move_l = self.move_l_Value.value()
-        #Filter holder
+        # Filter holder
         Filter_Length = self.Filter_Length_Value.value()
         Filter_Width = self.Filter_Width_Value.value()
-        #tensioner
-        nut_hole = 3 + self.ComboBox_Nut_Hole.currentIndex()  #Index star in 0, first value = 3
+        # tensioner
+        nut_hole = 3 + self.ComboBox_Nut_Hole.currentIndex()  # Index star in 0, first value = 3
         tens_stroke = self.tens_stroke_Value.value()
-        base_w = self.selec_base[self.ComboBox_base_w.currentIndex()]
+        base_w = selec_base[self.ComboBox_base_w.currentIndex()]
         wall_thick = self.wall_th_Value.value()
-        #motor holder
-        SizeHolder = {0:8, 1:11, 2:14, 3:17, 4:23, 5:34, 6:42}
+        # motor holder
+        SizeHolder = {0: 8, 1: 11, 2: 14, 3: 17, 4: 23, 5: 34, 6: 42}
         size_motor = SizeHolder[self.ComboBox_Size_Holder.currentIndex()]
-        h_motor=self.motor_high_Value.value()
+        h_motor = self.motor_high_Value.value()
         thik_motor = self.Thickness_Value.value()
 
         pos = FreeCAD.Vector(self.pos_x.value(), self.pos_y.value(), self.pos_z.value())
 
-        filter_stage_fun(move_l,Filter_Length,Filter_Width, nut_hole, tens_stroke, base_w, wall_thick, size_motor, h_motor, thik_motor, pos)
-            #pulley_h => belt_pos_h
-            #nut_hole => bolttens_mtr
-            #tens_stroke => tens_stroke_Var
-            #base_w => aluprof_w
-            #wall_thick => wall_thick_Var
+        filter_stage_fun(move_l, Filter_Length, Filter_Width, nut_hole,
+                         tens_stroke, base_w, wall_thick, size_motor,
+                         h_motor, thik_motor, pos)
+        # pulley_h => belt_pos_h
+        # nut_hole => bolttens_mtr
+        # tens_stroke => tens_stroke_Var
+        # base_w => aluprof_w
+        # wall_thick => wall_thick_Var
         FreeCADGui.activeDocument().activeView().viewAxonometric()
         FreeCADGui.SendMsgToActiveView("ViewFit")
-        FreeCADGui.Control.closeDialog() #close the dialog
+        FreeCADGui.Control.closeDialog()  # close the dialog
 
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -245,37 +245,42 @@ class FilterStage_TaskPanel:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            self.pos_x.setValue(round(self.v.getPoint(pos)[0],3))
-            self.pos_y.setValue(round(self.v.getPoint(pos)[1],3))
-            self.pos_z.setValue(round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            self.pos_x.setValue(round(self.v.getPoint(pos)[0], 3))
+            self.pos_y.setValue(round(self.v.getPoint(pos)[1], 3))
+            self.pos_z.setValue(round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
                 print(pos)
                 print("track" + str(self.placement))
                 self.pos_x.setValue(pos.x)
                 self.pos_y.setValue(pos.y)
                 self.pos_z.setValue(pos.z)
-            except Exception: None
+            except Exception:
+                None
+
 
 # Command
 FreeCADGui.addCommand('Filter_Stage', _FilterStage_Cmd())

@@ -14,8 +14,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _Bolt_Cmd:
     """
@@ -35,8 +36,10 @@ class _Bolt_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_Bolt_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None 
+
 
 class Bolt_TaskPanel:
     def __init__(self):
@@ -58,7 +61,7 @@ class Bolt_TaskPanel:
 
         # ---- Metric ----
         self.Bolt_Metric_Label = QtWidgets.QLabel("Metric")  
-        self.Bolt_metric = ["3","4","5","6"]
+        self.Bolt_metric = ["3", "4", "5", "6"]
         self.metric = QtWidgets.QComboBox()
         self.metric.addItems(self.Bolt_metric)
         self.metric.setCurrentIndex(0)
@@ -119,7 +122,7 @@ class Bolt_TaskPanel:
         # # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
         self.pos_d = QtWidgets.QComboBox()
-        self.pos_d.addItems(['0','1','2'])
+        self.pos_d.addItems(['0', '1', '2'])
         self.pos_d.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_d)
@@ -128,7 +131,7 @@ class Bolt_TaskPanel:
         # # w :
         self.Label_pos_w = QtWidgets.QLabel("in w:")
         self.pos_w = QtWidgets.QComboBox()
-        self.pos_w.addItems(['0','1','2'])
+        self.pos_w.addItems(['0', '1', '2'])
         self.pos_w.setCurrentIndex(0)
 
         placement_layout_2.addWidget(self.Label_pos_w)
@@ -137,7 +140,7 @@ class Bolt_TaskPanel:
         # # h :
         self.Label_pos_h = QtWidgets.QLabel("in h:")
         self.pos_h = QtWidgets.QComboBox()
-        self.pos_h.addItems(['0','1','2','3','4','5','6','7'])
+        self.pos_h.addItems(['0', '1', '2', '3', '4', '5', '6', '7'])
         self.pos_h.setCurrentIndex(0)
         
         placement_layout_2.addWidget(self.Label_pos_h)
@@ -198,39 +201,40 @@ class Bolt_TaskPanel:
         main_layout.addLayout(image_layout)
 
     def changeLayout(self):
-        if self.Type_select.currentIndex() == 0: #Bolt D912
+        if self.Type_select.currentIndex() == 0:  # Bolt D912
             self.length_bolt.setEnabled(True)
             self.pos_d.clear()
             self.pos_w.clear()
             self.pos_h.clear()
             self.pos_d.setEnabled(True)
             self.pos_w.setEnabled(True)
-            self.pos_d.addItems(['0','1','2'])
-            self.pos_w.addItems(['0','1','2'])
-            self.pos_h.addItems(['0','1','2','3','4','5','6','7'])
-        elif self.Type_select.currentIndex() == 1: #Nut D934
+            self.pos_d.addItems(['0', '1', '2'])
+            self.pos_w.addItems(['0', '1', '2'])
+            self.pos_h.addItems(['0', '1', '2', '3', '4', '5', '6', '7'])
+        elif self.Type_select.currentIndex() == 1:  # Nut D934
             self.pos_d.clear()
             self.pos_w.clear()
             self.pos_h.clear()
             self.pos_d.setEnabled(True)
             self.pos_w.setEnabled(True)
-            self.pos_d.addItems(['0','1','2','3'])
-            self.pos_w.addItems(['0','1','2','3'])
-            self.pos_h.addItems(['0','-1','1','-2','2'])
-        elif self.Type_select.currentIndex() == 2: #Whasher DIN 125
+            self.pos_d.addItems(['0', '1', '2', '3'])
+            self.pos_w.addItems(['0', '1', '2', '3'])
+            self.pos_h.addItems(['0', '-1', '1', '-2', '2'])
+        elif self.Type_select.currentIndex() == 2:  # Whasher DIN 125
             self.pos_d.clear()
             self.pos_w.clear()
             self.pos_h.clear()
             self.pos_d.setEnabled(False)
             self.pos_w.setEnabled(False)
-            self.pos_h.addItems(['0','1'])
-        elif self.Type_select.currentIndex() == 2: #Whasher DIN 9021
+            self.pos_h.addItems(['0', '1'])
+        elif self.Type_select.currentIndex() == 2:  # Whasher DIN 9021
             self.pos_d.clear()
             self.pos_w.clear()
             self.pos_h.clear()
             self.pos_d.setEnabled(False)
             self.pos_w.setEnabled(False)
-            self.pos_h.addItems(['0','1'])
+            self.pos_h.addItems(['0', '1'])
+
 
 class Bolt_Dialog:
     def __init__(self):
@@ -242,10 +246,10 @@ class Bolt_Dialog:
         self.form = [self.Bolt.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
         
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -259,74 +263,76 @@ class Bolt_Dialog:
         Type_sel = self.Bolt.Type_text[self.Bolt.Type_select.currentIndex()]
         length = self.Bolt.length_bolt.value()
 
-        axis_h = FreeCAD.Vector(self.Bolt.axis_h_x.value(),self.Bolt.axis_h_y.value(),self.Bolt.axis_h_z.value())
+        axis_h = FreeCAD.Vector(self.Bolt.axis_h_x.value(),
+                                self.Bolt.axis_h_y.value(),
+                                self.Bolt.axis_h_z.value())
 
         pos = FreeCAD.Vector(self.Bolt.pos_x.value(), self.Bolt.pos_y.value(), self.Bolt.pos_z.value())
 
         # Chose the data in function of the type selected
         if Type_sel == "Bolt D912":
-            posd = [0,1,2,3]
-            posw = [0,1,2,3]
-            posh = [0,1,2,3,4,5,6,7]
+            posd = [0, 1, 2, 3]
+            posw = [0, 1, 2, 3]
+            posh = [0, 1, 2, 3, 4, 5, 6, 7]
             pos_d = posd[self.Bolt.pos_d.currentIndex()]
             pos_w = posw[self.Bolt.pos_w.currentIndex()]
             pos_h = posh[self.Bolt.pos_h.currentIndex()]
             Din912Bolt(metric,
-                               shank_l = length,
-                               shank_l_adjust = 0,
-                               shank_out = 0,
-                               head_out = 0,
-                               axis_h = axis_h, axis_d = None, axis_w = None,
-                               pos_h = pos_h, pos_d = pos_d, pos_w = pos_w,
-                               pos = pos,
-                               model_type = 0,
-                               name = None)
+                       shank_l=length,
+                       shank_l_adjust=0,
+                       shank_out=0,
+                       head_out=0,
+                       axis_h=axis_h, axis_d=None, axis_w=None,
+                       pos_h=pos_h, pos_d=pos_d, pos_w=pos_w,
+                       pos=pos,
+                       model_type=0,
+                       name=None)
 
         elif Type_sel == "Nut D934":
-            posd = [0,1,2,3]
-            posw = [0,1,2,3]
-            posh = [0,-1,1,-2,2]
+            posd = [0, 1, 2, 3]
+            posw = [0, 1, 2, 3]
+            posh = [0, -1, 1, -2, 2]
             pos_d = posd[self.Bolt.pos_d.currentIndex()]
             pos_w = posw[self.Bolt.pos_w.currentIndex()]
             pos_h = posh[self.Bolt.pos_h.currentIndex()]
-            Din934Nut(metric = metric,
-                              axis_d_apo = 0, 
-                              h_offset = 0,
-                              axis_h = axis_h,
-                              axis_d = None,
-                              axis_w = None,
-                              pos_h = pos_h, pos_d = pos_d, pos_w = pos_w,
-                              pos = pos,
-                              name = None)
+            Din934Nut(metric=metric,
+                      axis_d_apo=0,
+                      h_offset=0,
+                      axis_h=axis_h,
+                      axis_d=None,
+                      axis_w=None,
+                      pos_h=pos_h, pos_d=pos_d, pos_w=pos_w,
+                      pos=pos,
+                      name=None)
 
         elif Type_sel == "Whasher DIN 125":
             pos_h = self.Bolt.pos_h.currentIndex()
             Din125Washer(metric,
-                                 axis_h = axis_h, 
-                                 pos_h = pos_h, 
-                                 tol = 0,
-                                 pos = pos,
-                                 model_type = 0, # exact
-                                 name = None)
+                         axis_h=axis_h,
+                         pos_h=pos_h,
+                         tol=0,
+                         pos=pos,
+                         model_type=0,  # exact
+                         name=None)
 
-        else : #Type_sel == "Whasher DIN 9021"
+        else:  # Type_sel == "Whasher DIN 9021"
             pos_h = self.Bolt.pos_h.currentIndex()
             Din9021Washer(metric,
-                                  axis_h = axis_h, 
-                                  pos_h = pos_h, 
-                                  tol = 0,
-                                  pos = pos,
-                                  model_type = 0, # exact
-                                  name = None)
+                          axis_h=axis_h,
+                          pos_h=pos_h,
+                          tol=0,
+                          pos=pos,
+                          model_type=0,  # exact
+                          name=None)
             
             # If there are other types of bolts it could be there
 
         FreeCADGui.activeDocument().activeView().viewAxonometric()
-        FreeCADGui.Control.closeDialog() #close the dialog
+        FreeCADGui.Control.closeDialog()  # close the dialog
         FreeCADGui.SendMsgToActiveView("ViewFit")
 
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -334,31 +340,39 @@ class Bolt_Dialog:
 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.Bolt, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.Bolt,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.Bolt,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.Bolt, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('Bolts, Nuts & Washers',_Bolt_Cmd())  
+FreeCADGui.addCommand('Bolts, Nuts & Washers', _Bolt_Cmd())

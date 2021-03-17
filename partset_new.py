@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger(__name__)
 
 
-class PartNemaMotor (Obj3D):
+class PartNemaMotor(Obj3D):
     """ Creates a shape of a Nema Motor
     It can be a shape to cut the piece where it may be embedded
     ::
@@ -133,26 +133,26 @@ class PartNemaMotor (Obj3D):
     ----------
     """
 
-    def __init__( self,
-                  nema_size = 17,
-                  base_l = 32.,
-                  shaft_l = 20.,
-                  shaft_r = 0,
-                  circle_r = 11.,
-                  circle_h = 2.,
-                  chmf_r = 1, 
-                  rear_shaft_l=0,
-                  bolt_depth = 3.,
-                  bolt_out = 2.,
-                  cut_extra = 0,
-                  axis_d = VX,
-                  axis_w = None,
-                  axis_h = VZ,
-                  pos_d = 0,
-                  pos_w = 0,
-                  pos_h = 0,
-                  pos = V0,
-                  name = None):
+    def __init__(self,
+                 nema_size=17,
+                 base_l=32.,
+                 shaft_l=20.,
+                 shaft_r=0,
+                 circle_r=11.,
+                 circle_h=2.,
+                 chmf_r=1,
+                 rear_shaft_l=0,
+                 bolt_depth=3.,
+                 bolt_out=2.,
+                 cut_extra=0,
+                 axis_d=VX,
+                 axis_w=None,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=0,
+                 pos=V0,
+                 name=None):
 
         if name == None:
             name = 'nema' + str(nema_size) + '_motor_l' + str(int(base_l))
@@ -167,15 +167,14 @@ class PartNemaMotor (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
-
 
         self.motor_w = kcomp.NEMA_W[nema_size]
         if shaft_r == 0:
-            self.shaft_d  = kcomp.NEMA_SHAFT_D[nema_size]
-            self.shaft_r  = self.shaft_d /2.
-            shaft_r  = self.shaft_r
+            self.shaft_d = kcomp.NEMA_SHAFT_D[nema_size]
+            self.shaft_r = self.shaft_d / 2.
+            shaft_r = self.shaft_r
 
         self.shaft_l = shaft_l
         self.base_l = base_l
@@ -185,7 +184,7 @@ class PartNemaMotor (Obj3D):
 
         nemabolt_d = kcomp.NEMA_BOLT_D[nema_size]
         self.nemabolt_d = nemabolt_d
-        self.nemabolt_r = nemabolt_d/2.
+        self.nemabolt_r = nemabolt_d / 2.
         mtol = kcomp.TOL - 0.1
 
         if circle_r == 0 or circle_h == 0:
@@ -196,16 +195,16 @@ class PartNemaMotor (Obj3D):
             self.circle_h = 0
 
         self.h0_cen = 0
-        self.d0_cen = 1 # symmetrical
-        self.w0_cen = 1 # symmetrical
+        self.d0_cen = 1  # symmetrical
+        self.w0_cen = 1  # symmetrical
 
         # vectors from the origin to the points along axis_h:
-        self.h_o[0] = V0 # base of the shaft: origin
+        self.h_o[0] = V0  # base of the shaft: origin
         self.h_o[1] = self.vec_h(self.circle_h)
-        self.h_o[2] = self.vec_h(self.shaft_l) #includes circle_h
+        self.h_o[2] = self.vec_h(self.shaft_l)  # includes circle_h
         self.h_o[3] = self.vec_h(-bolt_depth)
         self.h_o[4] = self.vec_h(-self.base_l)
-        self.h_o[5] = self.vec_h(-self.base_l -self.rear_shaft_l)
+        self.h_o[5] = self.vec_h(-self.base_l - self.rear_shaft_l)
 
         # vectors from the origin to the points along axis_d:
         # these are negative because actually the pos_d indicates a negative
@@ -213,15 +212,15 @@ class PartNemaMotor (Obj3D):
         self.d_o[0] = V0
         self.d_o[1] = self.vec_d(-self.shaft_r)
         self.d_o[2] = self.vec_d(-self.circle_r)
-        self.d_o[3] = self.vec_d(-self.nemabolt_sep/2.)
-        self.d_o[4] = self.vec_d(-self.motor_w/2.)
+        self.d_o[3] = self.vec_d(-self.nemabolt_sep / 2.)
+        self.d_o[4] = self.vec_d(-self.motor_w / 2.)
 
         # position along axis_w (similar to axis_d)
         self.w_o[0] = V0
         self.w_o[1] = self.vec_w(-self.shaft_r)
         self.w_o[2] = self.vec_w(-self.circle_r)
-        self.w_o[3] = self.vec_w(-self.nemabolt_sep/2.)
-        self.w_o[4] = self.vec_w(-self.motor_w/2.)
+        self.w_o[3] = self.vec_w(-self.nemabolt_sep / 2.)
+        self.w_o[4] = self.vec_w(-self.motor_w / 2.)
 
         # calculates the position of the origin, and keeps it in attribute pos_o
         self.set_pos_o()
@@ -232,46 +231,46 @@ class PartNemaMotor (Obj3D):
         # if cut_extra, there will be extra at each side, since the piece
         # is built from the center of symmetry, it will be equally extended
         # on each side
-        shp_base = fcfun.shp_box_dir(box_w = self.motor_w + 2*cut_extra,
-                                     box_d = self.motor_w + 2*cut_extra,
-                                     box_h = self.base_l,
-                                     fc_axis_w = self.axis_w,
-                                     fc_axis_d = self.axis_d,
-                                     fc_axis_h = self.axis_h,
-                                     cw = 1, cd = 1, ch = 0,
-                                     pos = self.get_pos_h(4))
+        shp_base = fcfun.shp_box_dir(box_w=self.motor_w + 2 * cut_extra,
+                                     box_d=self.motor_w + 2 * cut_extra,
+                                     box_h=self.base_l,
+                                     fc_axis_w=self.axis_w,
+                                     fc_axis_d=self.axis_d,
+                                     fc_axis_h=self.axis_h,
+                                     cw=1, cd=1, ch=0,
+                                     pos=self.get_pos_h(4))
 
-        shp_base = fcfun.shp_filletchamfer_dir (shp_base, self.axis_h,
-                                                fillet = 0, radius = chmf_r)
+        shp_base = fcfun.shp_filletchamfer_dir(shp_base, self.axis_h,
+                                               fillet=0, radius=chmf_r)
         shp_base = shp_base.removeSplitter()
 
         fuse_list = []
         holes_list = []
 
         # --------- bolts (holes or extensions if cut_extra > 0)
-        for pt_d in (-3,3):
-            for pt_w in (-3,3):
-                if cut_extra == 0: # there will be holes for the bolts
+        for pt_d in (-3, 3):
+            for pt_w in (-3, 3):
+                if cut_extra == 0:  # there will be holes for the bolts
                     # pos_h=3 is at the end of the hole for the bolts
-                    bolt_pos = self.get_pos_dwh(pt_d,pt_w,3)
-                    shp_hole = fcfun.shp_cylcenxtr (r = self.nemabolt_r,
-                                                    h = bolt_depth,
-                                                    normal = self.axis_h,
-                                                    ch = 0,
-                                                    xtr_top = 1,
-                                                    xtr_bot = 0,
-                                                    pos = bolt_pos)
+                    bolt_pos = self.get_pos_dwh(pt_d, pt_w, 3)
+                    shp_hole = fcfun.shp_cylcenxtr(r=self.nemabolt_r,
+                                                   h=bolt_depth,
+                                                   normal=self.axis_h,
+                                                   ch=0,
+                                                   xtr_top=1,
+                                                   xtr_bot=0,
+                                                   pos=bolt_pos)
                     holes_list.append(shp_hole)
-                else: # the bolts will protude to make holes in the shape to cut
+                else:  # the bolts will protude to make holes in the shape to cut
                     # pos_h=0 is at the the base of the shaft
-                    bolt_pos = self.get_pos_dwh(pt_d,pt_w,0)
-                    shp_hole = fcfun.shp_cylcenxtr (r = self.nemabolt_r,
-                                                    h = bolt_out,
-                                                    normal = self.axis_h,
-                                                    ch = 0,
-                                                    xtr_top = 0,
-                                                    xtr_bot = 1,
-                                                    pos = bolt_pos)
+                    bolt_pos = self.get_pos_dwh(pt_d, pt_w, 0)
+                    shp_hole = fcfun.shp_cylcenxtr(r=self.nemabolt_r,
+                                                   h=bolt_out,
+                                                   normal=self.axis_h,
+                                                   ch=0,
+                                                   xtr_top=0,
+                                                   xtr_bot=1,
+                                                   pos=bolt_pos)
                     fuse_list.append(shp_hole)
 
         if cut_extra == 0:
@@ -279,43 +278,42 @@ class PartNemaMotor (Obj3D):
             shp_base = shp_base.cut(shp_holes)
             shp_base = shp_base.removeSplitter()
 
-
         # -------- circle (flat cylinder) at the base of the shaft
         # could add cut_extra to circle_h or circle_r, but it can be 
         # set in the arguments
         if circle_r > 0 and circle_h > 0:
-            shp_circle = fcfun.shp_cylcenxtr(r = circle_r,
-                                             h = circle_h,
-                                             normal = self.axis_h,
-                                             ch = 0, # not centered
-                                             xtr_top = 0, # no extra at top
-                                             xtr_bot = 1, # extra to fuse
-                                             pos = self.pos_o)
+            shp_circle = fcfun.shp_cylcenxtr(r=circle_r,
+                                             h=circle_h,
+                                             normal=self.axis_h,
+                                             ch=0,  # not centered
+                                             xtr_top=0,  # no extra at top
+                                             xtr_bot=1,  # extra to fuse
+                                             pos=self.pos_o)
             fuse_list.append(shp_circle)
 
         # ------- Shaft
-        shp_shaft = fcfun.shp_cylcenxtr(r = self.shaft_r,
-                                        h = self.shaft_l,
-                                        normal = self.axis_h,
-                                        ch = 0, # not centered
-                                        xtr_top = 0, # no extra at top
-                                        xtr_bot = 1, # extra to fuse
+        shp_shaft = fcfun.shp_cylcenxtr(r=self.shaft_r,
+                                        h=self.shaft_l,
+                                        normal=self.axis_h,
+                                        ch=0,  # not centered
+                                        xtr_top=0,  # no extra at top
+                                        xtr_bot=1,  # extra to fuse
                                         # shaft length stats from the base
                                         # not from the circle
-                                        pos = self.pos_o)
+                                        pos=self.pos_o)
         fuse_list.append(shp_shaft)
 
         if rear_shaft_l > 0:
-            shp_rearshaft = fcfun.shp_cylcenxtr(r = self.shaft_r,
-                                        h = self.rear_shaft_l,
-                                        normal = self.axis_h,
-                                        ch = 0, # not centered
-                                        xtr_top = 1, # to fuse
-                                        xtr_bot = 0, # no extra at bottom
-                                        pos = self.get_pos_h(5))
+            shp_rearshaft = fcfun.shp_cylcenxtr(r=self.shaft_r,
+                                                h=self.rear_shaft_l,
+                                                normal=self.axis_h,
+                                                ch=0,  # not centered
+                                                xtr_top=1,  # to fuse
+                                                xtr_bot=0,  # no extra at bottom
+                                                pos=self.get_pos_h(5))
 
             fuse_list.append(shp_rearshaft)
-        
+
         shp_motor = shp_base.multiFuse(fuse_list)
         shp_motor = shp_motor.removeSplitter()
         self.shp = shp_motor
@@ -326,12 +324,13 @@ class PartNemaMotor (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): 
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
-        self.model_type = 1 # Dimensional model
+        self.model_type = 1  # Dimensional model
 
-class PartGtPulley (Obj3D):
+
+class PartGtPulley(Obj3D):
     """ Creates a GT pulley, no exact dimensions, just for the model
     ::
  
@@ -483,32 +482,32 @@ class PartGtPulley (Obj3D):
     """
 
     def __init__(self,
-                 pitch = 2.,
-                 n_teeth = 20,
-                 toothed_h = 7.5,
-                 top_flange_h = 1.,
-                 bot_flange_h = 0,
-                 tot_h = 16.,
-                 flange_d = 15.,
-                 base_d = 15.,
-                 shaft_d = 5.,
-                 tol = 0,
-                 axis_d = VX,
-                 axis_w = VY,
-                 axis_h = VZ,
-                 pos_d = 0,
-                 pos_w = 0,
-                 pos_h = 0,
-                 pos = V0,
-                 model_type = 1, # dimensional model
-                 name = None):
+                 pitch=2.,
+                 n_teeth=20,
+                 toothed_h=7.5,
+                 top_flange_h=1.,
+                 bot_flange_h=0,
+                 tot_h=16.,
+                 flange_d=15.,
+                 base_d=15.,
+                 shaft_d=5.,
+                 tol=0,
+                 axis_d=VX,
+                 axis_w=VY,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=0,
+                 pos=V0,
+                 model_type=1,  # dimensional model
+                 name=None):
 
         if name == None:
             name = 'gt' + str(int(pitch)) + '_pulley_' + str(n_teeth)
         self.name = name
 
         if (((axis_d is None) or (axis_d == V0)) and
-            ((axis_w is None) or (axis_w == V0))):
+                ((axis_w is None) or (axis_w == V0))):
             # both are null, we create a random perpendicular vectors
             axis_d = fcfun.get_fc_perpend1(axis_h)
             axis_w = axis_h.cross(axis_d)
@@ -526,13 +525,12 @@ class PartGtPulley (Obj3D):
             logger.debug("Flange diameter will be the same as the base")
             flange_d = base_d
             self.flange_d = flange_flange_d
-            
 
         # save the arguments as attributes:
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
         # belt dictionary:
@@ -540,7 +538,7 @@ class PartGtPulley (Obj3D):
         # diameters of the pulley:
         # pitch diameter, it is not on the pulley, but outside, on the belt
         self.pitch_d = n_teeth * pitch / math.pi
-        self.pitch_r = self.pitch_d /2.
+        self.pitch_r = self.pitch_d / 2.
         # out radius and diameter, diameter at the outer part of the teeth
         self.tooth_out_r = self.pitch_r - self.belt_dict['PLD']
         self.tooth_out_d = 2 * self.tooth_out_r
@@ -561,14 +559,14 @@ class PartGtPulley (Obj3D):
         self.bot_flange_h = bot_flange_h
 
         self.h0_cen = 0
-        self.d0_cen = 1 # symmetrical
-        self.w0_cen = 1 # symmetrical
+        self.d0_cen = 1  # symmetrical
+        self.w0_cen = 1  # symmetrical
 
         # vectors from the origin to the points along axis_h:
         self.h_o[0] = V0
         self.h_o[1] = self.vec_h(self.base_h)
         self.h_o[2] = self.vec_h(self.base_h + self.bot_flange_h)
-        self.h_o[3] = self.vec_h(self.base_h + self.bot_flange_h + toothed_h/2.)
+        self.h_o[3] = self.vec_h(self.base_h + self.bot_flange_h + toothed_h / 2.)
         self.h_o[4] = self.vec_h(self.tot_h - top_flange_h)
         self.h_o[5] = self.vec_h(self.tot_h)
 
@@ -599,61 +597,61 @@ class PartGtPulley (Obj3D):
         # Cilynder with a hole, with an extra for the fusion
         # calculation of the extra at the bottom to make the fusion
         if self.bot_flange_h > 0:
-            xtr_bot = self.bot_flange_h/2.
+            xtr_bot = self.bot_flange_h / 2.
         elif self.base_d > self.tooth_out_d:
-            xtr_bot = self.base_h/2.
+            xtr_bot = self.base_h / 2.
         else:
             xtr_bot = 0
         # external diameter (maybe later teeth will be made
-        shp_tooth_cyl = fcfun.shp_cylhole_gen(r_out = self.tooth_out_r,
-                                            r_in  = self.shaft_r + tol,
-                                            h = self.toothed_h,
-                                            axis_h = self.axis_h,
-                                            pos_h = 1, #position at the bottom
-                                            xtr_top = top_flange_h/2.,
-                                            xtr_bot = xtr_bot,
-                                            pos = self.get_pos_h(2))
+        shp_tooth_cyl = fcfun.shp_cylhole_gen(r_out=self.tooth_out_r,
+                                              r_in=self.shaft_r + tol,
+                                              h=self.toothed_h,
+                                              axis_h=self.axis_h,
+                                              pos_h=1,  # position at the bottom
+                                              xtr_top=top_flange_h / 2.,
+                                              xtr_bot=xtr_bot,
+                                              pos=self.get_pos_h(2))
         shp_fuse_list.append(shp_tooth_cyl)
         if self.bot_flange_h > 0:
             # same width
             if self.flange_d == self.base_d:
                 shp_base_flg_cyl = fcfun.shp_cylholedir(
-                                    r_out = self.base_r,
-                                    r_in  = self.shaft_r + tol,
-                                    h = self.base_h + self.bot_flange_h,
-                                    normal = self.axis_h,
-                                    pos = self.pos_o)
+                    r_out=self.base_r,
+                    r_in=self.shaft_r + tol,
+                    h=self.base_h + self.bot_flange_h,
+                    normal=self.axis_h,
+                    pos=self.pos_o)
                 shp_fuse_list.append(shp_base_flg_cyl)
             else:
                 shp_base_cyl = fcfun.shp_cylholedir(
-                                    r_out = self.base_r,
-                                    r_in  = self.shaft_r + tol,
-                                    h = self.base_h,
-                                    normal = self.axis_h,
-                                    pos = self.pos_o)
+                    r_out=self.base_r,
+                    r_in=self.shaft_r + tol,
+                    h=self.base_h,
+                    normal=self.axis_h,
+                    pos=self.pos_o)
                 shp_bot_flange_cyl = fcfun.shp_cylholedir(
-                                    r_out = self.flange_r,
-                                    r_in  = self.shaft_r + tol,
-                                    h = self.bot_flange_h,
-                                    normal = self.axis_h,
-                                    pos = self.get_pos_h(1))
+                    r_out=self.flange_r,
+                    r_in=self.shaft_r + tol,
+                    h=self.bot_flange_h,
+                    normal=self.axis_h,
+                    pos=self.get_pos_h(1))
                 shp_fuse_list.append(shp_base_cyl)
                 shp_fuse_list.append(shp_bot_flange_cyl)
-        else: #no bottom flange
+        else:  # no bottom flange
             shp_base_cyl = fcfun.shp_cylholedir(
-                                    r_out = self.base_r,
-                                    r_in  = self.shaft_r + tol,
-                                    h = self.base_h,
-                                    normal = self.axis_h,
-                                    pos = self.pos_o)
+                r_out=self.base_r,
+                r_in=self.shaft_r + tol,
+                h=self.base_h,
+                normal=self.axis_h,
+                pos=self.pos_o)
             shp_fuse_list.append(shp_base_cyl)
         if self.top_flange_h > 0:
             shp_top_flange_cyl = fcfun.shp_cylholedir(
-                                    r_out = self.flange_r,
-                                    r_in  = self.shaft_r + tol,
-                                    h = self.top_flange_h,
-                                    normal = self.axis_h,
-                                    pos = self.get_pos_h(4))
+                r_out=self.flange_r,
+                r_in=self.shaft_r + tol,
+                h=self.top_flange_h,
+                normal=self.axis_h,
+                pos=self.get_pos_h(4))
             shp_fuse_list.append(shp_top_flange_cyl)
 
         shp_pulley = fcfun.fuseshplist(shp_fuse_list)
@@ -671,10 +669,11 @@ class PartGtPulley (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): 
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
-class NemaMotorPulleySet (Obj3D):
+
+class NemaMotorPulleySet(Obj3D):
     """ 
     Set composed of a Nema Motor and a pulley
 
@@ -859,38 +858,38 @@ class NemaMotorPulleySet (Obj3D):
         Object name
     """
 
-    def __init__ (self,
-                  # motor parameters
-                  nema_size = 17,
-                  base_l = 32.,
-                  shaft_l = 24.,
-                  shaft_r = 0,
-                  circle_r = 11.,
-                  circle_h = 2.,
-                  chmf_r = 1, 
-                  rear_shaft_l=0,
-                  bolt_depth = 3.,
-                  # pulley parameters
-                  pulley_pitch = 2.,
-                  pulley_n_teeth = 20,
-                  pulley_toothed_h = 7.5,
-                  pulley_top_flange_h = 1.,
-                  pulley_bot_flange_h = 0,
-                  pulley_tot_h = 16.,
-                  pulley_flange_d = 15.,
-                  pulley_base_d = 15.,
-                  pulley_tol = 0,
-                  pulley_pos_h = -1,
-                  # general parameters
-                  axis_d = VX,
-                  axis_w = None,
-                  axis_h = VZ,
-                  pos_d = 0,
-                  pos_w = 0,
-                  pos_h = 1,
-                  pos = V0,
-                  group = 1,
-                  name = ''):
+    def __init__(self,
+                 # motor parameters
+                 nema_size=17,
+                 base_l=32.,
+                 shaft_l=24.,
+                 shaft_r=0,
+                 circle_r=11.,
+                 circle_h=2.,
+                 chmf_r=1,
+                 rear_shaft_l=0,
+                 bolt_depth=3.,
+                 # pulley parameters
+                 pulley_pitch=2.,
+                 pulley_n_teeth=20,
+                 pulley_toothed_h=7.5,
+                 pulley_top_flange_h=1.,
+                 pulley_bot_flange_h=0,
+                 pulley_tot_h=16.,
+                 pulley_flange_d=15.,
+                 pulley_base_d=15.,
+                 pulley_tol=0,
+                 pulley_pos_h=-1,
+                 # general parameters
+                 axis_d=VX,
+                 axis_w=None,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=1,
+                 pos=V0,
+                 group=1,
+                 name=''):
 
         if name == None:
             name = 'nema' + str(nema_size) + '_pulley_set'
@@ -905,35 +904,35 @@ class NemaMotorPulleySet (Obj3D):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
         # pos_w = 0 and pos_d are at the center, pos_h
-        self.d0_cen = 1 #symmetric
-        self.w0_cen = 1 #symmetric
+        self.d0_cen = 1  # symmetric
+        self.w0_cen = 1  # symmetric
         self.h0_cen = 0
 
         # creation of the motor, we don't know all the relative positions
         # so we create it at pos_d=pos_w = 0, pos_h = 1
 
-        nema_motor = PartNemaMotor (nema_size = nema_size,
-                                    base_l = base_l,
-                                    shaft_l = shaft_l,
-                                    shaft_r = shaft_r,
-                                    circle_r = circle_r,
-                                    circle_h = circle_h,
-                                    chmf_r = chmf_r, 
-                                    rear_shaft_l= rear_shaft_l,
-                                    bolt_depth = bolt_depth,
-                                    bolt_out  = 0,
-                                    cut_extra = 0,
-                                    axis_d = self.axis_d,
-                                    axis_w = self.axis_w,
-                                    axis_h = self.axis_h,
-                                    pos_d = 0,
-                                    pos_w = 0,
-                                    pos_h = 0,
-                                    pos = pos)
+        nema_motor = PartNemaMotor(nema_size=nema_size,
+                                   base_l=base_l,
+                                   shaft_l=shaft_l,
+                                   shaft_r=shaft_r,
+                                   circle_r=circle_r,
+                                   circle_h=circle_h,
+                                   chmf_r=chmf_r,
+                                   rear_shaft_l=rear_shaft_l,
+                                   bolt_depth=bolt_depth,
+                                   bolt_out=0,
+                                   cut_extra=0,
+                                   axis_d=self.axis_d,
+                                   axis_w=self.axis_w,
+                                   axis_h=self.axis_h,
+                                   pos_d=0,
+                                   pos_w=0,
+                                   pos_h=0,
+                                   pos=pos)
 
         super().append_part(nema_motor)
         nema_motor.parent = self
@@ -943,26 +942,26 @@ class NemaMotorPulleySet (Obj3D):
         self.circle_h = nema_motor.circle_h
 
         # creation of the pulley. Locate it at pos_d,w,h = 0
-        gt_pulley = PartGtPulley (pitch = pulley_pitch,
-                                n_teeth = pulley_n_teeth,
-                                toothed_h = pulley_toothed_h,
-                                top_flange_h = pulley_top_flange_h,
-                                bot_flange_h = pulley_bot_flange_h,
-                                tot_h = pulley_tot_h,
-                                flange_d = pulley_flange_d,
-                                base_d = pulley_base_d,
-                                shaft_d = 2 * self.shaft_r,
-                                tol = 0,
-                                axis_d = self.axis_d,
-                                axis_w = self.axis_w,
-                                axis_h = self.axis_h,
-                                pos_d = 0,
-                                pos_w = 0,
-                                pos_h = 0,
-                                pos = pos,
-                                model_type = 1) # dimensional model
+        gt_pulley = PartGtPulley(pitch=pulley_pitch,
+                                 n_teeth=pulley_n_teeth,
+                                 toothed_h=pulley_toothed_h,
+                                 top_flange_h=pulley_top_flange_h,
+                                 bot_flange_h=pulley_bot_flange_h,
+                                 tot_h=pulley_tot_h,
+                                 flange_d=pulley_flange_d,
+                                 base_d=pulley_base_d,
+                                 shaft_d=2 * self.shaft_r,
+                                 tol=0,
+                                 axis_d=self.axis_d,
+                                 axis_w=self.axis_w,
+                                 axis_h=self.axis_h,
+                                 pos_d=0,
+                                 pos_w=0,
+                                 pos_h=0,
+                                 pos=pos,
+                                 model_type=1)  # dimensional model
 
-        if pulley_pos_h < 0: #top of the pulley aligned with top of the shaft
+        if pulley_pos_h < 0:  # top of the pulley aligned with top of the shaft
             # shaft_l includes the length of the circle
             pulley_pos_h = shaft_l - gt_pulley.tot_h
             if pulley_pos_h < 0:
@@ -975,7 +974,7 @@ class NemaMotorPulleySet (Obj3D):
         gt_pulley.parent = self
 
         # conversions of the relative points from the parts to the total set
-        self.d_o[0] = nema_motor.d_o[0] # V0
+        self.d_o[0] = nema_motor.d_o[0]  # V0
         self.d_o[1] = nema_motor.d_o[1]
         self.d_o[2] = nema_motor.d_o[2]
         self.d_o[3] = nema_motor.d_o[3]
@@ -986,7 +985,7 @@ class NemaMotorPulleySet (Obj3D):
         self.d_o[8] = gt_pulley.d_o[5]
         self.d_o[9] = gt_pulley.d_o[6]
 
-        self.w_o[0] = nema_motor.w_o[0] # V0
+        self.w_o[0] = nema_motor.w_o[0]  # V0
         self.w_o[1] = nema_motor.w_o[1]
         self.w_o[2] = nema_motor.w_o[2]
         self.w_o[3] = nema_motor.w_o[3]
@@ -997,12 +996,12 @@ class NemaMotorPulleySet (Obj3D):
         self.w_o[8] = gt_pulley.w_o[5]
         self.w_o[9] = gt_pulley.w_o[6]
 
-        self.h_o[0] = nema_motor.h_o[0] # V0 (origin) base of the shaft
-        self.h_o[1] = nema_motor.h_o[1] # end of the circle
-        self.h_o[2] = nema_motor.h_o[2] # end of the shaft
-        self.h_o[3] = nema_motor.h_o[3] # bottom end of the bolt holes
-        self.h_o[4] = nema_motor.h_o[4] # bottom of the base 
-        self.h_o[5] = nema_motor.h_o[5] # rear shaft
+        self.h_o[0] = nema_motor.h_o[0]  # V0 (origin) base of the shaft
+        self.h_o[1] = nema_motor.h_o[1]  # end of the circle
+        self.h_o[2] = nema_motor.h_o[2]  # end of the shaft
+        self.h_o[3] = nema_motor.h_o[3]  # bottom end of the bolt holes
+        self.h_o[4] = nema_motor.h_o[4]  # bottom of the base
+        self.h_o[5] = nema_motor.h_o[5]  # rear shaft
         # position of the base of the shaft (including the circle)
         # + nema_motor.h_o[0] = V0 (not needed)
         # relative position of the base of the pulley: V0 (not needed)
@@ -1010,12 +1009,12 @@ class NemaMotorPulleySet (Obj3D):
         # distance from the base of the shaft (circle included) to the base
         # of the pulley:
         # + self.vec_h(self.pulley_pos_h):
-        #self.h_o[6]  = (   nema_motor.h_o[0] + gt_pulley.h_o[0]
+        # self.h_o[6]  = (   nema_motor.h_o[0] + gt_pulley.h_o[0]
         #                 + self.vec_h(self.pulley_pos_h))
-        self.h_o[6]  = self.vec_h(self.pulley_pos_h)
-        self.h_o[7]  = self.h_o[6] + gt_pulley.h_o[1]
-        self.h_o[8]  = self.h_o[6] + gt_pulley.h_o[2]
-        self.h_o[9]  = self.h_o[6] + gt_pulley.h_o[3]
+        self.h_o[6] = self.vec_h(self.pulley_pos_h)
+        self.h_o[7] = self.h_o[6] + gt_pulley.h_o[1]
+        self.h_o[8] = self.h_o[6] + gt_pulley.h_o[2]
+        self.h_o[9] = self.h_o[6] + gt_pulley.h_o[3]
         self.h_o[10] = self.h_o[6] + gt_pulley.h_o[4]
         self.h_o[11] = self.h_o[6] + gt_pulley.h_o[5]
 
@@ -1025,7 +1024,7 @@ class NemaMotorPulleySet (Obj3D):
         else:
             self.tot_h = self.h_o[5].Length + self.h_o[0].Length
 
-        super().set_pos_o(adjust = 1)
+        super().set_pos_o(adjust=1)
         super().set_part_place(nema_motor)
         super().set_part_place(gt_pulley, self.get_o_to_h(6))
 

@@ -14,8 +14,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _BeltClamp_Cmd:
     def Activated(self):
@@ -32,8 +33,10 @@ class _BeltClamp_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_BeltClamp_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None 
+
 
 class BeltClamp_TaskPanel:
     def __init__(self):
@@ -45,7 +48,7 @@ class BeltClamp_TaskPanel:
         self.Type_Label = QtWidgets.QLabel("Type:")   
 
         self.Type_ComboBox = QtWidgets.QComboBox()
-        self.TextType = ["Simple","Double"]
+        self.TextType = ["Simple", "Double"]
         self.Type_ComboBox.addItems(self.TextType)
         self.Type_ComboBox.setCurrentIndex(0)
 
@@ -78,7 +81,7 @@ class BeltClamp_TaskPanel:
         # ---- Nut Type ----
         self.nut_hole_Label = QtWidgets.QLabel("Nut Type:")   
         self.ComboBox_Nut_Hole = QtWidgets.QComboBox()
-        self.TextNutType = ["M3","M4","M5","M6"]
+        self.TextNutType = ["M3", "M4", "M5", "M6"]
         self.ComboBox_Nut_Hole.addItems(self.TextNutType)
         self.ComboBox_Nut_Hole.setCurrentIndex(self.TextNutType.index('M3'))
 
@@ -212,6 +215,7 @@ class BeltClamp_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+
 class BeltClamp_Dialog:
     def __init__(self):
         self.placement = True
@@ -222,9 +226,10 @@ class BeltClamp_Dialog:
         self.form = [self.BeltClamp.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
+
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -233,52 +238,60 @@ class BeltClamp_Dialog:
         Type = self.BeltClamp.Type_ComboBox.currentIndex()
         Length = self.BeltClamp.Length_Value.value()
         Width = self.BeltClamp.Width_Value.value()
-        IndexNut = {0 : 3,
-                    1 : 4,
-                    2 : 5,
-                    3 : 6}
+        IndexNut = {0: 3,
+                    1: 4,
+                    2: 5,
+                    3: 6}
         nut_hole = IndexNut[self.BeltClamp.ComboBox_Nut_Hole.currentIndex()]
-        pos = FreeCAD.Vector(self.BeltClamp.pos_x.value(), self.BeltClamp.pos_y.value(), self.BeltClamp.pos_z.value())
-        axis_d = FreeCAD.Vector(self.BeltClamp.axis_d_x.value(),self.BeltClamp.axis_d_y.value(),self.BeltClamp.axis_d_z.value())
-        axis_w = FreeCAD.Vector(self.BeltClamp.axis_w_x.value(),self.BeltClamp.axis_w_y.value(),self.BeltClamp.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.BeltClamp.axis_h_x.value(),self.BeltClamp.axis_h_y.value(),self.BeltClamp.axis_h_z.value())
+        pos = FreeCAD.Vector(self.BeltClamp.pos_x.value(),
+                             self.BeltClamp.pos_y.value(),
+                             self.BeltClamp.pos_z.value())
+        axis_d = FreeCAD.Vector(self.BeltClamp.axis_d_x.value(),
+                                self.BeltClamp.axis_d_y.value(),
+                                self.BeltClamp.axis_d_z.value())
+        axis_w = FreeCAD.Vector(self.BeltClamp.axis_w_x.value(),
+                                self.BeltClamp.axis_w_y.value(),
+                                self.BeltClamp.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.BeltClamp.axis_h_x.value(),
+                                self.BeltClamp.axis_h_y.value(),
+                                self.BeltClamp.axis_h_z.value())
 
-        if ortonormal_axis(axis_d,axis_w,axis_h) == True:
+        if ortonormal_axis(axis_d, axis_w, axis_h) is True:
             if Type == 0:
-                BeltClamp(fc_fro_ax = axis_d,#VX,
-                          fc_top_ax = axis_h,#VZ,
-                          base_h = 2,
-                          base_l = Length,
-                          base_w = Width,
-                          bolt_d = nut_hole,
-                          bolt_csunk = 0,
-                          ref = 1,
-                          pos = pos,
+                BeltClamp(fc_fro_ax=axis_d,  # VX,
+                          fc_top_ax=axis_h,  # VZ,
+                          base_h=2,
+                          base_l=Length,
+                          base_w=Width,
+                          bolt_d=nut_hole,
+                          bolt_csunk=0,
+                          ref=1,
+                          pos=pos,
                           extra=1,
-                          wfco = 1,
-                          intol = 0,
-                          name = 'belt_clamp' )
+                          wfco=1,
+                          intol=0,
+                          name='belt_clamp')
             elif Type == 1:
-                DoubleBeltClamp(axis_h = axis_h,#VZ,
-                                axis_d = axis_d,#VX,
-                                axis_w = axis_w,#VY,
-                                base_h = 2,
-                                base_l = Length,
-                                base_w = Width,
-                                bolt_d = nut_hole,
-                                bolt_csunk = 0,
-                                ref = 1,
-                                pos = pos,
+                DoubleBeltClamp(axis_h=axis_h,  # VZ,
+                                axis_d=axis_d,  # VX,
+                                axis_w=axis_w,  # VY,
+                                base_h=2,
+                                base_l=Length,
+                                base_w=Width,
+                                bolt_d=nut_hole,
+                                bolt_csunk=0,
+                                ref=1,
+                                pos=pos,
                                 extra=1,
-                                wfco = 1,
-                                intol = 0,
-                                    name = 'double_belt_clamp' )
+                                wfco=1,
+                                intol=0,
+                                name='double_belt_clamp')
             FreeCADGui.activeDocument().activeView().viewAxonometric()
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.Control.closeDialog()  # close the dialog
             FreeCADGui.SendMsgToActiveView("ViewFit")
 
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -286,31 +299,39 @@ class BeltClamp_Dialog:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.BeltClamp, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.BeltClamp,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.BeltClamp,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.BeltClamp, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('Belt_Clamp',_BeltClamp_Cmd())
+FreeCADGui.addCommand('Belt_Clamp', _BeltClamp_Cmd())

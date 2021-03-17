@@ -82,8 +82,8 @@ import DraftVecUtils
 filepath = os.getcwd()
 # to get the components
 # In FreeCAD can be added: Preferences->General->Macro->Macro path
-sys.path.append(filepath) 
-#sys.path.append(filepath + '/' + 'comps')
+sys.path.append(filepath)
+# sys.path.append(filepath + '/' + 'comps')
 sys.path.append(filepath + '/../../' + 'comps')
 
 # path to save the FreeCAD files
@@ -92,12 +92,12 @@ fcad_path = filepath + '/../freecad/'
 # path to save the STL files
 stl_path = filepath + '/../stl/'
 
-import kcomp   # import material constants and other constants
-import fcfun   # import my functions for freecad. FreeCad Functions
-import shp_clss # import my TopoShapes classes 
-import fc_clss # import my freecad classes 
-import comps   # import my CAD components
-import partset 
+import kcomp  # import material constants and other constants
+import fcfun  # import my functions for freecad. FreeCad Functions
+import shp_clss  # import my TopoShapes classes
+import fc_clss  # import my freecad classes
+import comps  # import my CAD components
+import partset
 
 from fcfun import V0, VX, VY, VZ, V0ROT
 from fcfun import VXN, VYN, VZN
@@ -105,7 +105,8 @@ from fcfun import VXN, VYN, VZN
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-class ShpIdlerTensioner (shp_clss.Obj3D):
+
+class ShpIdlerTensioner(shp_clss.Obj3D):
     """ Creates the idler pulley tensioner shape
 
                        nut_space 
@@ -231,38 +232,39 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         0 : at the end
 
     """
+
     def __init__(self,
-                 idler_h ,
-                 idler_r_in ,
-                 idler_r_ext ,
-                 in_fillet = 2.,
-                 wall_thick = 5.,
-                 tens_stroke = 20. ,
-                 pulley_stroke_dist = 0,
-                 nut_holder_thick = 4. ,
-                 boltidler_mtr = 3,
-                 bolttens_mtr = 3,
-                 opt_tens_chmf = 1,
-                 tol = kcomp.TOL,
-                 axis_d = VX,
-                 axis_w = VY,
-                 axis_h = VZ,
-                 pos_d = 0,
-                 pos_w = 0,
-                 pos_h = 0,
-                 pos = V0):
-        
+                 idler_h,
+                 idler_r_in,
+                 idler_r_ext,
+                 in_fillet=2.,
+                 wall_thick=5.,
+                 tens_stroke=20.,
+                 pulley_stroke_dist=0,
+                 nut_holder_thick=4.,
+                 boltidler_mtr=3,
+                 bolttens_mtr=3,
+                 opt_tens_chmf=1,
+                 tol=kcomp.TOL,
+                 axis_d=VX,
+                 axis_w=VY,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=0,
+                 pos=V0):
+
         shp_clss.Obj3D.__init__(self, axis_d, axis_w, axis_h)
 
         # save the arguments as attributes:
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
         # calculation of the dimensions:
-        if pulley_stroke_dist == 0: # default value
+        if pulley_stroke_dist == 0:  # default value
             self.pulley_stroke_dist = wall_thick
 
         # dictionary of the bolt for the idler pulley
@@ -278,31 +280,31 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         # dictionary of the nut
         self.nuttens_dict = kcomp.D934[bolttens_mtr]
         self.nut_space = kcomp.NUT_HOLE_MULT_H + self.nuttens_dict['l_tol']
-        self.nut_holder_tot = self.nut_space + 2* self.nut_holder_thick
+        self.nut_holder_tot = self.nut_space + 2 * self.nut_holder_thick
         # circum diameter of the nut
         self.tensnut_circ_d = self.nuttens_dict['circ_d']
         # circum radius of the nut, with tolerance
         self.tensnut_circ_r_tol = self.nuttens_dict['circ_r_tol']
         # the apotheme of the nut
-        self.tensnut_ap_tol = (self.nuttens_dict['a2']+tol/2.)/2.
+        self.tensnut_ap_tol = (self.nuttens_dict['a2'] + tol / 2.) / 2.
 
         # --- idler tensioner dimensions
-        self.tens_h = self.idler_h + 2*wall_thick
-        self.tens_d = (  self.nut_holder_tot
+        self.tens_h = self.idler_h + 2 * wall_thick
+        self.tens_d = (self.nut_holder_tot
                        + tens_stroke
                        + self.pulley_stroke_dist
                        + idler_r_ext
                        + idler_r_in)
 
-        self.tens_d_inside = (   self.nut_holder_tot
-                               + tens_stroke
-                               + self.pulley_stroke_dist)
+        self.tens_d_inside = (self.nut_holder_tot
+                              + tens_stroke
+                              + self.pulley_stroke_dist)
 
         self.tens_w = max(2 * idler_r_in, self.tensnut_circ_d)
 
         self.d0_cen = 0
-        self.w0_cen = 1 # symmetrical
-        self.h0_cen = 1 # symmetrical
+        self.w0_cen = 1  # symmetrical
+        self.h0_cen = 1  # symmetrical
 
         self.d_o[0] = V0
         self.d_o[1] = self.vec_d(nut_holder_thick)
@@ -314,11 +316,11 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         # these are negative because actually the pos_w indicates a negative
         # position along axis_w
         self.w_o[0] = V0
-        self.w_o[1] = self.vec_w(-self.tens_w/2.)
+        self.w_o[1] = self.vec_w(-self.tens_w / 2.)
 
         self.h_o[0] = V0
-        self.h_o[1] = self.vec_h(-idler_h/2.)
-        self.h_o[2] = self.vec_h(-self.tens_h/2.)
+        self.h_o[1] = self.vec_h(-idler_h / 2.)
+        self.h_o[2] = self.vec_h(-self.tens_h / 2.)
 
         # calculates the position of the origin, and keeps it in attribute pos_o
         self.set_pos_o()
@@ -371,25 +373,25 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         #                  V
         #                 axis_d
 
-        if opt_tens_chmf == 0: # no optional chamfer, only along axis_w
+        if opt_tens_chmf == 0:  # no optional chamfer, only along axis_w
             edge_dir = self.axis_w
         else:
             edge_dir = V0
-   
+
         shp01chmf = fcfun.shp_boxdir_fillchmfplane(
-                               box_w = self.tens_w,
-                               box_d = self.tens_d,
-                               box_h = self.tens_h,
-                               axis_d = self.axis_d,
-                               axis_h = self.axis_h,
-                               cd=0, cw=1, ch=1,
-                               # no tolerances, this is the piece
-                               fillet = 0, # chamfer
-                               radius = 2*in_fillet,
-                               plane_fill = self.axis_d.negative(),
-                               both_planes = 0,
-                               edge_dir = edge_dir,
-                               pos = self.pos_o)
+            box_w=self.tens_w,
+            box_d=self.tens_d,
+            box_h=self.tens_h,
+            axis_d=self.axis_d,
+            axis_h=self.axis_h,
+            cd=0, cw=1, ch=1,
+            # no tolerances, this is the piece
+            fillet=0,  # chamfer
+            radius=2 * in_fillet,
+            plane_fill=self.axis_d.negative(),
+            both_planes=0,
+            edge_dir=edge_dir,
+            pos=self.pos_o)
         #  --------------- step 02 ---------------------------  
         # Space for the idler pulley
         #    axis_h
@@ -408,24 +410,24 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         # the position is pos_d = 5
         # maybe should be advisable to have tolerance, but usually, the 
         # washers have tolerances, and usually are less thick than the nominal
-        idler_h_hole =  idler_h # + tol
+        idler_h_hole = idler_h  # + tol
         if idler_h_hole != idler_h:
             self.idler_h_hole = idler_h_hole
         # NO CHAMFER to be able to fit the pulley well
         shp02cut = fcfun.shp_box_dir_xtr(
-                               box_w = self.tens_w,
-                               box_d = idler_r_in + idler_r_ext,
-                               box_h = idler_h_hole,
-                               fc_axis_d = self.axis_d.negative(),
-                               fc_axis_h = self.axis_h,
-                               cd=0, cw=1, ch=1,
-                               xtr_w = 1,
-                               xtr_nw = 1,
-                               xtr_d = tol, # tol to fit the large washer
-                               xtr_nd = 1, # extra along axis_d (positive)
-                               pos = self.get_pos_d(5))
+            box_w=self.tens_w,
+            box_d=idler_r_in + idler_r_ext,
+            box_h=idler_h_hole,
+            fc_axis_d=self.axis_d.negative(),
+            fc_axis_h=self.axis_h,
+            cd=0, cw=1, ch=1,
+            xtr_w=1,
+            xtr_nw=1,
+            xtr_d=tol,  # tol to fit the large washer
+            xtr_nd=1,  # extra along axis_d (positive)
+            pos=self.get_pos_d(5))
         shp02 = shp01chmf.cut(shp02cut)
-        shp02 = shp02.removeSplitter() # refine shape
+        shp02 = shp02.removeSplitter()  # refine shape
         #  --------------- step 03 --------------------------- 
         # Fillets at the idler end:
         #
@@ -440,24 +442,24 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         #      :                       f1
         #      :...... tens_d .........:
         #
-        pt_f1 = self.get_pos_d(5) + self.vec_h( -self.tens_h/2.)
-        pt_f2 = self.get_pos_d(5) + self.vec_h(  self.tens_h/2.)
-        pt_f3 = self.get_pos_d(5) + self.vec_h( -idler_h_hole/2.)
-        pt_f4 = self.get_pos_d(5) + self.vec_h(  idler_h_hole/2.)
+        pt_f1 = self.get_pos_d(5) + self.vec_h(-self.tens_h / 2.)
+        pt_f2 = self.get_pos_d(5) + self.vec_h(self.tens_h / 2.)
+        pt_f3 = self.get_pos_d(5) + self.vec_h(-idler_h_hole / 2.)
+        pt_f4 = self.get_pos_d(5) + self.vec_h(idler_h_hole / 2.)
 
-        if wall_thick/2. <= in_fillet:
+        if wall_thick / 2. <= in_fillet:
             msg1 = 'Radius of fillet is larger than 2 x wall thick'
             msg2 = ' making fillet smaller: '
-            wall_fillet_r = self.wall_thick /2. - 0.1
+            wall_fillet_r = self.wall_thick / 2. - 0.1
             logger.warning(msg1 + msg2 + str(wall_fillet_r))
         else:
             wall_fillet_r = in_fillet
-        shp03 = fcfun.shp_filletchamfer_dirpts (
-                                            shp=shp02,
-                                            fc_axis=self.axis_w,
-                                            fc_pts=[pt_f1,pt_f2, pt_f3, pt_f4],
-                                            fillet = 1,
-                                            radius=wall_fillet_r)
+        shp03 = fcfun.shp_filletchamfer_dirpts(
+            shp=shp02,
+            fc_axis=self.axis_w,
+            fc_pts=[pt_f1, pt_f2, pt_f3, pt_f4],
+            fillet=1,
+            radius=wall_fillet_r)
         #  --------------- step 04 done at step 01 ------------------------ 
 
         #  --------------- step 05 --------------------------- 
@@ -475,11 +477,11 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         #      :...... tens_d .........:
         #                     
         # pos_d = 4
-        shp05 = fcfun.shp_cylcenxtr (r = self.boltidler_r_tol,
-                                     h = self.tens_h,
-                                     normal = self.axis_h,
-                                     ch = 1, xtr_top = 1, xtr_bot = 1,
-                                     pos = self.get_pos_d(4))
+        shp05 = fcfun.shp_cylcenxtr(r=self.boltidler_r_tol,
+                                    h=self.tens_h,
+                                    normal=self.axis_h,
+                                    ch=1, xtr_top=1, xtr_bot=1,
+                                    pos=self.get_pos_d(4))
         #  --------------- step 06 --------------------------- 
         # Hole for the leadscrew (stroke):
 
@@ -501,17 +503,17 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         #      :...... tens_d .........:
         # 
         #  pos_d = 2
-        shp06a = fcfun.shp_box_dir_xtr(box_w = self.tens_w,
-                                       box_d = self.tens_stroke,
-                                       box_h = self.idler_h,
-                                       fc_axis_h = self.axis_h,
-                                       fc_axis_d = self.axis_d,
-                                       xtr_w = 1, xtr_nw = 1,
+        shp06a = fcfun.shp_box_dir_xtr(box_w=self.tens_w,
+                                       box_d=self.tens_stroke,
+                                       box_h=self.idler_h,
+                                       fc_axis_h=self.axis_h,
+                                       fc_axis_d=self.axis_d,
+                                       xtr_w=1, xtr_nw=1,
                                        cw=1, cd=0, ch=1,
                                        pos=self.get_pos_d(2))
-        shp06 =  fcfun.shp_filletchamfer_dir (shp=shp06a,
-                                              fc_axis=self.axis_w,
-                                              fillet = 0, radius=self.in_fillet)
+        shp06 = fcfun.shp_filletchamfer_dir(shp=shp06a,
+                                            fc_axis=self.axis_w,
+                                            fillet=0, radius=self.in_fillet)
 
         #  --------------- step 07 --------------------------- 
         # Hole for the leadscrew shank at the beginning
@@ -533,11 +535,11 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         #      :                       :
         #      :...... tens_d .........:
         #
-        shp07 = fcfun.shp_cylcenxtr (r = self.bolttens_r_tol,
-                                     h = self.nut_holder_tot,
-                                     normal = self.axis_d,
-                                     ch = 0, xtr_top = 1, xtr_bot = 1,
-                                     pos = self.pos_o)
+        shp07 = fcfun.shp_cylcenxtr(r=self.bolttens_r_tol,
+                                    h=self.nut_holder_tot,
+                                    normal=self.axis_d,
+                                    ch=0, xtr_top=1, xtr_bot=1,
+                                    pos=self.pos_o)
         #  --------------- step 08 --------------------------- 
         # Hole for the leadscrew nut
 
@@ -560,17 +562,17 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         #
         # position at pos_d = 1
 
-        shp08 = fcfun.shp_nuthole (
-                               nut_r = self.tensnut_circ_r_tol,
-                               nut_h = self.nut_space,
-                               hole_h = self.tens_w/2,
-                               xtr_nut = 1, xtr_hole = 1, 
-                               fc_axis_nut = self.axis_d,
-                               fc_axis_hole = self.axis_w,
-                               ref_nut_ax = 2, # pos not centered on axis nut 
-                               # pos at center of nut on axis hole 
-                               ref_hole_ax = 1, 
-                               pos = self.get_pos_d(1))
+        shp08 = fcfun.shp_nuthole(
+            nut_r=self.tensnut_circ_r_tol,
+            nut_h=self.nut_space,
+            hole_h=self.tens_w / 2,
+            xtr_nut=1, xtr_hole=1,
+            fc_axis_nut=self.axis_d,
+            fc_axis_hole=self.axis_w,
+            ref_nut_ax=2,  # pos not centered on axis nut
+            # pos at center of nut on axis hole
+            ref_hole_ax=1,
+            pos=self.get_pos_d(1))
 
         # --------- step 09:
         # --------- Last step, union and cut of the steps 05, 06, 07, 08
@@ -583,7 +585,7 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
         self.prnt_ax = self.axis_w
 
 
-#shp= ShpIdlerTensioner(idler_h = 10. ,
+# shp= ShpIdlerTensioner(idler_h = 10. ,
 #                 idler_r_in  = 5,
 #                 idler_r_ext = 6,
 #                 in_fillet = 2.,
@@ -603,57 +605,57 @@ class ShpIdlerTensioner (shp_clss.Obj3D):
 #                 pos_h = 0,
 #                 pos = V0)
 
-class PartIdlerTensioner (fc_clss.SinglePart, ShpIdlerTensioner):
+class PartIdlerTensioner(fc_clss.SinglePart, ShpIdlerTensioner):
     """ Integration of a ShpIdlerTensioner object into a PartIlderTensioner
     object, so it is a FreeCAD object that can be visualized in FreeCAD
     """
 
     def __init__(self,
-                 idler_h ,
-                 idler_r_in ,
-                 idler_r_ext ,
-                 in_fillet = 2.,
-                 wall_thick = 5.,
-                 tens_stroke = 20. ,
-                 pulley_stroke_dist = 0,
-                 nut_holder_thick = 4. ,
-                 boltidler_mtr = 3,
-                 bolttens_mtr = 3,
-                 opt_tens_chmf = 1,
-                 tol = kcomp.TOL,
-                 axis_d = VX,
-                 axis_w = VY,
-                 axis_h = VZ,
-                 pos_d = 0,
-                 pos_w = 0,
-                 pos_h = 0,
-                 pos = V0,
-                 model_type = 0, # exact
-                 name = ''):
+                 idler_h,
+                 idler_r_in,
+                 idler_r_ext,
+                 in_fillet=2.,
+                 wall_thick=5.,
+                 tens_stroke=20.,
+                 pulley_stroke_dist=0,
+                 nut_holder_thick=4.,
+                 boltidler_mtr=3,
+                 bolttens_mtr=3,
+                 opt_tens_chmf=1,
+                 tol=kcomp.TOL,
+                 axis_d=VX,
+                 axis_w=VY,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=0,
+                 pos=V0,
+                 model_type=0,  # exact
+                 name=''):
 
         default_name = 'idler_tensioner'
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
         # First the shape is created
         ShpIdlerTensioner.__init__(self,
-                                  idler_h = idler_h ,
-                                  idler_r_in  = idler_r_in,
-                                  idler_r_ext = idler_r_ext,
-                                  in_fillet = in_fillet,
-                                  wall_thick = wall_thick,
-                                  tens_stroke = tens_stroke,
-                                  pulley_stroke_dist = pulley_stroke_dist,
-                                  nut_holder_thick = nut_holder_thick ,
-                                  boltidler_mtr = boltidler_mtr,
-                                  bolttens_mtr = bolttens_mtr,
-                                  opt_tens_chmf = opt_tens_chmf,
-                                  tol = tol,
-                                  axis_d = axis_d,
-                                  axis_w = axis_w,
-                                  axis_h = axis_h,
-                                  pos_d = pos_d,
-                                  pos_w = pos_w,
-                                  pos_h = pos_h,
-                                  pos = pos)
+                                   idler_h=idler_h,
+                                   idler_r_in=idler_r_in,
+                                   idler_r_ext=idler_r_ext,
+                                   in_fillet=in_fillet,
+                                   wall_thick=wall_thick,
+                                   tens_stroke=tens_stroke,
+                                   pulley_stroke_dist=pulley_stroke_dist,
+                                   nut_holder_thick=nut_holder_thick,
+                                   boltidler_mtr=boltidler_mtr,
+                                   bolttens_mtr=bolttens_mtr,
+                                   opt_tens_chmf=opt_tens_chmf,
+                                   tol=tol,
+                                   axis_d=axis_d,
+                                   axis_w=axis_w,
+                                   axis_h=axis_h,
+                                   pos_d=pos_d,
+                                   pos_w=pos_w,
+                                   pos_h=pos_h,
+                                   pos=pos)
 
         # Then the Part
         fc_clss.SinglePart.__init__(self)
@@ -662,10 +664,11 @@ class PartIdlerTensioner (fc_clss.SinglePart, ShpIdlerTensioner):
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes by CylHole
+            if not hasattr(self, i):  # so we keep the attributes by CylHole
                 setattr(self, i, values[i])
 
-#part= PartIdlerTensioner(idler_h = 10. ,
+
+# part= PartIdlerTensioner(idler_h = 10. ,
 #                 idler_r_in  = 5,
 #                 idler_r_ext = 6,
 #                 in_fillet = 2.,
@@ -686,7 +689,7 @@ class PartIdlerTensioner (fc_clss.SinglePart, ShpIdlerTensioner):
 #                 pos = V0)
 
 
-class IdlerTensionerSet (fc_clss.PartsSet):
+class IdlerTensionerSet(fc_clss.PartsSet):
     """ Set composed of the idler pulley and the tensioner
 
     Parameter:
@@ -777,37 +780,37 @@ class IdlerTensionerSet (fc_clss.PartsSet):
 
     """
 
-    def __init__(self, 
-                 boltidler_mtr = 3,
-                 bolttens_mtr = 3,
-                 tens_stroke = 20. ,
-                 wall_thick = 5.,
-                 in_fillet = 2.,
-                 pulley_stroke_dist = 0,
-                 nut_holder_thick = 4. ,
-                 opt_tens_chmf = 1,
-                 tol = kcomp.TOL,
-                 axis_d = VX,
-                 axis_w = VY,
-                 axis_h = VZ,
-                 pos_d = 0,
-                 pos_w = 0,
-                 pos_h = 0,
-                 pos = V0,
-                 group = 0,
-                 name = ''):
+    def __init__(self,
+                 boltidler_mtr=3,
+                 bolttens_mtr=3,
+                 tens_stroke=20.,
+                 wall_thick=5.,
+                 in_fillet=2.,
+                 pulley_stroke_dist=0,
+                 nut_holder_thick=4.,
+                 opt_tens_chmf=1,
+                 tol=kcomp.TOL,
+                 axis_d=VX,
+                 axis_w=VY,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=0,
+                 pos=V0,
+                 group=0,
+                 name=''):
 
         default_name = 'idler_tensioner_set'
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
 
-        fc_clss.PartsSet.__init__(self, axis_d = axis_d,
-                                  axis_w = axis_w, axis_h = axis_h)
+        fc_clss.PartsSet.__init__(self, axis_d=axis_d,
+                                  axis_w=axis_w, axis_h=axis_h)
 
         # save the arguments as attributes:
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes by CylHole
+            if not hasattr(self, i):  # so we keep the attributes by CylHole
                 setattr(self, i, values[i])
 
         # pos_h/w = 0 are at the center, not pos_d
@@ -821,38 +824,38 @@ class IdlerTensionerSet (fc_clss.PartsSet):
         # them, and then move them and calculate the vectors h_o, d_o, w_o
 
         # Creation of the idler pulley, we put it in the center
-        pulley = partset.BearWashSet(metric = boltidler_mtr,
-                                            axis_h = axis_h, pos_h = 0,
-                                            axis_d = axis_d, pos_d = 0,
-                                            axis_w = axis_w, pos_w = 0,
-                                            pos = pos)
+        pulley = partset.BearWashSet(metric=boltidler_mtr,
+                                     axis_h=axis_h, pos_h=0,
+                                     axis_d=axis_d, pos_d=0,
+                                     axis_w=axis_w, pos_w=0,
+                                     pos=pos)
         self.append_part(pulley)
         pulley.parent = self
-        #self.pulley_h =  pulley.tot_h
-        #self.pulley_r_in =  pulley.r_in
-        #self.pulley_r_ext =  pulley.r_ext
+        # self.pulley_h =  pulley.tot_h
+        # self.pulley_r_in =  pulley.r_in
+        # self.pulley_r_ext =  pulley.r_ext
         # Creation of the tensioner, with pos_h,d,w = 0 because we don't know
         # the dimensions yet
-        idler_tens_part =  PartIdlerTensioner(
-                                     idler_h     = pulley.tot_h ,
-                                     idler_r_in  = pulley.r_in,
-                                     idler_r_ext = pulley.r_ext,
-                                     in_fillet   = in_fillet,
-                                     wall_thick  = wall_thick,
-                                     tens_stroke = tens_stroke ,
-                                     pulley_stroke_dist = pulley_stroke_dist,
-                                     nut_holder_thick = nut_holder_thick,
-                                     boltidler_mtr = boltidler_mtr,
-                                     bolttens_mtr  = bolttens_mtr,
-                                     opt_tens_chmf = opt_tens_chmf,
-                                     tol    = tol,
-                                     axis_d = self.axis_d,
-                                     axis_w = self.axis_w,
-                                     axis_h = self.axis_h,
-                                     pos_d  = 0,
-                                     pos_w  = 0,
-                                     pos_h  = 0,
-                                     pos    = pos)
+        idler_tens_part = PartIdlerTensioner(
+            idler_h=pulley.tot_h,
+            idler_r_in=pulley.r_in,
+            idler_r_ext=pulley.r_ext,
+            in_fillet=in_fillet,
+            wall_thick=wall_thick,
+            tens_stroke=tens_stroke,
+            pulley_stroke_dist=pulley_stroke_dist,
+            nut_holder_thick=nut_holder_thick,
+            boltidler_mtr=boltidler_mtr,
+            bolttens_mtr=bolttens_mtr,
+            opt_tens_chmf=opt_tens_chmf,
+            tol=tol,
+            axis_d=self.axis_d,
+            axis_w=self.axis_w,
+            axis_h=self.axis_h,
+            pos_d=0,
+            pos_w=0,
+            pos_h=0,
+            pos=pos)
         self.append_part(idler_tens_part)
         idler_tens_part.parent = self
 
@@ -861,8 +864,6 @@ class IdlerTensionerSet (fc_clss.PartsSet):
         self.tens_h = idler_tens_part.tens_h
         self.tens_d_inside = idler_tens_part.tens_d_inside
         self.nut_holder_tot = idler_tens_part.nut_holder_tot
-
-        
 
         # Now we have to move them and calculate the distance vectors h_o,..
         # pos_d, pos_w, pos_w: are different for the components and the set
@@ -912,7 +913,7 @@ class IdlerTensionerSet (fc_clss.PartsSet):
         # Now we place the idler tensioner according to pos_d,w,h
         # argument 1 means that pos_o wasn't in place and has to be
         # adjusted
-        self.set_pos_o(adjust = 1)
+        self.set_pos_o(adjust=1)
 
         # Now we have the position where the origin is, but:
         # - we haven't located the idler_tensioner at pos_o
@@ -927,38 +928,37 @@ class IdlerTensionerSet (fc_clss.PartsSet):
 
         # the bolt for the pulley
         bolt_length_list = kcomp.D912_L[boltidler_mtr]
-        min_pulley_bolt_l = (  self.tens_h
+        min_pulley_bolt_l = (self.tens_h
                              + kcomp.D912[boltidler_mtr]['head_l'])
-        pulley_bolt = partset.Din912BoltWashSet(metric  = boltidler_mtr,
-                                         shank_l = min_pulley_bolt_l,
-                                         # larger considering the washer
-                                         shank_l_adjust = 2,
-                                         axis_h  = self.axis_h.negative(),
-                                         pos_h   = 3,
-                                         pos_d   = 0,
-                                         pos_w   = 0,
-                                         pos     = self.get_pos_dwh(5,0,3))
+        pulley_bolt = partset.Din912BoltWashSet(metric=boltidler_mtr,
+                                                shank_l=min_pulley_bolt_l,
+                                                # larger considering the washer
+                                                shank_l_adjust=2,
+                                                axis_h=self.axis_h.negative(),
+                                                pos_h=3,
+                                                pos_d=0,
+                                                pos_w=0,
+                                                pos=self.get_pos_dwh(5, 0, 3))
         self.pulley_bolt_l = pulley_bolt.shank_l
         self.append_part(pulley_bolt)
         pulley_bolt.parent = self
 
         # the nut for the pulley
-        pulley_nut = partset.Din934NutWashSet(metric  = boltidler_mtr,
-                                              axis_h = self.axis_h.negative(),
-                                              pos_h = 0,
-                                              pos = self.get_pos_dwh(5,0,-3))
+        pulley_nut = partset.Din934NutWashSet(metric=boltidler_mtr,
+                                              axis_h=self.axis_h.negative(),
+                                              pos_h=0,
+                                              pos=self.get_pos_dwh(5, 0, -3))
         self.append_part(pulley_nut)
         pulley_nut.parent = self
 
         # the nut for the leadscrew
-        nut = fc_clss.Din934Nut(metric = bolttens_mtr,
-                                axis_h = self.axis_d,
-                                axis_d = self.axis_w,
-                                pos_h = -1,
-                                pos = self.get_pos_d(1), name = 'leadscrew_nut')
+        nut = fc_clss.Din934Nut(metric=bolttens_mtr,
+                                axis_h=self.axis_d,
+                                axis_d=self.axis_w,
+                                pos_h=-1,
+                                pos=self.get_pos_d(1), name='leadscrew_nut')
         self.append_part(nut)
         nut.parent = self
-                                   
 
         self.place_fcos()
         if group == 1:
@@ -968,19 +968,19 @@ class IdlerTensionerSet (fc_clss.PartsSet):
         """gets the idler tensioner"""
         part_list = self.get_parts()
         for part_i in part_list:
-            if isinstance(part_i,PartIdlerTensioner):
-                return part_i 
+            if isinstance(part_i, PartIdlerTensioner):
+                return part_i
 
     def get_bear_wash_set(self):
         """gets the idler tensioner"""
         part_list = self.get_parts()
         for part_i in part_list:
-            if isinstance(part_i,partset.BearWashSet):
-                return part_i 
+            if isinstance(part_i, partset.BearWashSet):
+                return part_i
+
+            # idlertensioner= IdlerTensionerSet (
 
 
-
-#idlertensioner= IdlerTensionerSet (
 #                 boltidler_mtr = 3,
 #                 bolttens_mtr = 3,
 #                 tens_stroke = 20. ,
@@ -1000,9 +1000,7 @@ class IdlerTensionerSet (fc_clss.PartsSet):
 #                 name = 'tensioner_group')
 
 
-
-
-class ShpTensionerHolder (shp_clss.Obj3D):
+class ShpTensionerHolder(shp_clss.Obj3D):
     """ Creates the idler pulley tensioner shape
 
 
@@ -1194,36 +1192,37 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         0 : at the end
 
     """
+
     def __init__(self,
                  aluprof_w,
                  belt_pos_h,
                  tens_h,
                  tens_w,
                  tens_d_inside,
-                 wall_thick = 3.,
-                 in_fillet = 1.,
-                 boltaluprof_mtr = 3,
-                 bolttens_mtr = 3,
-                 hold_bas_h = 0,
-                 opt_tens_chmf = 1,
-                 hold_hole_2sides = 1,
-                 min_width = 0,
-                 tol = kcomp.TOL,
-                 axis_d = VX,
-                 axis_w = VY,
-                 axis_h = VZ,
-                 pos_d = 0,
-                 pos_w = 0,
-                 pos_h = 0,
-                 pos = V0):
-        
+                 wall_thick=3.,
+                 in_fillet=1.,
+                 boltaluprof_mtr=3,
+                 bolttens_mtr=3,
+                 hold_bas_h=0,
+                 opt_tens_chmf=1,
+                 hold_hole_2sides=1,
+                 min_width=0,
+                 tol=kcomp.TOL,
+                 axis_d=VX,
+                 axis_w=VY,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=0,
+                 pos=V0):
+
         shp_clss.Obj3D.__init__(self, axis_d, axis_w, axis_h)
 
         # save the arguments as attributes:
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i):
+            if not hasattr(self, i):
                 setattr(self, i, values[i])
 
         # pos_w = 0 is at the center, not pos_d, pos_h
@@ -1240,10 +1239,10 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         self.boltaluprof_head_l = d_boltaluprof['head_l']
         # better to make a hole for the washer
         self.washer_aluprof_d = kcomp.D125[boltaluprof_mtr]['do']
-        self.washer_aluprof_r_tol = self.washer_aluprof_d/2.+tol
+        self.washer_aluprof_r_tol = self.washer_aluprof_d / 2. + tol
 
         # calculation of the dimensions:
-        self.hold_w = tens_w + 2*wall_thick
+        self.hold_w = tens_w + 2 * wall_thick
 
         self.hold_d = tens_d_inside + wall_thick
         # base of the tensioner holder
@@ -1251,7 +1250,7 @@ class ShpTensionerHolder (shp_clss.Obj3D):
             self.rim_w = aluprof_w
         else:
             self.rim_w = self.washer_aluprof_d
-        self.hold_bas_w = self.hold_w + 2*self.rim_w
+        self.hold_bas_w = self.hold_w + 2 * self.rim_w
         self.hold_bas_d = aluprof_w
         if hold_bas_h == 0:
             self.hold_bas_h = wall_thick
@@ -1262,8 +1261,6 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         self.bolttens_dict = kcomp.D912[bolttens_mtr]
         # the shank radius including tolerance
         self.bolttens_r_tol = self.bolttens_dict['shank_r_tol']
-
-
 
         #  check that the position of the belt is higher than the minimum
         #                            axis_h
@@ -1276,39 +1273,37 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         #            :.....(_______|_______|_______)...+hold_bas_h
         #                                                : :          :
         #  
-        if belt_pos_h < tens_h/2. + self.hold_bas_h:
-            self.belt_pos_h = tens_h/2. + self.hold_bas_h
+        if belt_pos_h < tens_h / 2. + self.hold_bas_h:
+            self.belt_pos_h = tens_h / 2. + self.hold_bas_h
             msg = 'argument belt_pos_h is smaller than minimum, new value: '
             logger.warning(msg + str(self.belt_pos_h))
-        self.hold_h = self.belt_pos_h + tens_h/2. + wall_thick
-
+        self.hold_h = self.belt_pos_h + tens_h / 2. + wall_thick
 
         # ------ vectors from the different position points
         # d_o[1] is the distance from o to 1
         self.d_o[0] = V0
         self.d_o[1] = self.vec_d(wall_thick)
-        self.d_o[2] = self.vec_d(self.hold_bas_d/2.)
+        self.d_o[2] = self.vec_d(self.hold_bas_d / 2.)
         self.d_o[3] = self.vec_d(self.hold_bas_d)
         self.d_o[4] = self.vec_d(self.hold_d)
 
         self.w_o[0] = V0
-        self.w_o[1] = self.vec_w(-self.tens_w/2.)
-        self.w_o[2] = self.vec_w(-self.hold_w/2.)
-        self.w_o[3] = self.vec_w(-self.hold_w/2. - self.rim_w/2.)
-        self.w_o[4] = self.vec_w(-self.hold_w/2. - self.rim_w)
+        self.w_o[1] = self.vec_w(-self.tens_w / 2.)
+        self.w_o[2] = self.vec_w(-self.hold_w / 2.)
+        self.w_o[3] = self.vec_w(-self.hold_w / 2. - self.rim_w / 2.)
+        self.w_o[4] = self.vec_w(-self.hold_w / 2. - self.rim_w)
 
         # h_o[1] is the distance from o to 1
         self.h_o[0] = V0
         self.h_o[1] = self.vec_h(self.hold_bas_h)
-        self.h_o[2] = self.vec_h(self.belt_pos_h - tens_h/2.)
+        self.h_o[2] = self.vec_h(self.belt_pos_h - tens_h / 2.)
         self.h_o[3] = self.vec_h(self.belt_pos_h)
         self.h_o[4] = self.vec_h(self.hold_h)
 
         # calculates the position of the origin, and keeps it in attribute pos_o
         self.set_pos_o()
 
-
-        # --------------- step 01 --------------------------- 
+        # --------------- step 01 ---------------------------
         #    the base, to attach it to the aluminum profiles
         #    
         #
@@ -1325,11 +1320,11 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         #                |___________:____________|....:
         #                            :            :
         #                          axis_d
-        shp01 = fcfun.shp_box_dir(box_w = self.hold_bas_w,
-                                  box_d = self.hold_bas_d,
-                                  box_h = self.hold_bas_h,
-                                  fc_axis_h = self.axis_h,
-                                  fc_axis_d = self.axis_d,
+        shp01 = fcfun.shp_box_dir(box_w=self.hold_bas_w,
+                                  box_d=self.hold_bas_d,
+                                  box_h=self.hold_bas_h,
+                                  fc_axis_h=self.axis_h,
+                                  fc_axis_d=self.axis_d,
                                   cw=1, cd=0, ch=0, pos=self.pos_o)
         #    --------------- step 02 --------------------------- 
         #    Fillet the base
@@ -1343,14 +1338,14 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         #                f3                        f1
         #
         bas_fil_r = self.in_fillet
-        if self.hold_bas_h/2. <= self.in_fillet:
+        if self.hold_bas_h / 2. <= self.in_fillet:
             msg1 = 'Radius of holder base fillet is larger than 2 x base height'
             msg2 = ' making fillet smaller: '
-            bas_fil_r = self.hold_bas_h /2. - 0.1
+            bas_fil_r = self.hold_bas_h / 2. - 0.1
             logger.warning(msg1 + msg2 + str(bas_fil_r))
         # fillet along axis_d :
-        shp02 = fcfun.shp_filletchamfer_dir (shp=shp01, fc_axis=self.axis_d,
-                                             fillet = 1, radius=bas_fil_r)
+        shp02 = fcfun.shp_filletchamfer_dir(shp=shp01, fc_axis=self.axis_d,
+                                            fillet=1, radius=bas_fil_r)
 
         #    --------------- step 03 --------------------------- 
         #    The main box
@@ -1379,11 +1374,11 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         #                             :
         #                           axis_d 
 
-        shp03 = fcfun.shp_box_dir(box_w = self.hold_w,
-                                  box_d = self.hold_d,
-                                  box_h = self.hold_h,
-                                  fc_axis_h = self.axis_h,
-                                  fc_axis_d = self.axis_d,
+        shp03 = fcfun.shp_box_dir(box_w=self.hold_w,
+                                  box_d=self.hold_d,
+                                  box_h=self.hold_h,
+                                  fc_axis_h=self.axis_h,
+                                  fc_axis_d=self.axis_d,
                                   cw=1, cd=0, ch=0, pos=self.pos_o)
         #    --------------- step 04 --------------------------- 
         #    Fillets on top
@@ -1396,7 +1391,7 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         #           :             |       |       :
         #           :      _______|       |_______:
         #           :.....(_______|_______|_______).... axis_w
-    
+
         #                 :______-2___0___2________:.......axis_w
         #                 |       |       |        |    :
         #                 |       |       |        |    + hold_bas_d
@@ -1406,16 +1401,14 @@ class ShpTensionerHolder (shp_clss.Obj3D):
 
         # fillet along axis_d and the vertex should contain points:
         # d=0, w=(-2,2) , h = 4
-        pts_list = [self.get_pos_dwh(0,2,4), self.get_pos_dwh(0,-2,4)]
-        shp04 = fcfun.shp_filletchamfer_dirpts (shp=shp03,
-                                                fc_axis=self.axis_d,
-                                                fc_pts=pts_list,
-                                                fillet = 1,
-                                                radius=self.in_fillet)
+        pts_list = [self.get_pos_dwh(0, 2, 4), self.get_pos_dwh(0, -2, 4)]
+        shp04 = fcfun.shp_filletchamfer_dirpts(shp=shp03,
+                                               fc_axis=self.axis_d,
+                                               fc_pts=pts_list,
+                                               fillet=1,
+                                               radius=self.in_fillet)
 
-
-
-        #    --------------- step 05 --------------------------- 
+        #    --------------- step 05 ---------------------------
         #    large chamfer at the bottom
         #                axis_h                 axis_h
         #                  :                      :
@@ -1443,22 +1436,22 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         #                                             hold_d
         #
         # option B: using more material (probably sturdier)
-        #chmf_rad = min(self.hold_d - self.hold_bas_d,
+        # chmf_rad = min(self.hold_d - self.hold_bas_d,
         #               self.hold_h - (self.tens_h + 2*wall_thick))
         # option A: using less material
-        chmf_rad = min(self.hold_d-self.hold_bas_d + self.hold_bas_h,
-                       self.hold_h - (self.tens_h + 2*wall_thick))
-        
+        chmf_rad = min(self.hold_d - self.hold_bas_d + self.hold_bas_h,
+                       self.hold_h - (self.tens_h + 2 * wall_thick))
+
         print(chmf_rad)
         # Find a point along the vertex that is going to be chamfered.
         # See drawings: Point C:
         if chmf_rad > 0:
             pt_c = self.get_pos_d(4)
-            shp05 = fcfun.shp_filletchamfer_dirpt (shp = shp04,
-                                                   fc_axis = self.axis_w,
-                                                   fc_pt = pt_c,
-                                                   fillet = 0,
-                                                   radius = chmf_rad)
+            shp05 = fcfun.shp_filletchamfer_dirpt(shp=shp04,
+                                                  fc_axis=self.axis_w,
+                                                  fc_pt=pt_c,
+                                                  fillet=0,
+                                                  radius=chmf_rad)
         else:
             shp05 = shp04
 
@@ -1485,31 +1478,31 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         #
 
         # position of point A is pos_tens0
-        if self.opt_tens_chmf == 0: # no optional chamfer, only along axis_w
+        if self.opt_tens_chmf == 0:  # no optional chamfer, only along axis_w
             edge_dir = self.axis_w
         else:
             edge_dir = V0
 
-        pos_06 = self.get_pos_dwh(1,0,3)
-   
+        pos_06 = self.get_pos_dwh(1, 0, 3)
+
         shp06 = fcfun.shp_boxdir_fillchmfplane(
-                               box_w = self.tens_w,
-                               box_d = self.hold_d,
-                               box_h = self.tens_h,
-                               axis_d = self.axis_d,
-                               axis_h = self.axis_h,
-                               cd=0, cw=1, ch=1,
-                               xtr_nd = tol,  #tolerance inside
-                               xtr_w  = tol/2.,  #tolerances on each side
-                               xtr_nw = tol/2.,
-                               xtr_h  = tol/2.,
-                               xtr_nh = tol/2.,
-                               fillet = 0, # chamfer
-                               radius = 2*self.in_fillet-kcomp.TOL,
-                               plane_fill = self.axis_d.negative(),
-                               both_planes = 0,
-                               edge_dir = edge_dir,
-                               pos = pos_06)
+            box_w=self.tens_w,
+            box_d=self.hold_d,
+            box_h=self.tens_h,
+            axis_d=self.axis_d,
+            axis_h=self.axis_h,
+            cd=0, cw=1, ch=1,
+            xtr_nd=tol,  # tolerance inside
+            xtr_w=tol / 2.,  # tolerances on each side
+            xtr_nw=tol / 2.,
+            xtr_h=tol / 2.,
+            xtr_nh=tol / 2.,
+            fillet=0,  # chamfer
+            radius=2 * self.in_fillet - kcomp.TOL,
+            plane_fill=self.axis_d.negative(),
+            both_planes=0,
+            edge_dir=edge_dir,
+            pos=pos_06)
 
         #    --------------- step 07 --------------------------- 
         #    A hole to be able to see inside, could be on one side or both
@@ -1543,21 +1536,21 @@ class ShpTensionerHolder (shp_clss.Obj3D):
             hold_hole_w = self.wall_thick
         # position of point 7:
         # height of point 7, is the center of the tensioner:
-        pos_07 = self.get_pos_dwh(1,-2,3)
-        shp07 = fcfun.shp_box_dir_xtr (
-                                       box_w = hold_hole_w,
-                                       box_d =  self.hold_d
-                                              - 2*wall_thick,
-                                       box_h = tens_h/2.,
-                                       fc_axis_h = self.axis_h,
-                                       fc_axis_d = self.axis_d,
-                                       fc_axis_w = self.axis_w,
-                                       ch = 1, cd = 0, cw = 0,
-                                       xtr_w = 1, xtr_nw = 1,
-                                       pos=pos_07)
+        pos_07 = self.get_pos_dwh(1, -2, 3)
+        shp07 = fcfun.shp_box_dir_xtr(
+            box_w=hold_hole_w,
+            box_d=self.hold_d
+                  - 2 * wall_thick,
+            box_h=tens_h / 2.,
+            fc_axis_h=self.axis_h,
+            fc_axis_d=self.axis_d,
+            fc_axis_w=self.axis_w,
+            ch=1, cd=0, cw=0,
+            xtr_w=1, xtr_nw=1,
+            pos=pos_07)
         # chamfer the edges
-        shp07 = fcfun.shp_filletchamfer_dir (shp=shp07, fc_axis=self.axis_w,
-                                             fillet = 0, radius=tens_h/6)
+        shp07 = fcfun.shp_filletchamfer_dir(shp=shp07, fc_axis=self.axis_w,
+                                            fillet=0, radius=tens_h / 6)
         # /* --------------- step 08 --------------------------- 
         #    A hole for the leadscrew
         #            axis_h             axis_h
@@ -1571,11 +1564,11 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         #  (_______|_______|_______)      |________|/......> axis_d
         #
         pos_08 = self.get_pos_h(3)
-        shp08 = fcfun.shp_cylcenxtr (r = self.bolttens_r_tol,
-                                     h = wall_thick,
-                                     normal = self.axis_d,
-                                     ch = 0, xtr_top=1, xtr_bot=1,
-                                     pos = pos_08)
+        shp08 = fcfun.shp_cylcenxtr(r=self.bolttens_r_tol,
+                                    h=wall_thick,
+                                    normal=self.axis_d,
+                                    ch=0, xtr_top=1, xtr_bot=1,
+                                    pos=pos_08)
 
         #    --------------- step 09 --------------------------- 
         #    09a: Fuse all the elements to cut
@@ -1594,23 +1587,22 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         #
         shp09a = fcfun.fuseshplist([shp06, shp07, shp08])
         shp09b = shp05.cut(shp09a)
-        shp09c = shp09b.fuse(shp02) # fuse with the base
-        shp09c = shp09c.removeSplitter() # refine shape
+        shp09c = shp09b.fuse(shp02)  # fuse with the base
+        shp09c = shp09c.removeSplitter()  # refine shape
 
         # chamfer the union, points A and B:
         # Radius of chamfer
-        chmf_rad = min(self.rim_w/2, self.belt_pos_h - tens_h/2.)
+        chmf_rad = min(self.rim_w / 2, self.belt_pos_h - tens_h / 2.)
         # add the points A,B to the list to have the edges chamfered
-        pts = [self.get_pos_dwh(0,2,1), self.get_pos_dwh(0,-2,1)]
-        shp09d = fcfun.shp_filletchamfer_dirpts (shp=shp09c,
-                                                 fc_axis=self.axis_d,
-                                                 fc_pts=pts,
-                                                 fillet = 0,
-                                                 radius=chmf_rad)
-        shp09d = shp09d.removeSplitter() # refine shape
+        pts = [self.get_pos_dwh(0, 2, 1), self.get_pos_dwh(0, -2, 1)]
+        shp09d = fcfun.shp_filletchamfer_dirpts(shp=shp09c,
+                                                fc_axis=self.axis_d,
+                                                fc_pts=pts,
+                                                fillet=0,
+                                                radius=chmf_rad)
+        shp09d = shp09d.removeSplitter()  # refine shape
 
-
-        #    --------------- step 10 --------------------------- 
+        #    --------------- step 10 ---------------------------
         #    Bolt holes to attach the piece to the aluminum profile
         #                                
         #             axis_h            axis_h
@@ -1637,31 +1629,32 @@ class ShpTensionerHolder (shp_clss.Obj3D):
         #               (hold_w+aluprof_w)/2
 
         shp_bolt_list = []
-        for w_i in [-3,3]:
+        for w_i in [-3, 3]:
             # points A and B
-            pt_i = self.get_pos_dwh(2,w_i,0)
+            pt_i = self.get_pos_dwh(2, w_i, 0)
             shp_i = fcfun.shp_bolt_dir(
-                       r_shank = self.boltaluprof_r_tol,
-                       l_bolt = self.hold_bas_h +2*self.boltaluprof_head_r_tol,
-                       r_head = self.washer_aluprof_r_tol,
-                       # extra head, just in case
-                       l_head = 2*self.boltaluprof_head_l,
-                       xtr_head = 1, xtr_shank = 1,
-                       support = 0,
-                       fc_normal = self.axis_h.negative(),
-                       pos_n = 2, #at the end of the shank
-                       pos = pt_i)
+                r_shank=self.boltaluprof_r_tol,
+                l_bolt=self.hold_bas_h + 2 * self.boltaluprof_head_r_tol,
+                r_head=self.washer_aluprof_r_tol,
+                # extra head, just in case
+                l_head=2 * self.boltaluprof_head_l,
+                xtr_head=1, xtr_shank=1,
+                support=0,
+                fc_normal=self.axis_h.negative(),
+                pos_n=2,  # at the end of the shank
+                pos=pt_i)
             shp_bolt_list.append(shp_i)
         shp10_bolts = fcfun.fuseshplist(shp_bolt_list)
         shp10_final = shp09d.cut(shp10_bolts)
         shp10_final = shp10_final.removeSplitter()
 
         self.shp = shp10_final
- 
-        #Part.show(shp10_final)
 
-#doc = FreeCAD.newDocument()
-#shp_hold = ShpTensionerHolder(
+        # Part.show(shp10_final)
+
+
+# doc = FreeCAD.newDocument()
+# shp_hold = ShpTensionerHolder(
 #                              aluprof_w = 15,
 #                              belt_pos_h = 22.,
 #                              tens_h = 10.,
@@ -1683,66 +1676,66 @@ class ShpTensionerHolder (shp_clss.Obj3D):
 #                              pos_h = 0,
 #                              pos = V0)
 
-class PartTensionerHolder (fc_clss.SinglePart, ShpTensionerHolder):
+class PartTensionerHolder(fc_clss.SinglePart, ShpTensionerHolder):
     """ Integration of a ShpTensionerHolder object into a PartTensionerHolder
     object, so it is a FreeCAD object that can be visualized in FreeCAD
     """
+
     def __init__(self,
                  aluprof_w,
                  belt_pos_h,
                  tens_h,
                  tens_w,
                  tens_d_inside,
-                 wall_thick = 3.,
-                 in_fillet = 1.,
-                 boltaluprof_mtr = 3,
-                 bolttens_mtr = 3,
-                 hold_bas_h = 0,
-                 opt_tens_chmf = 1,
-                 hold_hole_2sides = 1,
-                 min_width = 0,
-                 tol = kcomp.TOL,
-                 axis_d = VX,
-                 axis_w = VY,
-                 axis_h = VZ,
-                 pos_d = 0,
-                 pos_w = 0,
-                 pos_h = 0,
-                 pos = V0,
-                 model_type = 0, #exact
-                 name = ''):
-
+                 wall_thick=3.,
+                 in_fillet=1.,
+                 boltaluprof_mtr=3,
+                 bolttens_mtr=3,
+                 hold_bas_h=0,
+                 opt_tens_chmf=1,
+                 hold_hole_2sides=1,
+                 min_width=0,
+                 tol=kcomp.TOL,
+                 axis_d=VX,
+                 axis_w=VY,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=0,
+                 pos=V0,
+                 model_type=0,  # exact
+                 name=''):
         default_name = 'tensioner_holder'
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
         # First the shape is created
         ShpTensionerHolder.__init__(self,
-                               aluprof_w = aluprof_w,
-                               belt_pos_h = belt_pos_h,
-                               tens_h = tens_h,
-                               tens_w = tens_w,
-                               tens_d_inside = tens_d_inside,
-                               wall_thick = wall_thick,
-                               in_fillet = in_fillet,
-                               boltaluprof_mtr = boltaluprof_mtr,
-                               bolttens_mtr = bolttens_mtr,
-                               hold_bas_h = hold_bas_h,
-                               opt_tens_chmf = opt_tens_chmf,
-                               hold_hole_2sides = hold_hole_2sides,
-                               min_width = min_width,
-                               #tol = tol,
-                               tol = 3.5*tol, #extra tol needed
-                               axis_d = axis_d,
-                               axis_w = axis_w,
-                               axis_h = axis_h,
-                               pos_d = pos_d,
-                               pos_w = pos_w,
-                               pos_h = pos_h,
-                               pos = pos)
+                                    aluprof_w=aluprof_w,
+                                    belt_pos_h=belt_pos_h,
+                                    tens_h=tens_h,
+                                    tens_w=tens_w,
+                                    tens_d_inside=tens_d_inside,
+                                    wall_thick=wall_thick,
+                                    in_fillet=in_fillet,
+                                    boltaluprof_mtr=boltaluprof_mtr,
+                                    bolttens_mtr=bolttens_mtr,
+                                    hold_bas_h=hold_bas_h,
+                                    opt_tens_chmf=opt_tens_chmf,
+                                    hold_hole_2sides=hold_hole_2sides,
+                                    min_width=min_width,
+                                    # tol = tol,
+                                    tol=3.5 * tol,  # extra tol needed
+                                    axis_d=axis_d,
+                                    axis_w=axis_w,
+                                    axis_h=axis_h,
+                                    pos_d=pos_d,
+                                    pos_w=pos_w,
+                                    pos_h=pos_h,
+                                    pos=pos)
         fc_clss.SinglePart.__init__(self)
 
 
-#doc = FreeCAD.newDocument()
-#holder = PartTensionerHolder(
+# doc = FreeCAD.newDocument()
+# holder = PartTensionerHolder(
 #                              aluprof_w = 15,
 #                              belt_pos_h = 22.,
 #                              tens_h = 10.,
@@ -1766,7 +1759,7 @@ class PartTensionerHolder (fc_clss.SinglePart, ShpTensionerHolder):
 #                              name = 'tensioner_holder')
 
 
-class TensionerSet (fc_clss.PartsSet):
+class TensionerSet(fc_clss.PartsSet):
     """ Set composed of the idler pulley and the tensioner
 
                               axis_h            axis_h 
@@ -1942,42 +1935,42 @@ class TensionerSet (fc_clss.PartsSet):
     """
 
     def __init__(self,
-                 aluprof_w = 20.,
-                 belt_pos_h = 20., 
-                 hold_bas_h = 0,
-                 hold_hole_2sides = 0,
-                 boltidler_mtr = 3,
-                 bolttens_mtr = 3,
-                 boltaluprof_mtr = 3,
-                 tens_stroke = 20. ,
-                 wall_thick = 3.,
-                 in_fillet = 2.,
-                 pulley_stroke_dist = 0,
-                 nut_holder_thick = 4. ,
-                 opt_tens_chmf = 1,
-                 min_width = 0,
-                 tol = kcomp.TOL,
-                 axis_d = VX,
-                 axis_w = VY,
-                 axis_h = VZ,
-                 pos_d = 0,
-                 pos_w = 0,
-                 pos_h = 0,
-                 pos = V0,
-                 group = 0,
-                 name = ''):
+                 aluprof_w=20.,
+                 belt_pos_h=20.,
+                 hold_bas_h=0,
+                 hold_hole_2sides=0,
+                 boltidler_mtr=3,
+                 bolttens_mtr=3,
+                 boltaluprof_mtr=3,
+                 tens_stroke=20.,
+                 wall_thick=3.,
+                 in_fillet=2.,
+                 pulley_stroke_dist=0,
+                 nut_holder_thick=4.,
+                 opt_tens_chmf=1,
+                 min_width=0,
+                 tol=kcomp.TOL,
+                 axis_d=VX,
+                 axis_w=VY,
+                 axis_h=VZ,
+                 pos_d=0,
+                 pos_w=0,
+                 pos_h=0,
+                 pos=V0,
+                 group=0,
+                 name=''):
 
         default_name = 'tensioner_set'
-        self.set_name (name, default_name, change = 0)
+        self.set_name(name, default_name, change=0)
 
-        fc_clss.PartsSet.__init__(self, axis_d = axis_d,
-                                  axis_w = axis_w, axis_h = axis_h)
+        fc_clss.PartsSet.__init__(self, axis_d=axis_d,
+                                  axis_w=axis_w, axis_h=axis_h)
 
         # save the arguments as attributes:
         frame = inspect.currentframe()
         args, _, _, values = inspect.getargvalues(frame)
         for i in args:
-            if not hasattr(self,i): # so we keep the attributes by CylHole
+            if not hasattr(self, i):  # so we keep the attributes by CylHole
                 setattr(self, i, values[i])
 
         # pos_w = 0 is at the center, not pos_d, pos_h
@@ -1989,50 +1982,50 @@ class TensionerSet (fc_clss.PartsSet):
         # position from pos, so we put it at pos_d,w,h = 0
 
         idler_tensioner = IdlerTensionerSet(
-                                 boltidler_mtr = boltidler_mtr,
-                                 bolttens_mtr  = bolttens_mtr,
-                                 tens_stroke = tens_stroke,
-                                 wall_thick = wall_thick,
-                                 in_fillet = in_fillet,
-                                 pulley_stroke_dist = pulley_stroke_dist,
-                                 nut_holder_thick = nut_holder_thick ,
-                                 opt_tens_chmf = opt_tens_chmf,
-                                 tol = tol,
-                                 axis_d = self.axis_d,
-                                 axis_w = self.axis_w,
-                                 axis_h = self.axis_h,
-                                 pos_d = 0,
-                                 pos_w = 0,
-                                 pos_h = 0,
-                                 pos = pos)
+            boltidler_mtr=boltidler_mtr,
+            bolttens_mtr=bolttens_mtr,
+            tens_stroke=tens_stroke,
+            wall_thick=wall_thick,
+            in_fillet=in_fillet,
+            pulley_stroke_dist=pulley_stroke_dist,
+            nut_holder_thick=nut_holder_thick,
+            opt_tens_chmf=opt_tens_chmf,
+            tol=tol,
+            axis_d=self.axis_d,
+            axis_w=self.axis_w,
+            axis_h=self.axis_h,
+            pos_d=0,
+            pos_w=0,
+            pos_h=0,
+            pos=pos)
 
         self.append_part(idler_tensioner)
         idler_tensioner.parent = self
 
         # creation of the holder
         tensioner_holder = PartTensionerHolder(
-                               aluprof_w = aluprof_w,
-                               belt_pos_h = belt_pos_h,
-                               tens_h = idler_tensioner.tens_h,
-                               tens_w = idler_tensioner.tens_w,
-                               tens_d_inside = idler_tensioner.tens_d_inside,
-                               wall_thick = wall_thick,
-                               in_fillet = in_fillet,
-                               boltaluprof_mtr = boltaluprof_mtr,
-                               bolttens_mtr = bolttens_mtr,
-                               hold_bas_h = hold_bas_h,
-                               opt_tens_chmf = opt_tens_chmf,
-                               hold_hole_2sides = hold_hole_2sides,
-                               min_width = min_width,
-                               tol = tol,
-                               axis_d = self.axis_d,
-                               axis_w = self.axis_w,
-                               axis_h = self.axis_h,
-                               pos_d = 0,
-                               pos_w = 0,
-                               pos_h = 0,
-                               pos = pos,
-                               model_type = 0) #exact
+            aluprof_w=aluprof_w,
+            belt_pos_h=belt_pos_h,
+            tens_h=idler_tensioner.tens_h,
+            tens_w=idler_tensioner.tens_w,
+            tens_d_inside=idler_tensioner.tens_d_inside,
+            wall_thick=wall_thick,
+            in_fillet=in_fillet,
+            boltaluprof_mtr=boltaluprof_mtr,
+            bolttens_mtr=bolttens_mtr,
+            hold_bas_h=hold_bas_h,
+            opt_tens_chmf=opt_tens_chmf,
+            hold_hole_2sides=hold_hole_2sides,
+            min_width=min_width,
+            tol=tol,
+            axis_d=self.axis_d,
+            axis_w=self.axis_w,
+            axis_h=self.axis_h,
+            pos_d=0,
+            pos_w=0,
+            pos_h=0,
+            pos=pos,
+            model_type=0)  # exact
 
         self.append_part(tensioner_holder)
         idler_tensioner.parent = self
@@ -2055,12 +2048,11 @@ class TensionerSet (fc_clss.PartsSet):
             self.w_o[i] = tensioner_holder.w_o[i]
         for i in tensioner_holder.h_o:
             self.h_o[i] = tensioner_holder.h_o[i]
-                                   
 
         # Now we place the idler tensioner according to pos_d,w,h
         # argument 1 means that pos_o wasn't in place and has to be
         # adjusted
-        self.set_pos_o(adjust = 1)
+        self.set_pos_o(adjust=1)
 
         # Now we have the position where the origin is, but:
         # - we haven't located the idler_tensioner at pos_o
@@ -2071,29 +2063,28 @@ class TensionerSet (fc_clss.PartsSet):
         # so we have to move PartIdlerTensioner self.pos_o - self.pos
         self.set_part_place(tensioner_holder)
 
-        self.set_part_place(idler_tensioner,   self.get_o_to_d(1)
-                                             + self.get_o_to_h(3))
+        self.set_part_place(idler_tensioner, self.get_o_to_d(1)
+                            + self.get_o_to_h(3))
 
         # bolt and washer for the leadscrew
         bolt_length_list = kcomp.D912_L[bolttens_mtr]
 
-        max_tens_bolt_l =  (  idler_tensioner.tens_stroke
-                            + idler_tensioner.nut_holder_tot
-                            + tensioner_holder.wall_thick)
+        max_tens_bolt_l = (idler_tensioner.tens_stroke
+                           + idler_tensioner.nut_holder_tot
+                           + tensioner_holder.wall_thick)
         print('max tens:' + str(max_tens_bolt_l))
         tens_bolt = partset.Din912BoltWashSet(
-                                         metric  = bolttens_mtr,
-                                         shank_l = max_tens_bolt_l,
-                                         # smaller considering the washer
-                                         shank_l_adjust = -2,
-                                         axis_h  = self.axis_d,
-                                         pos_h   = 3,
-                                         pos_d   = 0,
-                                         pos_w   = 0,
-                                         pos     = self.get_pos_dwh(0,0,3))
+            metric=bolttens_mtr,
+            shank_l=max_tens_bolt_l,
+            # smaller considering the washer
+            shank_l_adjust=-2,
+            axis_h=self.axis_d,
+            pos_h=3,
+            pos_d=0,
+            pos_w=0,
+            pos=self.get_pos_dwh(0, 0, 3))
         self.append_part(tens_bolt)
         tens_bolt.parent = self
-
 
         self.place_fcos()
         if group == 1:
@@ -2106,7 +2097,6 @@ class TensionerSet (fc_clss.PartsSet):
             if isinstance(part_i, PartTensionerHolder):
                 return part_i
 
-
     def get_idler_tensioner(self):
         """ gets the idler tensioner set"""
         part_list = self.get_parts()
@@ -2114,7 +2104,7 @@ class TensionerSet (fc_clss.PartsSet):
             if isinstance(part_i, IdlerTensionerSet):
                 return part_i
 
-    def set_pos_tensioner (self, new_tens_out_ratio = None):
+    def set_pos_tensioner(self, new_tens_out_ratio=None):
         """ Sets the tensioner place, depending on the attributes tens_in_ratio
         and tens_stroke
         Parameters:
@@ -2318,7 +2308,7 @@ t_set3.get_tensioner_holder().set_color(fcfun.LSKYBLUE)
 
 """
 
-#t_set30 = TensionerSet(
+# t_set30 = TensionerSet(
 #                     aluprof_w = 30.,
 #                     #belt_pos_h = 32.5, #bottom of belt:30 + 2.5 to center
 #                     #belt_pos_h = 37.5, #bottom of belt:35 + 2.5 to center
@@ -2348,8 +2338,5 @@ t_set3.get_tensioner_holder().set_color(fcfun.LSKYBLUE)
 #                     name = 'tensioner_set')
 #
 ## get the set, and the the part
-#t_set30.get_idler_tensioner().get_idler_tensioner().set_color(fcfun.ORANGE)
-#t_set30.get_tensioner_holder().set_color(fcfun.LSKYBLUE)
-
-
-
+# t_set30.get_idler_tensioner().get_idler_tensioner().set_color(fcfun.ORANGE)
+# t_set30.get_tensioner_holder().set_color(fcfun.LSKYBLUE)

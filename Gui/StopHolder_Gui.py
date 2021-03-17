@@ -1,4 +1,3 @@
-import PySide2
 from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
 import os
 import FreeCAD
@@ -14,8 +13,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _StopHolder_Cmd:
     def Activated(self):
@@ -25,7 +25,7 @@ class _StopHolder_Cmd:
         MenuText = QtCore.QT_TRANSLATE_NOOP(
             'Stop Holder',
             'Stop Holder')
-        ToolTip =QtCore.QT_TRANSLATE_NOOP(
+        ToolTip = QtCore.QT_TRANSLATE_NOOP(
             'Stop Holder',
             'Creates Stop Holder with set parametres')
         return {
@@ -35,6 +35,7 @@ class _StopHolder_Cmd:
 
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None
+
 
 class StopHolder_TaskPanel:
     def __init__(self):
@@ -67,7 +68,6 @@ class StopHolder_TaskPanel:
         self.Thickness_Value = QtWidgets.QDoubleSpinBox()
         self.Thickness_Value.setValue(4)
         self.Thickness_Value.setSuffix("mm")
-
         
         thickness_layout = QtWidgets.QHBoxLayout()
         thickness_layout.addWidget(self.Thickness_Label)
@@ -76,7 +76,7 @@ class StopHolder_TaskPanel:
         # ---- Metric Bolt ----
         self.Bolt_Label = QtWidgets.QLabel("Metric Bolt")
         self.Bolt_ComboBox = QtWidgets.QComboBox()
-        self.TextNutType = ["M3","M4","M5","M6"]
+        self.TextNutType = ["M3", "M4", "M5", "M6"]
         self.Bolt_ComboBox.addItems(self.TextNutType)
         self.Bolt_ComboBox.setCurrentIndex(self.TextNutType.index('M3'))
 
@@ -87,7 +87,7 @@ class StopHolder_TaskPanel:
         # ---- Rail ----
         self.Rail_Label = QtWidgets.QLabel("Rail Size:")
         self.Rail_ComboBox = QtWidgets.QComboBox()
-        self.Rail_ComboBox.addItems(["10mm","20mm","30mm"])
+        self.Rail_ComboBox.addItems(["10mm", "20mm", "30mm"])
         self.Rail_ComboBox.setCurrentIndex(0)
 
         rail_layout = QtWidgets.QHBoxLayout()
@@ -97,7 +97,7 @@ class StopHolder_TaskPanel:
         # ---- Reinforce ----
         self.Reinforce_Label = QtWidgets.QLabel("Reinforce:")
         self.Reinforce_ComboBox = QtWidgets.QComboBox()
-        self.Reinforce_ComboBox.addItems(["No","Yes"])
+        self.Reinforce_ComboBox.addItems(["No", "Yes"])
         self.Reinforce_ComboBox.setCurrentIndex(1)
 
         reinforce_layout = QtWidgets.QHBoxLayout()
@@ -225,6 +225,7 @@ class StopHolder_TaskPanel:
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
 
+
 class StopHolder_Dialog:
     def __init__(self):
         self.placement = True
@@ -235,9 +236,10 @@ class StopHolder_Dialog:
         self.form = [self.StopHolder.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
+
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -255,40 +257,48 @@ class StopHolder_Dialog:
                        1: 20,
                        2: 30}
         Rail = Rail_values[self.StopHolder.Rail_ComboBox.currentIndex()]
-        Reinforce_values = {0: 0, #No
-                            1: 1}#Yes
+        Reinforce_values = {0: 0,  # No
+                            1: 1}  # Yes
         Reinforce = Reinforce_values[self.StopHolder.Reinforce_ComboBox.currentIndex()]
-        pos = FreeCAD.Vector(self.StopHolder.pos_x.value(), self.StopHolder.pos_y.value(), self.StopHolder.pos_z.value())
-        axis_d = FreeCAD.Vector(self.StopHolder.axis_d_x.value(),self.StopHolder.axis_d_y.value(),self.StopHolder.axis_d_z.value())
-        axis_w = FreeCAD.Vector(self.StopHolder.axis_w_x.value(),self.StopHolder.axis_w_y.value(),self.StopHolder.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.StopHolder.axis_h_x.value(),self.StopHolder.axis_h_y.value(),self.StopHolder.axis_h_z.value())
+        pos = FreeCAD.Vector(self.StopHolder.pos_x.value(),
+                             self.StopHolder.pos_y.value(),
+                             self.StopHolder.pos_z.value())
+        axis_d = FreeCAD.Vector(self.StopHolder.axis_d_x.value(),
+                                self.StopHolder.axis_d_y.value(),
+                                self.StopHolder.axis_d_z.value())
+        axis_w = FreeCAD.Vector(self.StopHolder.axis_w_x.value(),
+                                self.StopHolder.axis_w_y.value(),
+                                self.StopHolder.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.StopHolder.axis_h_x.value(),
+                                self.StopHolder.axis_h_y.value(),
+                                self.StopHolder.axis_h_z.value())
         
-        if ortonormal_axis(axis_d,axis_w,axis_h) == True:
-            hallestop_holder(stp_w = Width,
-                                stp_h = Height,
-                                base_thick = Thick,
-                                sup_thick = Thick,
-                                bolt_base_d = Bolt, #metric of the bolt 
-                                bolt_sup_d = Bolt, #metric of the bolt
-                                bolt_sup_sep = 17.,  # fixed value
-                                alu_rail_l = Rail,
-                                stp_rail_l = Rail,
-                                xtr_bolt_head = 3,
-                                xtr_bolt_head_d = 0,
-                                reinforce = Reinforce,
-                                base_min_dist = 1,
-                                fc_perp_ax = axis_h,#VZ,
-                                fc_lin_ax = axis_d, #VX,
-                                pos = pos,
-                                wfco=1,
-                                name = 'stop_holder')
+        if ortonormal_axis(axis_d, axis_w, axis_h) is True:
+            hallestop_holder(stp_w=Width,
+                             stp_h=Height,
+                             base_thick=Thick,
+                             sup_thick=Thick,
+                             bolt_base_d=Bolt,  # metric of the bolt
+                             bolt_sup_d=Bolt,  # metric of the bolt
+                             bolt_sup_sep=17.,  # fixed value
+                             alu_rail_l=Rail,
+                             stp_rail_l=Rail,
+                             xtr_bolt_head=3,
+                             xtr_bolt_head_d=0,
+                             reinforce=Reinforce,
+                             base_min_dist=1,
+                             fc_perp_ax=axis_h,  # VZ,
+                             fc_lin_ax=axis_d,  # VX,
+                             pos=pos,
+                             wfco=1,
+                             name='stop_holder')
 
             FreeCADGui.activeDocument().activeView().viewAxonometric()
             FreeCADGui.SendMsgToActiveView("ViewFit")
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.Control.closeDialog()  # close the dialog
         
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -296,31 +306,39 @@ class StopHolder_Dialog:
                 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-            set_place(self.StopHolder, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.StopHolder,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.StopHolder,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.StopHolder, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('Stop_Holder',_StopHolder_Cmd())
+FreeCADGui.addCommand('Stop_Holder', _StopHolder_Cmd())

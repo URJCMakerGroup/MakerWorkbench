@@ -1,4 +1,3 @@
-import PySide2
 from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
 import os
 import FreeCAD
@@ -15,8 +14,9 @@ __dir__ = os.path.dirname(__file__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-maxnum =  1e10000
+maxnum = 1e10000
 minnum = -1e10000
+
 
 class _ThLed30_Cmd:
     def Activated(self):
@@ -33,8 +33,10 @@ class _ThLed30_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_ThLed30_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None 
+
 
 class ThLed30_TaskPanel:
     def __init__(self):
@@ -142,10 +144,10 @@ class ThLed30_TaskPanel:
         image_layout = QtWidgets.QHBoxLayout()
         image_layout.addWidget(image)
 
-
         main_layout.addLayout(placement_layout)
         main_layout.addLayout(axes_layout)
         main_layout.addLayout(image_layout)
+
 
 class ThLed30_Dialog:
     def __init__(self):
@@ -157,33 +159,39 @@ class ThLed30_Dialog:
         self.form = [self.ThLed30.widget, self.Advance.widget]
     
         # Event to track the mouse 
-        self.track = self.v.addEventCallback("SoEvent",self.position)
+        self.track = self.v.addEventCallback("SoEvent", self.position)
 
     def accept(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
                 FreeCAD.ActiveDocument.removeObject('Point_d_w_h')
 
-        pos = FreeCAD.Vector(self.ThLed30.pos_x.value(), self.ThLed30.pos_y.value(), self.ThLed30.pos_z.value())
-        axis_w = FreeCAD.Vector(self.ThLed30.axis_w_x.value(),self.ThLed30.axis_w_y.value(),self.ThLed30.axis_w_z.value())
-        axis_h = FreeCAD.Vector(self.ThLed30.axis_h_x.value(),self.ThLed30.axis_h_y.value(),self.ThLed30.axis_h_z.value())
+        pos = FreeCAD.Vector(self.ThLed30.pos_x.value(),
+                             self.ThLed30.pos_y.value(),
+                             self.ThLed30.pos_z.value())
+        axis_w = FreeCAD.Vector(self.ThLed30.axis_w_x.value(),
+                                self.ThLed30.axis_w_y.value(),
+                                self.ThLed30.axis_w_z.value())
+        axis_h = FreeCAD.Vector(self.ThLed30.axis_h_x.value(),
+                                self.ThLed30.axis_h_y.value(),
+                                self.ThLed30.axis_h_z.value())
 
-        if fc_isperp(axis_w,axis_h) == 1:
-            ThLed30(fc_axis = axis_w,#VY,
-                                fc_axis_cable = axis_h,#VZN,
-                                pos = pos,
-                                name = 'thled30')
+        if fc_isperp(axis_w, axis_h) == 1:
+            ThLed30(fc_axis=axis_w,  # VY,
+                    fc_axis_cable=axis_h,  # VZN,
+                    pos=pos,
+                    name='thled30')
 
             FreeCADGui.activeDocument().activeView().viewAxonometric()
-            FreeCADGui.Control.closeDialog() #close the dialog
+            FreeCADGui.Control.closeDialog()  # close the dialog
             FreeCADGui.SendMsgToActiveView("ViewFit")
         else:
             axis_message()
 
     def reject(self):
-        self.v.removeEventCallback("SoEvent",self.track)
+        self.v.removeEventCallback("SoEvent", self.track)
 
         for obj in FreeCAD.ActiveDocument.Objects:
             if 'Point_d_w_h' == obj.Name:
@@ -191,31 +199,39 @@ class ThLed30_Dialog:
 
         FreeCADGui.Control.closeDialog()
         
-    def position(self,info):
+    def position(self, info):
         pos = info["Position"]
         try: 
             down = info["State"]
-            if down == "DOWN" and self.placement==True:
-                self.placement=False
-            elif down == "DOWN"and self.placement==False:
-                self.placement=True
-            else:pass
-        except Exception: None
+            if down == "DOWN" and self.placement is True:
+                self.placement = False
+            elif down == "DOWN" and self.placement is False:
+                self.placement = True
+            else:
+                pass
+        except Exception:
+            None
         
-        if self.placement == True:
-                        set_place(self.ThLed30, round(self.v.getPoint(pos)[0],3), round(self.v.getPoint(pos)[1],3), round(self.v.getPoint(pos)[2],3))
-        else: pass
+        if self.placement is True:
+            set_place(self.ThLed30,
+                      round(self.v.getPoint(pos)[0], 3),
+                      round(self.v.getPoint(pos)[1], 3),
+                      round(self.v.getPoint(pos)[2], 3))
+        else:
+            pass
 
         if FreeCAD.Gui.Selection.hasSelection():
             self.placement = False
             try:
                 obj = FreeCADGui.Selection.getSelectionEx()[0].SubObjects[0]
-                if hasattr(obj,"Point"): # Is a Vertex
+                if hasattr(obj, "Point"):  # Is a Vertex
                     pos = obj.Point
-                else: # Is an Edge or Face
+                else:  # Is an Edge or Face
                     pos = obj.CenterOfMass
-                set_place(self.ThLed30,pos.x,pos.y,pos.z)
-            except Exception: None
+                set_place(self.ThLed30, pos.x, pos.y, pos.z)
+            except Exception:
+                None
+
 
 # Command
-FreeCADGui.addCommand('ThLed30',_ThLed30_Cmd())
+FreeCADGui.addCommand('ThLed30', _ThLed30_Cmd())

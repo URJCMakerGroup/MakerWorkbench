@@ -1,4 +1,3 @@
-import PySide2
 from PySide2 import QtCore, QtGui, QtWidgets
 
 import os
@@ -10,6 +9,7 @@ __dir__ = os.path.dirname(__file__)
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
 
 class _New_Point_Cmd:
     """
@@ -29,8 +29,10 @@ class _New_Point_Cmd:
             'Pixmap': __dir__ + '/../Resources/icons/MakerWorkbench_New_Point_Cmd.svg',
             'MenuText': MenuText,
             'ToolTip': ToolTip}
+
     def IsActive(self):
-        return not FreeCAD.ActiveDocument is None 
+        return not FreeCAD.ActiveDocument is None
+
 
 class New_Point_Dialog:
     def __init__(self):
@@ -41,6 +43,7 @@ class New_Point_Dialog:
 
     def accept(self): 
         pass
+
 
 class Set_object_TaskPanel:
     def __init__(self):
@@ -59,7 +62,7 @@ class Set_object_TaskPanel:
         obj_layout.addWidget(obj_label)
         obj_layout.addWidget(self.obj_combo)
 
-        for obj in FreeCAD.ActiveDocument.Objects: # Save the objects name
+        for obj in FreeCAD.ActiveDocument.Objects:  # Save the objects name
             self.obj_list.append(obj)
             self.obj_combo.addItem(obj.Name)
         if len(self.obj_list) == 0:
@@ -67,6 +70,7 @@ class Set_object_TaskPanel:
             self.obj_combo.addItem('')
 
         main_layout.addLayout(obj_layout)
+
 
 class Set_axis_TaskPanel:
     def __init__(self, Object):
@@ -86,28 +90,28 @@ class Set_axis_TaskPanel:
         main2_layout.addLayout(values_layout)
 
         # axis_layout
-        ## none
+        # none
         axis_n_layout = QtWidgets.QHBoxLayout()
         axis_n_label = QtWidgets.QLabel()
         axis_n_label.setText(" ")
 
         axis_n_layout.addWidget(axis_n_label)
 
-        ## axis d
+        # axis d
         axis_d_layout = QtWidgets.QHBoxLayout()
         axis_d_label = QtWidgets.QLabel()
         axis_d_label.setText("axis d")
 
         axis_d_layout.addWidget(axis_d_label)
         
-        ## axis w
+        # axis w
         axis_w_layout = QtWidgets.QHBoxLayout()
         axis_w_label = QtWidgets.QLabel()
         axis_w_label.setText("axis w")
 
         axis_w_layout.addWidget(axis_w_label)
         
-        ## axis h
+        # axis h
         axis_h_layout = QtWidgets.QHBoxLayout()
         axis_h_label = QtWidgets.QLabel()
         axis_h_label.setText("axis h")
@@ -122,7 +126,7 @@ class Set_axis_TaskPanel:
         # values_layout
         points_layout = QtWidgets.QHBoxLayout()
         values_layout.addLayout(points_layout)
-        ## x
+        # x
         points_x_layout = QtWidgets.QVBoxLayout()
         point_x_label = QtWidgets.QLabel()
         point_x_label.setText("x")
@@ -145,7 +149,7 @@ class Set_axis_TaskPanel:
         points_x_layout.addWidget(self.w_x)
         points_x_layout.addWidget(self.h_x)
 
-        ## y
+        # y
         points_y_layout = QtWidgets.QVBoxLayout()
         point_y_label = QtWidgets.QLabel()
         point_y_label.setText("y")
@@ -168,7 +172,7 @@ class Set_axis_TaskPanel:
         points_y_layout.addWidget(self.w_y)
         points_y_layout.addWidget(self.h_y)
 
-        ## z
+        # z
         points_z_layout = QtWidgets.QVBoxLayout()
         point_z_label = QtWidgets.QLabel()
         point_z_label.setText("z")
@@ -205,7 +209,7 @@ class Set_axis_TaskPanel:
         btn_new_axes.clicked.connect(self.new_axes) 
 
         obj = self.Object.obj_list[self.Object.obj_combo.currentIndex()]
-        if hasattr(obj,'axis_d'):
+        if hasattr(obj, 'axis_d'):
             self.d_x.setValue(obj.axis_d.x)
             self.d_y.setValue(obj.axis_d.y)
             self.d_z.setValue(obj.axis_d.z)
@@ -213,7 +217,7 @@ class Set_axis_TaskPanel:
             self.d_x.setValue(0)
             self.d_y.setValue(0)
             self.d_z.setValue(0)
-        if hasattr(obj,'axis_w'):
+        if hasattr(obj, 'axis_w'):
             self.w_x.setValue(obj.axis_w.x)
             self.w_y.setValue(obj.axis_w.y)
             self.w_z.setValue(obj.axis_w.z)
@@ -221,7 +225,7 @@ class Set_axis_TaskPanel:
             self.w_x.setValue(0)
             self.w_y.setValue(0)
             self.w_z.setValue(0)
-        if hasattr(obj,'axis_h'):
+        if hasattr(obj, 'axis_h'):
             self.h_x.setValue(obj.axis_h.x)
             self.h_y.setValue(obj.axis_h.y)
             self.h_z.setValue(obj.axis_h.z)
@@ -234,7 +238,7 @@ class Set_axis_TaskPanel:
         
     def change_axis(self):
         obj = self.Object.obj_list[self.Object.obj_combo.currentIndex()]
-        if hasattr(obj,'axis_d'):
+        if hasattr(obj, 'axis_d'):
             self.d_x.setValue(obj.axis_d.x)
             self.d_y.setValue(obj.axis_d.y)
             self.d_z.setValue(obj.axis_d.z)
@@ -242,7 +246,7 @@ class Set_axis_TaskPanel:
             self.d_x.setValue(0)
             self.d_y.setValue(0)
             self.d_z.setValue(0)
-        if hasattr(obj,'axis_w'):
+        if hasattr(obj, 'axis_w'):
             self.w_x.setValue(obj.axis_w.x)
             self.w_y.setValue(obj.axis_w.y)
             self.w_z.setValue(obj.axis_w.z)
@@ -250,7 +254,7 @@ class Set_axis_TaskPanel:
             self.w_x.setValue(0)
             self.w_y.setValue(0)
             self.w_z.setValue(0)
-        if hasattr(obj,'axis_h'):
+        if hasattr(obj, 'axis_h'):
             self.h_x.setValue(obj.axis_h.x)
             self.h_y.setValue(obj.axis_h.y)
             self.h_z.setValue(obj.axis_h.z)
@@ -260,29 +264,30 @@ class Set_axis_TaskPanel:
             self.h_z.setValue(0)
 
     def new_axes(self):
-        if int(FreeCAD.Version()[1])>=19.:  
+        if int(FreeCAD.Version()[1]) >= 19.:
             # logger.warning('FreeCAD 19 or newer')
             obj = self.Object.obj_list[self.Object.obj_combo.currentIndex()]
 
-            axis_d = FreeCAD.Vector(self.d_x.value(),self.d_y.value(),self.d_z.value())
-            axis_w = FreeCAD.Vector(self.w_x.value(),self.w_y.value(),self.w_z.value())
-            axis_h = FreeCAD.Vector(self.h_x.value(),self.h_y.value(),self.h_z.value())
+            axis_d = FreeCAD.Vector(self.d_x.value(), self.d_y.value(), self.d_z.value())
+            axis_w = FreeCAD.Vector(self.w_x.value(), self.w_y.value(), self.w_z.value())
+            axis_h = FreeCAD.Vector(self.h_x.value(), self.h_y.value(), self.h_z.value())
             if 'axis_d' in obj.PropertiesList:
                 obj.axis_d = axis_d
             else:
-                obj.addProperty("App::PropertyVector","axis_d",obj.Name,"Internal axis d",4).axis_d = axis_d
+                obj.addProperty("App::PropertyVector", "axis_d", obj.Name, "Internal axis d", 4).axis_d = axis_d
             
             if 'axis_w' in obj.PropertiesList:
                 obj.axis_w = axis_w
             else:
-                obj.addProperty("App::PropertyVector","axis_w",obj.Name,"Internal axis w",4).axis_w = axis_w
+                obj.addProperty("App::PropertyVector", "axis_w", obj.Name, "Internal axis w", 4).axis_w = axis_w
             
             if 'axis_h' in obj.PropertiesList:
                 obj.axis_h = axis_h
             else:
-                obj.addProperty("App::PropertyVector","axis_h",obj.Name,"Internal axis h",4).axis_h = axis_h
+                obj.addProperty("App::PropertyVector", "axis_h", obj.Name, "Internal axis h", 4).axis_h = axis_h
         else:
             logger.warning('FreeCAD version need to be 19 or newer to use this utility')
+
 
 class Set_points_TaskPanel:
     def __init__(self, Object, Axis):
@@ -298,7 +303,7 @@ class Set_points_TaskPanel:
         axis_label = QtWidgets.QLabel()
         axis_label.setText("Select axis")
         self.axis_combo = QtWidgets.QComboBox()
-        self.axis_combo.addItems(["d","w","h"]) #add the axis (d,w,h)
+        self.axis_combo.addItems(["d", "w", "h"])  # add the axis (d,w,h)
 
         axis_layout.addWidget(axis_label)
         axis_layout.addWidget(self.axis_combo)
@@ -325,7 +330,7 @@ class Set_points_TaskPanel:
         btn_new_point.clicked.connect(self.new_point) 
 
     def new_point(self):
-        if int(FreeCAD.Version()[1])>=19.:  
+        if int(FreeCAD.Version()[1]) >= 19.:
             # logger.warning('FreeCAD 19 or newer')
             obj = self.Object.obj_list[self.Object.obj_combo.currentIndex()]
             axis = self.axis_combo.currentText()
@@ -338,7 +343,7 @@ class Set_points_TaskPanel:
                         base.append(vec)
                         obj.d_o = base
                     else:
-                        obj.addProperty("App::PropertyVectorList","d_o",obj.Name,"Points o to d",4).d_o = [vec]
+                        obj.addProperty("App::PropertyVectorList", "d_o", obj.Name, "Points o to d", 4).d_o = [vec]
                 else:
                     # mensaje de error para que el usuario fije unos ejes
                     self.message()
@@ -350,7 +355,7 @@ class Set_points_TaskPanel:
                         base.append(vec)
                         obj.w_o = base
                     else:
-                        obj.addProperty("App::PropertyVectorList","w_o",obj.Name,"Points o to w",4).w_o = [vec]
+                        obj.addProperty("App::PropertyVectorList", "w_o", obj.Name, "Points o to w", 4).w_o = [vec]
                 else:
                     # mensaje de error para que el usuario fije unos ejes
                     self.message()
@@ -362,7 +367,7 @@ class Set_points_TaskPanel:
                         base.append(vec)
                         obj.h_o = base
                     else:
-                        obj.addProperty("App::PropertyVectorList","h_o",obj.Name,"Points o to h",4).h_o = [vec]
+                        obj.addProperty("App::PropertyVectorList", "h_o", obj.Name, "Points o to h", 4).h_o = [vec]
                 else:
                     # mensaje de error para que el usuario fije unos ejes
                     self.message()
@@ -378,5 +383,7 @@ class Set_points_TaskPanel:
         message.setStandardButtons(QtWidgets.QMessageBox.Ok)
         message.setDefaultButton(QtWidgets.QMessageBox.Ok)
         message.exec_()
+
+
 # Command
 FreeCADGui.addCommand('New_Internal_Point', _New_Point_Cmd())
