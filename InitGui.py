@@ -27,7 +27,7 @@
 class MakerWorkbench (Workbench):
     """Maker Wokbench to create objects"""
     #  Icon in XPM 16x16
-    Icon = "/Resources/icons/Maker_workbench_icon.svg"
+    Icon = "./Resources/icons/Maker_workbench_icon.svg"
     
     # """
     # /* XPM */
