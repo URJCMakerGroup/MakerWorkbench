@@ -23,12 +23,18 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************/
+import os
+
 
 class MakerWorkbench (Workbench):
-    """Maker Wokbench to create objects"""
+    """Maker Workbench to create objects"""
+
+    import MakerLocator as locator
+
     #  Icon in XPM 16x16
-    Icon = "/Resources/icons/Maker_workbench_icon.svg"
-    
+    icon_path = os.path.join(locator.path(), "Resources", "icons")
+    Icon = os.path.join(icon_path, "Maker_workbench_icon.svg")
+
     # """
     # /* XPM */
     # static char * Filter_Stage_xpm[] = {
@@ -119,7 +125,7 @@ class MakerWorkbench (Workbench):
         # |                               |
         # |   List of optic models        |
         # |                               |
-        # +-------------------------------+    
+        # +-------------------------------+
 
         opticList = ["TubeLense",
                      "LCB1M_Base",
@@ -178,9 +184,9 @@ class MakerWorkbench (Workbench):
             str(QtCore.QT_TRANSLATE_NOOP("Maker", "Systems")), sysList)
         self.appendMenu(
             str(QtCore.QT_TRANSLATE_NOOP("Maker", "Functions")), modList)
-        
+
         Log('Loalding Maker Workbench... done! \n')
-    
+
     def GetClassName(self):
         return "Gui::PythonWorkbench"
 
