@@ -300,7 +300,7 @@ class Gt2BeltClamp (object):
         # fuse the holes
         gt2_clamp_holes = doc.addObject("Part::MultiFuse", name + "_clamp_hole")
         gt2_clamp_holes.Shapes = gt2_base_holes_l
-        # Substract the holes 
+        # Subtract the holes 
         gt2_clamp = doc.addObject("Part::Cut", name)
         gt2_clamp.Base = gt2_clamp_basic
         gt2_clamp.Tool = gt2_clamp_holes
@@ -519,7 +519,7 @@ class BeltClamp (object):
         * if 1: With FreeCad Object: a freecad object is created
         * if 0: only the shape
     intol : float
-        Internal extra tolerance to the dimension CB_IW, substracting
+        Internal extra tolerance to the dimension CB_IW, subtracting
         to CB_W. If negative, makes CB_IW smaller.
     name : str
         Name of the freecad object, if created
@@ -1346,7 +1346,7 @@ class DoubleBeltClamp (shp_clss.Obj3D):
         * if 1: With FreeCad Object: a freecad object is created
         * if 0: only the shape
     intol : float
-        Internal extra tolerance to the dimension CB_IW, substracting
+        Internal extra tolerance to the dimension CB_IW, subtracting
         to CB_W. If negative, makes CB_IW smaller.
     name : str
         Name of the freecad object, if created

@@ -476,11 +476,11 @@ class CageCubeHalf (object):
         # axis_2
         v_halfout = DraftVecUtils.neg(self.v_1 + self.v_2)
         v_halfout.normalize()
-        # Making the cut with a cylinder, because it is easier, since the 
+        # Making the cut with a cylinder, because it is easier, since the
         # function is already available
         # radius is smaller: pythagoras, but to make it simpler
         # the position is not just the half, about a centimeter less, but
-        # just thake the thru_hole_depth
+        # just take the thru_hole_depth
         pos_halfout = DraftVecUtils.scaleTo(v_halfout, thru_hole_depth)
         shp_halfout = fcfun.shp_cyl(r=side_l, h=side_l,
                                     normal=v_halfout,

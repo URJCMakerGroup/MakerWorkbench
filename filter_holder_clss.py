@@ -420,7 +420,7 @@ class ShpFilterHolder(shp_clss.Obj3D):
 
         # The hole under the filter to let the light go through
         # and big enough to hold the filter
-        # we could take filter_hole dimensions or filter dimensiones
+        # we could take filter_hole dimensions or filter dimensions
         # just the tolerance difference
         self.filt_supp_d = self.filt_hole_d - 2 * filt_supp_in
         self.filt_supp_w = self.filt_hole_w - 2 * filt_supp_in

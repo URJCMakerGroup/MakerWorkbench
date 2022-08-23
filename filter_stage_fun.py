@@ -244,7 +244,7 @@ def filter_stage_fun(move_l, Filter_Length, Filter_Width, nut_hole, tens_stroke_
                                )
 
     # rail
-    # the rail will be in the direcion of:
+    # the rail will be in the direction of:
     #   axis_up: defined by partLinGuideBlock
     #   axis_front: defined by partLinGuideBlock
     #   axis_mov: NOT defined by partLinGuideBlock, because it moves along

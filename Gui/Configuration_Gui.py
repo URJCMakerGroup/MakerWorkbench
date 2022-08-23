@@ -116,8 +116,8 @@ class Window(QtWidgets.QDialog):
         # to layout
         check_layout.addWidget(self.auto_checkbox)
 
-        # anotation"Auto update
-        annotation_label_1 = QtWidgets.QLabel("* The tolerance value will change the followings values: small tolerance,")
+        # annotation"Auto update
+        annotation_label_1 = QtWidgets.QLabel("* The tolerance value will change the following values: small tolerance,")
         annotation_label_2 = QtWidgets.QLabel("metric tolerance, metric lower tolerance. If you don't want to update all,")
         annotation_label_3 = QtWidgets.QLabel("please, uncheck the Auto update box.")
 
