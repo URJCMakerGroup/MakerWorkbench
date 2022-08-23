@@ -1,6 +1,6 @@
 ## FreeCAD Maker Workbench
 
-This FreeCAD [external workbench](https://wiki.freecadweb.org/External_Workbench) is composed of: 
+This FreeCAD [external workbench](https://wiki.freecad.org/External_Workbench) is composed of: 
 * a mechatronic components system
 * an optic components system
 
@@ -33,41 +33,44 @@ You can see all the models on the [readthedocs](https://mechatronic.readthedocs.
 
 ### Automatic (recommended)
 
-Install using the builtin FreeCAD Addon Manager.  
+Install using the builtin FreeCAD [Addon Manager](https://wiki.freecad.org/AddonManager).  
 In FreeCAD, go to the `Tools -> Addon manager` dropdown menu and search for **Maker Workbench**  
 
-### Manual 
+### Manual
+
+<details>
+<summary>Expand this section on how to install this workbench manually</summary>
 
 - Identify the location of your personal FreeCAD folder 
     - On Linux it is usually `/home/username/.FreeCAD/Mod/`
     - On Windows it is `%APPDATA%\FreeCAD\Mod\` which is usually `C:\Users\username\Appdata\Roaming\FreeCAD\Mod\`
     - On macOS it is usually `/Users/username/Library/Preferences/FreeCAD/Mod/`
 
-##### git
+##### `git`
 
 * `cd .FreeCAD/Mod` (create the `Mod/` folder if it doesn't exist)
 * `git clone https://github.com/URJCMakerGroup/MakerWorkbench`
 * Start FreeCAD
 
-"MakerWorkbench" workbench should now show up in the workbench dropdown list.
+"MakerWorkbench" workbench should now show up in the [workbench dropdown list](https://wiki.freecad.org/Std_Workbench).
 
 ##### zip file
 
 * Download Maker Workbench from the following [file](https://codeload.github.com/URJCMakerGroup/MakerWorkbench/zip/master).
 * Extract the `MakerWorkbench-master` folder from the `MakerWorkbench.zip` and rename to `Maker` 
 * Put this folder in the `Mod/` folder inside the `FreeCAD` installation folder mentioned above.
-* Start FreeCAD
 
-"MakerWorkbench" workbench should now show up in the workbench dropdown list.
+</details>
+
+After install, restart FreeCAD. "MakerWorkbench" should now show up in the [workbench dropdown list](https://wiki.freecad.org/Std_Workbench).
 
 ## Documentation
 
-All the information from the proyect is in the [page](https://makerworkbench.readthedocs.io/en/stable/)
+All the information from the project is in the [readthedocs](https://makerworkbench.readthedocs.io/en/stable/) page.
 
 ## Source Code
 
-The source code of this workbench is available in the official MakerWorkbench repository: 
-https://github.com/URJCMakerGroup/MakerWorkbench
+The source code of this workbench is available in the official MakerWorkbench repository: https://github.com/URJCMakerGroup/MakerWorkbench
 
 ## Feedback
 
