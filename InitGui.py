@@ -24,10 +24,13 @@
 # *                                                                         *
 # ***************************************************************************/
 
+import os
+
 class MakerWorkbench (Workbench):
-    """Maker Wokbench to create objects"""
+    """Maker Wokbench to create objects"""          
+    import fcfun
     #  Icon in XPM 16x16
-    Icon = "/Resources/icons/Maker_workbench_icon.svg"
+    Icon = fcfun.pathOfModule() + "/Resources/icons/Maker_workbench_icon.svg"
     
     # """
     # /* XPM */

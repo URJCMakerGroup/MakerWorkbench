@@ -100,6 +100,8 @@ COS30 = 0.86603
 COS45 = 0.707   
 
 
+def pathOfModule():
+    return os.path.dirname(__file__)
 
 def rotateview(axisX=1.0,axisY=0.0,axisZ=0.0,angle=45.0):
     """Rotate the camara"""
