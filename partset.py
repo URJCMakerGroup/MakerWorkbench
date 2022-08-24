@@ -851,8 +851,8 @@ class NemaMotorPulleySet(fc_clss.PartsSet):
     pulley_base_d: float
         Base diameter
     pulley_tol: float
-        Tolerance for radius (it will substracted to the radius)
-        twice for the diameter. Or added if a shape to substract
+        Tolerance for radius (it will subtracted to the radius)
+        twice for the diameter. Or added if a shape to subtract
     pulley_pos_h : float
         position in mm of the pulley along the shaft
 

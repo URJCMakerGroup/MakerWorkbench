@@ -178,7 +178,7 @@ class Sk(object):
                                                      FreeCAD.Rotation(VY, 90),
                                                      V0)
 
-            # the upper sepparation
+            # the upper separation
             up_sep = addBox(sk_d + 2,
                             self.up_sep_dist,
                             sk_z - skdict['h'] + 1,
@@ -506,7 +506,7 @@ class Sk_dir(object):
                                        pos=rodcen_pos)
         holes.append(rod_hole)
 
-        # the upper sepparation
+        # the upper separation
         shp_topopen = fcfun.shp_box_dir_xtr(box_w=self.up_sep_dist,
                                             box_d=sk_d,
                                             box_h=sk_h - sk_axis_h,
@@ -4407,8 +4407,8 @@ class ShpGtPulley(shp_clss.Obj3D):
     shaft_d: float
         Shaft diameter
     tol: float
-        Tolerance for radius (it will substracted to the radius)
-        twice for the diameter. Or added if a shape to substract
+        Tolerance for radius (it will subtracted to the radius)
+        twice for the diameter. Or added if a shape to subtract
     axis_h: FreeCAD.Vector
         Height vector of coordinate system (this is required)
     axis_d: FreeCAD.Vector

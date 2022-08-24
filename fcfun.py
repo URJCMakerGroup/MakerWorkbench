@@ -140,7 +140,7 @@ def fc_isperp (fc1, fc2):
     Parameters
     ----------
     fc1 : FreeCAD.Vector
-        Firs vector
+        First vector
     fc2 : FreeCAD.Vector
         Second vector
     
@@ -169,7 +169,7 @@ def fc_isparal (fc1, fc2):
     Parameters
     ----------
     fc1 : FreeCAD.Vector
-        Firs vector
+        First vector
     fc2 : FreeCAD.Vector
         Second vector
     
@@ -203,7 +203,7 @@ def fc_isparal_nrm (fc1, fc2):
     Parameters
     ----------
     fc1 : FreeCAD.Vector
-        Firs vector
+        First vector
     fc2 : FreeCAD.Vector
         Second vector
     
@@ -2427,14 +2427,14 @@ def shp_cyl_gen (r, h, axis_h = VZ,
     pos_ra : int
         Location of pos along axis_ra (0, 1)
 
-            * 0: pos is at the circunference center
+            * 0: pos is at the circumference center
             * 1: pos is at the circunsference, on axis_ra, at r from the circle center
               (not at r + xtr_r)
 
     pos_rb : int
         Location of pos along axis_rb (0, 1)
 
-            * 0: pos is at the circunference center
+            * 0: pos is at the circumference center
             * 1: pos is at the circunsference, on axis_rb, at r from the circle center
               (not at r + xtr_r)
 
@@ -2852,7 +2852,7 @@ def shp_cylhole_gen (r_out, r_in, h,
     pos_ra : int
         Location of pos along axis_ra (0, 1)
 
-            * 0: pos is at the circunference center
+            * 0: pos is at the circumference center
             * 1: pos is at the inner circunsference, on axis_ra, at r_in from the
               circle center (not at r_in + xtr_r_in)
             * 2: pos is at the outer circunsference, on axis_ra, at r_out from the
@@ -2861,7 +2861,7 @@ def shp_cylhole_gen (r_out, r_in, h,
     pos_rb : int
         Location of pos along axis_ra (0, 1)
 
-            * 0: pos is at the circunference center
+            * 0: pos is at the circumference center
             * 1: pos is at the inner circunsference, on axis_rb, at r_in from the
               circle center (not at r_in + xtr_r_in)
             * 2: pos is at the outer circunsference, on axis_rb, at r_out from the
@@ -3051,7 +3051,7 @@ def shp_cylhole_arc (r_out, r_in, h,
     pos_ra : int
         Location of pos along axis_ra (0, 1)
 
-            * 0: pos is at the circunference center
+            * 0: pos is at the circumference center
             * 1: pos is at the inner circunsference, on axis_ra, at r_in from the
               circle center (not at r_in + xtr_r_in)
             * 2: pos is at the outer circunsference, on axis_ra, at r_out from the
@@ -3060,7 +3060,7 @@ def shp_cylhole_arc (r_out, r_in, h,
     pos_rb : int
         Location of pos along axis_ra (0, 1)
 
-            * 0: pos is at the circunference center
+            * 0: pos is at the circumference center
             * 1: pos is at the inner circunsference, on axis_rb, at r_in from the
               circle center (not at r_in + xtr_r_in)
             * 2: pos is at the outer circunsference, on axis_rb, at r_out from the
@@ -3604,9 +3604,9 @@ def shp_stadium_wire_dir (length, radius, fc_axis_l = VX,
     radius : float
         Radius of the semicircles
     fc_axis_l : FreeCAD.Vector
-        Vector on the direction of the paralles
+        Vector on the direction of the parallels
     fc_axis_s : FreeCAD.Vector
-        Vector on the direction perpendicular to the paralles
+        Vector on the direction perpendicular to the parallels
     ref_l : int
         Reference (zero) of the fc_axis_l
 
@@ -4057,7 +4057,7 @@ def shp_belt_wire_dir (center_sep, rad1, rad2, fc_axis_l = VX,
     center_sep : float
         Separation of the circle centers
     rad1 : float
-        Radius of the firs circle, on the opposite direction of fc_axis_l
+        Radius of the first circle, on the opposite direction of fc_axis_l
     fc_axis_l : FreeCAD.Vector
         Vector on the direction circle centers, pointing to rad2
     fc_axis_s : FreeCAD.Vector
@@ -4730,7 +4730,7 @@ def wire_cableturn (d, w, corner_r,
 
     """
     Creates a electrical wire turn, in any direction
-    But it is a wire in FreeCAD, has no volumen
+    But it is a wire in FreeCAD, has no volume
     ::
 
            axis_d
@@ -5190,7 +5190,7 @@ def wire_beltclamp (d, w, corner_r,
 
     """
     Creates a wire following 2 pulleys and ending in a belt clamp
-    But it is a wire in FreeCAD, has no volumen
+    But it is a wire in FreeCAD, has no volume
     ::
 
       axis_w
@@ -6002,7 +6002,7 @@ def shp_cylhole_bolthole (r_out, r_in, h,
     pos_ra : int
         Location of pos along axis_ra (0, 1)
 
-            * 0: pos is at the circunference center
+            * 0: pos is at the circumference center
             * 1: pos is at the inner circunsference, on axis_ra, at r_in from the
               circle center (not at r_in + xtr_r_in)
             * 2: pos is at the center of the bolt hole (one of them)
@@ -6012,7 +6012,7 @@ def shp_cylhole_bolthole (r_out, r_in, h,
     pos_rb : int
         Location of pos along axis_ra (0, 1)
 
-            * 0: pos is at the circunference center
+            * 0: pos is at the circumference center
             * 1: pos is at the inner circunsference, on axis_rb, at r_in from the
               circle center (not at r_in + xtr_r_in)
             * 2: pos is at the center of the bolt hole (one of them)
@@ -7896,7 +7896,7 @@ def get_bolt_end_sep (bolt_d, hasnut, sep=2.):
 #                   ..+..  :      :
 #         ______    :   :__:______:_
 #        |      |_  :  _|      .* : 
-#        |        | : |     .*    : this is the bearing section (circunference)
+#        |        | : |     .*    : this is the bearing section (circumference)
 #        |        | : |    (      :
 #        |       _| : |_   : *.   :
 #        |______|   :   |__:____*_:
@@ -7926,7 +7926,7 @@ def get_bolt_bearing_sep (bolt_d, hasnut, lbearing_r, bsep=0):
                   ..+..  :      :
         ______    :   :__:______:_
        |      |_  :  _|      .* : 
-       |        | : |     .*    : this is the bearing section (circunference)
+       |        | : |     .*    : this is the bearing section (circumference)
        |        | : |    (      :
        |       _| : |_   : *.   :
        |______|   :   |__:____*_:
@@ -8069,7 +8069,7 @@ def shp_filletchamfer_dir (shp, fc_axis = VZ,  fillet = 1, radius=1):
         if len(edge.Vertexes) == 2:
             p0 = edge.Vertexes[0].Point
             p1 = edge.Vertexes[1].Point
-            v_vertex = p1.sub(p0)  #substraction
+            v_vertex = p1.sub(p0)  #subtraction
             # I could calculate the angle, but I think it will take more
             # time than normalizing and checking if they are the same
             v_vertex.normalize()
@@ -8138,7 +8138,7 @@ def shp_filletchamfer_dirs (shp, fc_axis_l, fillet = 1, radius=1):
         if len(edge.Vertexes) == 2:
             p0 = edge.Vertexes[0].Point
             p1 = edge.Vertexes[1].Point
-            v_vertex = p1.sub(p0)  #substraction
+            v_vertex = p1.sub(p0)  #subtraction
             # I could calculate the angle, but I think it will take more
             # time than normalizing and checking if they are the same
             v_vertex.normalize()
@@ -8206,7 +8206,7 @@ def shp_filletchamfer_dirpt (shp, fc_axis = VZ, fc_pt = V0,  fillet = 1,
         if len(edge.Vertexes) == 2:
             p0 = edge.Vertexes[0].Point
             p1 = edge.Vertexes[1].Point
-            v_vertex = p1.sub(p0)  #substraction
+            v_vertex = p1.sub(p0)  #subtraction
             # I could calculate the angle, but I think it will take more
             # time than normalizing and checking if they are the same
             v_vertex.normalize()
@@ -8282,7 +8282,7 @@ def shp_filletchamfer_dirpts (shp, fc_axis, fc_pts,  fillet = 1,
         if len(edge.Vertexes) == 2:
             p0 = edge.Vertexes[0].Point
             p1 = edge.Vertexes[1].Point
-            v_vertex = p1.sub(p0)  #substraction
+            v_vertex = p1.sub(p0)  #subtraction
             # I could calculate the angle, but I think it will take more
             # time than normalizing and checking if they are the same
             v_vertex.normalize()

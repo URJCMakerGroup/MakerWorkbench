@@ -378,8 +378,8 @@ class PartGtPulley(Obj3D):
     shaft_d: float
         Shaft diameter
     tol: float
-        Tolerance for radius (it will substracted to the radius)
-        twice for the diameter. Or added if a shape to substract
+        Tolerance for radius (it will subtracted to the radius)
+        twice for the diameter. Or added if a shape to subtract
     axis_h: FreeCAD.Vector
         Height vector of coordinate system (this is required)
     axis_d: FreeCAD.Vector
@@ -794,8 +794,8 @@ class NemaMotorPulleySet(Obj3D):
     pulley_base_d: float
         Base diameter
     pulley_tol: float
-        Tolerance for radius (it will substracted to the radius)
-        twice for the diameter. Or added if a shape to substract
+        Tolerance for radius (it will subtracted to the radius)
+        twice for the diameter. Or added if a shape to subtract
     pulley_pos_h : float
         position in mm of the pulley along the shaft
 

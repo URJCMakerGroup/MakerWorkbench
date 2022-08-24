@@ -531,7 +531,7 @@ for (k_di, di), (k_do, do), (k_t, t) in zip(WASH_D9021_DI.items(),
 # USA and Canada Standard Threads from Unified Thread Standard UTS
 # starts on #0 to #12 and then 1/4, 5/16, ... to 7/8, 1
 # First number is related to the diameter, the other to the pitch
-# for exampple #4-40 is 2.8448mm major diam. 40 tpi pitch
+# for example #4-40 is 2.8448mm major diam. 40 tpi pitch
 # https://en.wikipedia.org/wiki/Unified_Thread_Standard
 
 # Major diameter in mm of a UNC thread

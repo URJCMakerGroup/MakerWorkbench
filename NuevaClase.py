@@ -617,14 +617,14 @@ class ShpCylHole (Obj3D):
         1: the cylinder pos is at its base (not considering xtr_h)
     pos_d : int
         location of pos along axis_d (0, 1)
-        0: pos is at the circunference center
+        0: pos is at the circumference center
         1: pos is at the inner circunsference, on axis_d, at r_in from the
            circle center (not at r_in + xtr_r_in)
         2: pos is at the outer circunsference, on axis_d, at r_out from the
            circle center (not at r_out + xtr_r_out)
     pos_w : int
         location of pos along axis_w (0, 1)
-        0: pos is at the circunference center
+        0: pos is at the circumference center
         1: pos is at the inner circunsference, on axis_w, at r_in from the
            circle center (not at r_in + xtr_r_in)
         2: pos is at the outer circunsference, on axis_w, at r_out from the
@@ -813,8 +813,8 @@ class ShpBolt (Obj3D):
     socket_l : float
         depth of the hex socket, if 0, no hex socket
     socket_2ap : float
-        socket: 2 x apotheme (usually S in the dimensinal drawings)
-        Iit is the wrench size, the diameter would be 2*apotheme / cos30
+        socket: 2 x apotheme (usually S in the dimensional drawings)
+        It is the wrench size, the diameter would be 2*apotheme / cos30
         It is not the circumdiameter
         if 0: no hex socket
     shank_out : float
@@ -1093,7 +1093,7 @@ class ShpPrismHole (Obj3D):
          2: at the top + h_offset
     pos_d : int
         location of pos along axis_d (-2, -1, 0, 1, 2)
-        0: pos is at the circunference center (axis)
+        0: pos is at the circumference center (axis)
         1: pos is at the inner circunsference, on axis_d, at r_in from the
            circle center (not at r_in + xtr_r_in)
         2: pos is at the apothem, on axis_d
@@ -1101,7 +1101,7 @@ class ShpPrismHole (Obj3D):
            circle center (not at r_out + xtr_r_out)
     pos_w : int
         location of pos along axis_w (-2, -1, 0, 1, 2)
-        0: pos is at the circunference center
+        0: pos is at the circumference center
         1: pos is at the inner circunsference, on axis_w, at r_in from the
            circle center (not at r_in + xtr_r_in)
         2: pos is at the apothem, on axis_w
