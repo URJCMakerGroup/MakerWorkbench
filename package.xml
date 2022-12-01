@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
+  <name>Maker Workbench</name> <!-- What the Addon Manager displays to users -->
+  <description>A mechatronic components system + optic components system</description>
+  <version>1.0.1</version> <!-- Semantic versioning (1.2.3-beta) or CalVer-based, (2022.01.07), don't omit or non-git installations won't see your updates -->
+  <date>2022-01-07</date> <!-- Date of the last update to the version number -->
+  <maintainer email="your_address@null.com">Your Name</maintainer>
+  <license file="LICENSE">LGPL-3</license> <!-- Make sure you actually have this file in your Addon repo if the license requires it -->
+  <url type="repository" branch="main">https://github.com/URJCMakerGroup/MakerWorkbench</url> <!-- Don't forget to update the branch name here -->
+  <url type="readme">https://github.com/URJCMakerGroup/MakerWorkbench/blob/main/README.md</url> <!-- Link to the HTML-rendered README page -->
+  <icon>Resources/icons/Maker_workbench_icon.svg</icon> <!-- If you include your icon here, you don't have to submit it to the main FreeCAD repo -->
+
+  <content>
+    <workbench>
+      <classname>MakerWorkbench</classname> <!-- Must match class name in InitGui.py -->
+      <subdirectory>./</subdirectory>
+    </workbench>
+  </content>
+
+</package>
