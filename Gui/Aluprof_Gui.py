@@ -66,7 +66,7 @@ class Aluproft_TaskPanel:
         self.length_prof.setValue(20)
         self.length_prof.setSuffix(' mm')
         self.length_prof.setMinimum(10) 
-        self.length_prof.setMaximum(999)
+        self.length_prof.setMaximum(9999)
 
         length_layout = QtWidgets.QHBoxLayout()
         length_layout.addWidget(self.length_Label)
