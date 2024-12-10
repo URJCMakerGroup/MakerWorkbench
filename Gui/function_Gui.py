@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets
+from PySide import QtWidgets
 from fcfun import fc_isperp
 
 

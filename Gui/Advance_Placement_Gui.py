@@ -1,11 +1,9 @@
-import PySide2
-from PySide2 import QtWidgets
+from PySide import QtWidgets
 
 import FreeCAD
 import Draft
 
-from Gui.function_Gui import set_place, ortonormal_axis
-from NuevaClase import Obj3D
+from Gui.function_Gui import set_place
 
 
 class Advance_Placement_TaskPanel:

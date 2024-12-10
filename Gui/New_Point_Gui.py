@@ -1,4 +1,4 @@
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide import QtCore, QtWidgets
 
 import os
 import FreeCAD
