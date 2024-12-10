@@ -1,5 +1,4 @@
-import PySide2
-from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
+from PySide import QtCore, QtWidgets
 import os
 import FreeCAD
 import FreeCADGui
@@ -7,7 +6,7 @@ import logging
 
 from comp_optic import f_cagecube, f_cagecubehalf 
 from Gui.Advance_Placement_Gui import Advance_Placement_TaskPanel
-from Gui.function_Gui import set_place, ortonormal_axis
+from Gui.function_Gui import set_place
 
 import kcomp_optic
 

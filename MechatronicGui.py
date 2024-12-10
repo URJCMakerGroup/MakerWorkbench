@@ -25,8 +25,7 @@
 # *                                                                         *
 # ***************************************************************************/
 
-import PySide2
-from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
+from PySide import QtCore, QtWidgets
 import os
 import FreeCAD
 import FreeCADGui
@@ -3162,9 +3161,9 @@ class FilterHolderTaskPanel:  # TODO
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
@@ -3471,9 +3470,9 @@ class TensionerTaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
@@ -3802,9 +3801,9 @@ class BeltClampTaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # ---- row 7: axis ----
         self.Label_axis = QtWidgets.QLabel("Axis ")
@@ -4468,9 +4467,9 @@ class SensorHolderTaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # ---- row 9: axis ----
         self.Label_axis = QtWidgets.QLabel("Axis ")
@@ -4719,9 +4718,9 @@ class Aluproft_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # d :
         self.Label_pos_d = QtWidgets.QLabel("in d:")
@@ -4992,9 +4991,9 @@ class LinGuideBlock_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # ---- row 7: axis ----
         self.Label_axis = QtWidgets.QLabel("Axis ")
@@ -5234,9 +5233,9 @@ class Bolt_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # # d :
         # self.Label_pos_d = QtWidgets.QLabel("in d:")
@@ -5451,9 +5450,9 @@ class TubeLense_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # ---- row 8: axis ----
         self.Label_axis = QtWidgets.QLabel("Axis ")
@@ -5610,9 +5609,9 @@ class Lcpb1mBase_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # ---- row 3: axis ----
         self.Label_axis = QtWidgets.QLabel("Axis ")
@@ -5811,9 +5810,9 @@ class CageCube_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # row X, column X, rowspan X, colspan X
         layout.addWidget(self.Label_Type, 0, 0, 1, 1)
@@ -5948,9 +5947,9 @@ class Plate_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # ---- row 8: axis ----
         self.Label_axis = QtWidgets.QLabel("Axis ")
@@ -6163,9 +6162,9 @@ class ThLed30_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # ---- row 3: axis ----
         self.Label_axis = QtWidgets.QLabel("Axis ")
@@ -6338,9 +6337,9 @@ class PrizLed_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # ---- row 3: axis ----
         self.Label_axis = QtWidgets.QLabel("Axis ")
@@ -6527,9 +6526,9 @@ class BreadBoard_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         # ---- row 5: axis ----
         self.Label_axis = QtWidgets.QLabel("Axis ")

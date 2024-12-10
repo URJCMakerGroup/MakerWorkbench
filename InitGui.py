@@ -62,7 +62,7 @@ class MakerWorkbench (Workbench):
     ToolTip = "Maker Workbench"
 
     def Initialize(self):
-        from PySide2 import QtCore, QtGui
+        from PySide import QtCore, QtGui
         # import MechatronicGui
         import Gui.Sk_Gui
         import Gui.IdlePulleyHolder_Gui

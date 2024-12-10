@@ -1,9 +1,8 @@
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide import QtCore, QtWidgets
 
 import os
 import FreeCAD
 import FreeCADGui
-import sys
 import logging
 
 from configuration import read_configuration_file, change_configuration_file, default_configuration_file

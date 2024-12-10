@@ -1,5 +1,4 @@
-import PySide2
-from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
+from PySide import QtCore, QtWidgets
 import os
 import FreeCAD
 import FreeCADGui
@@ -127,9 +126,9 @@ class SensorHolder_TaskPanel:
         self.pos_x.setRange(minnum, maxnum)
         self.pos_y.setRange(minnum, maxnum)
         self.pos_z.setRange(minnum, maxnum)
-        self.pos_x.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_y.setAlignment(PySide2.QtCore.Qt.AlignCenter)
-        self.pos_z.setAlignment(PySide2.QtCore.Qt.AlignCenter)
+        self.pos_x.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_y.setAlignment(QtCore.Qt.AlignCenter)
+        self.pos_z.setAlignment(QtCore.Qt.AlignCenter)
 
         placement_layout = QtWidgets.QHBoxLayout()
 

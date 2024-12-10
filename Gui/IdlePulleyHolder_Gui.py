@@ -1,4 +1,4 @@
-from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
+from PySide import QtCore, QtWidgets
 import os
 import FreeCAD
 import FreeCADGui
@@ -6,7 +6,7 @@ import logging
 
 from parts import IdlePulleyHolder 
 from Gui.Advance_Placement_Gui import Advance_Placement_TaskPanel
-from Gui.function_Gui import set_place, ortonormal_axis
+from Gui.function_Gui import set_place
 
 __dir__ = os.path.dirname(__file__)
 

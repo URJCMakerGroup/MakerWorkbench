@@ -1,5 +1,4 @@
-import PySide2
-from PySide2 import QtCore, QtGui, QtWidgets, QtSvg
+from PySide import QtCore, QtWidgets
 import os
 import FreeCAD
 import FreeCADGui
@@ -50,7 +49,7 @@ class Aluproft_TaskPanel:
         main_layout = QtWidgets.QVBoxLayout(self.widget)
 
         # ---- Size ----
-        self.Prof_Label = QtWidgets.QLabel("Size")  
+        self.Prof_Label = QtWidgets.QLabel("Size")
         self.prof_size = ["5", "10", "15", "20", "30", "40"]
         self.profile = QtWidgets.QComboBox()
         self.profile.addItems(self.prof_size)

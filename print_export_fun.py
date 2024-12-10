@@ -5,14 +5,11 @@
 # -- (c) David Muñoz Bernal
 # ----------------------------------------------------------------------------
 # -- This function set the object to the print position and export the object.
-import os
-import sys
+
 import FreeCAD
 import FreeCADGui
-import Mesh
 import MeshPart
-import PySide2
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide import QtWidgets
 import kparts
 
 
@@ -23,7 +20,7 @@ def print_export(obj_select):
     # _________Motor_Holder_________
     if 'motorholder' in obj_select.Name or 'nema_holder' in obj_select.Name:
         pos = obj_select.Placement.Base
-        rot = FreeCAD.Rotation(FreeCAD.Vector(0, 1, 0), 180) 
+        rot = FreeCAD.Rotation(FreeCAD.Vector(0, 1, 0), 180)
         centre = FreeCAD.Vector(0, 0, 0)
 
     # _________Idler_Tensioner_________
@@ -146,7 +143,7 @@ def print_export(obj_select):
         # Open the file explorer to set the folder
         folder_name = QtWidgets.QFileDialog.getExistingDirectory(QtWidgets.QFileDialog(), "Select directory", "c:/",
                                                                  QtWidgets.QFileDialog.ShowDirsOnly)
-        if folder_name is not "":
+        if folder_name != "":
             # take the path and export the object
             stl_file_name = str(folder_name) + "/" + obj_select.Name + ".stl"
             mesh_shp = MeshPart.meshFromShape(obj_select.Shape,
